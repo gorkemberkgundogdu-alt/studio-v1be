@@ -1,70 +1,137 @@
 ---
 /**
- * Footer (CLAUDE.md §4): kanonik tarif, nav linkleri, "part of v1be" → v1be.io,
- * email, minimal legal.
+ * Footer — büyük "v1be" / "studio" wordmark'ları arasında classic mascot,
+ * nav, iletişim bilgileri ve CTA; altında "A v1be Company" ve copyright/legal.
+ *
+ * Renk notu: koyu zemindeki başlık/etiket/iletişim metinleri text-ink
+ * (krem) kullanır; lime CTA butonunun metni text-(--color-base) (koyu) —
+ * Button.astro'nun primary varyantıyla birebir aynı, iyi kontrast için.
  */
 import { useTranslations, localizePath, type Locale } from "@/i18n";
 import { SITE } from "@/config/site";
+import RobotMascot from "@/components/sections/RobotMascot.astro";
+import { splitAccent } from "@/lib/text-highlight";
 
 interface Props {
   locale: Locale;
+  /** Home'da true: Footer, paginate zincirinin son üyesi olur (bkz lib/paginate.ts) — diğer sayfalarda normal, akış-içi footer olarak kalır. */
+  paginate?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, paginate = false } = Astro.props;
 const t = useTranslations(locale);
 const year = new Date().getFullYear();
-
-const navItems = [
-  { href: localizePath(locale, "/packages/"), label: t.nav.packages },
-  { href: localizePath(locale, "/process/"), label: t.nav.process },
-  { href: localizePath(locale, "/work/"), label: t.nav.work },
-  { href: localizePath(locale, "/about/"), label: t.nav.about },
-  { href: localizePath(locale, "/contact/"), label: t.nav.cta },
-];
 ---
 
-<footer class="border-t border-line">
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-    <div class="flex flex-col justify-between gap-10 md:flex-row">
-      <div class="max-w-md">
-        <p class="text-lg font-bold tracking-tight">
-          v1be<span class="text-accent"> studio</span>
-        </p>
-        <p class="mt-3 text-sm leading-relaxed text-ink-muted">{t.footer.description}</p>
-        <p class="mt-4 text-sm text-ink-muted">
+<footer class="flex flex-col justify-center border-t border-line" data-paginate={paginate ? true : undefined}>
+  <div class="mx-auto max-w-[96rem] px-4 py-10 sm:px-6 md:py-14">
+    {/* Row 1 */}
+    <div class="flex flex-col gap-5">
+      {/* 1a — "v1be studio" wordmark (together) / mascot / nav */}
+      <div class="flex flex-wrap items-center justify-between gap-6">
+        <h2 class="text-[clamp(2.5rem,6.5vw,6rem)] font-black uppercase leading-none">
+          <span class="text-ink">v1be</span> <span class="text-accent">studio</span>
+        </h2>
+
+        {/* classic (full-body) — greeter'ın yakın-plan kadrajı ayakları
+            kırpıyordu; classic tüm gövdeyi gösterir (Hero'daki gibi).
+            ml-auto ile nav'a yaklaşacak şekilde sağa itilir. */}
+        <div class="ml-auto w-[160px] shrink-0 md:w-[200px] xl:w-[240px]">
+          <RobotMascot look="classic" />
+        </div>
+
+        <nav aria-label={t.a11y.footerNav} class="flex flex-col gap-3 xl:self-end xl:pb-8">
           <a
-            href={SITE.parentOrg.url}
-            class="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-accent"
+            href={localizePath(locale, "/")}
+            class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
           >
-            {t.footer.partOf} ↗
+            {t.footer.nav.home}
+          </a>
+          <a
+            href={localizePath(locale, "/work/")}
+            class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+          >
+            {t.footer.nav.work}
+          </a>
+        </nav>
+      </div>
+
+      {/* 1b — tagline (2 lines, bold) / contact (true-centered) / linkedin */}
+      <div class="grid grid-cols-1 items-center gap-4 border-b border-line pb-4 sm:grid-cols-3 md:pb-6">
+        <p class="text-lg font-bold leading-snug text-ink sm:text-xl">
+          {t.footer.taglineLines.map((line) => (
+            <span class="block">
+              {splitAccent(line.text, line.accent).map((seg) =>
+                seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text,
+              )}
+            </span>
+          ))}
+        </p>
+
+        <p class="text-center text-ink">
+          <a href={`mailto:${SITE.email}`} class="block underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+            {SITE.email}
+          </a>
+          <a
+            href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
+            class="block underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+          >
+            {SITE.phone}
           </a>
         </p>
+
+        <a
+          href={SITE.social.linkedin}
+          target="_blank"
+          rel="noopener"
+          class="text-center text-ink underline decoration-ink-muted underline-offset-4 transition-colors hover:decoration-accent sm:justify-self-end"
+        >
+          {t.footer.linkedinLabel}
+        </a>
       </div>
-      <nav aria-label={t.a11y.footerNav}>
-        <ul class="flex flex-col gap-3 md:items-end">
-          {navItems.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a
-              href={`mailto:${SITE.email}`}
-              class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
-            >
-              {SITE.email}
-            </a>
-          </li>
-        </ul>
-      </nav>
+
+      {/* 1c — CTA, now full-width (fills the space "studio" used to occupy
+          here before it moved up next to "v1be" in 1a). Points at Home's own
+          "Get your v1be" contact section (id="contact-title" in index.astro)
+          rather than the separate /contact/ page — data-goto-contact lets
+          lib/paginate.ts intercept the click and jump straight there with
+          the same cross-fade as wheel/keyboard nav, since that section is
+          position:fixed while paginated (native anchor-scroll can't reach a
+          fixed element). Outside the paginated zone (mobile/touch/other
+          pages) the plain href still works via normal anchor navigation. */}
+      <a
+        href={`${localizePath(locale, "/")}#contact-title`}
+        data-goto-contact
+        class="cta-lift flex w-full items-center justify-center rounded-2xl bg-accent py-6 text-center text-[2rem] font-bold text-(--color-base) transition-colors hover:bg-accent-hot md:py-8 md:text-[2.5rem] xl:py-10 xl:text-[3.75rem]"
+      >
+        {t.footer.cta} ↗
+      </a>
+
     </div>
-    <p class="mt-12 border-t border-line pt-6 text-xs text-ink-muted">
-      &copy; {year} {SITE.legalName}. {t.footer.rights}
-    </p>
+
+    {/* Row 2 — copyright / "A v1be Company" (centered between the two) / legal */}
+    <div class="mt-4 grid grid-cols-1 items-center gap-4 border-t border-line pt-4 sm:grid-cols-3 md:pt-6">
+      <p class="text-center text-xs text-ink-muted sm:text-left">
+        &copy;{year} <strong class="font-bold text-ink">{SITE.legalName}</strong>. {t.footer.rights}
+      </p>
+
+      <p class="text-center text-xs text-ink-muted">
+        <a href={SITE.parentOrg.url} class="transition-colors hover:text-ink">
+          A <strong class="font-bold text-ink">v1be</strong> Company
+        </a>
+      </p>
+
+      <div class="flex justify-center gap-4 sm:justify-self-end">
+        <a
+          href={localizePath(locale, "/privacy/")}
+          class="text-xs text-ink-muted transition-colors hover:text-ink"
+        >
+          {t.footer.privacy}
+        </a>
+        <a href={localizePath(locale, "/terms/")} class="text-xs text-ink-muted transition-colors hover:text-ink">
+          {t.footer.terms}
+        </a>
+      </div>
+    </div>
   </div>
 </footer>

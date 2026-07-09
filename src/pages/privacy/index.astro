@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import { webPageSchema, breadcrumbSchema } from "@/config/schemas";
+
+const locale = "en" as const;
+const path = "/privacy/";
+
+const title = "Privacy Policy";
+const description = "How v1be studio collects, uses and protects information submitted through this site.";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: title, path },
+];
+---
+
+<BaseLayout
+  title={`${title} | v1be studio`}
+  {description}
+  {locale}
+  {path}
+  schemas={[
+    webPageSchema({ name: title, description, locale, path }),
+    breadcrumbSchema(crumbs, locale),
+  ]}
+>
+  <Breadcrumb {locale} items={crumbs} />
+
+  <section class="grid-texture">
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+      <h1 class="text-display font-extrabold">{title}</h1>
+      {/* TODO: legal review — placeholder structure only, not drafted legal copy */}
+      <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+        This page will describe what information v1be studio collects (for example, through the
+        contact and audit-request forms), how it is used, and how you can request its removal.
+        Full legal copy is pending founder/legal review — contact
+        {" "}
+        <a
+          href={`mailto:${"hello@v1be.io"}`}
+          class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent"
+        >
+          hello@v1be.io
+        </a>
+        {" "}with any questions in the meantime.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

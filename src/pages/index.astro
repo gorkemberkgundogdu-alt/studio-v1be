@@ -6,52 +6,12 @@ import AuditForm from "@/components/AuditForm.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
 import { useTranslations } from "@/i18n";
 import { faqSchema } from "@/config/schemas";
+import { splitAccent, highlightWords } from "@/lib/text-highlight";
 
 const locale = "en" as const;
 const path = "/";
 const t = useTranslations(locale);
 const h = t.home;
-
-// Hero headline: her satırı {before, accent, after} parçalarına böler —
-// `accent` alt-dizisi lime, geri kalanı cream render edilsin diye.
-interface AccentSegment {
-  text: string;
-  accent: boolean;
-}
-function splitAccent(text: string, accent: string): AccentSegment[] {
-  if (!accent) return [{ text, accent: false }];
-  const idx = text.indexOf(accent);
-  if (idx === -1) return [{ text, accent: false }];
-  const before = text.slice(0, idx);
-  const after = text.slice(idx + accent.length);
-  const parts: AccentSegment[] = [];
-  if (before) parts.push({ text: before, accent: false });
-  parts.push({ text: accent, accent: true });
-  if (after) parts.push({ text: after, accent: false });
-  return parts;
-}
-
-// Hero subline: verilen kelimeleri (tam kelime eşleşmesi) kalın render etmek
-// için metni sıralı {text, bold} parçalarına böler.
-interface BoldSegment {
-  text: string;
-  bold: boolean;
-}
-function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
-  if (words.length === 0) return [{ text, bold: false }];
-  const escaped = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`\\b(${escaped.join("|")})\\b`, "g");
-  const parts: BoldSegment[] = [];
-  let last = 0;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(text))) {
-    if (m.index > last) parts.push({ text: text.slice(last, m.index), bold: false });
-    parts.push({ text: m[0], bold: true });
-    last = m.index + m[0].length;
-  }
-  if (last < text.length) parts.push({ text: text.slice(last), bold: false });
-  return parts;
-}
 ---
 
 <BaseLayout
@@ -60,6 +20,7 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   {locale}
   {path}
   schemas={[faqSchema(t.contact.faq.items)]}
+  paginateFooter
 >
   {/*
     S1 — Hero (dark). Only the headline + mascot — nothing else — fills the
@@ -74,43 +35,91 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
     since it's animated) — that overlap amount is purely margin-driven, so
     scaling the mascot's own size doesn't change it.
   */}
-  <section class="grid-texture relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden">
-    <div class="mx-auto flex w-full max-w-[96rem] flex-1 flex-col justify-center px-4 py-8 sm:px-6">
+  <section
+    class="grid-texture relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden"
+    data-paginate
+  >
+    <div class="mx-auto flex w-full max-w-[96rem] flex-1 flex-col justify-center px-4 py-6 sm:px-6">
       {/*
         4 lines instead of 2: with 2 lines, both ended in a lime-accent word
         ("Awwwards."/"AI."), and centered, the two lime words landed almost
         stacked on top of each other — read as an awkward vertical color
         stripe. 4 separate lines breaks that up.
       */}
-      <h1 class="font-black leading-[0.98] text-center" style="font-size: clamp(2.75rem, 6.5vw, 6rem)">
+      {/*
+        Mobile: lines are `inline` (not `block`), with a real space between
+        them, so the browser's own greedy line-wrap can pull the next line's
+        first word up onto the previous line's leftover space — e.g. "enough"
+        (orphaned off "Beautiful") and "for" (orphaned off "Awwwards.") land
+        on the same line instead of each getting its own. At sm+ (640px),
+        lines switch back to `block`, restoring the guaranteed 4-line
+        desktop structure exactly as before.
+      */}
+      <h1 class="font-black leading-[0.98] text-center" style="font-size: clamp(2.75rem, 6vw, 5.25rem)">
         {h.hero.headline.map((line) => (
-          <span class="block">
-            {splitAccent(line.text, line.accent).map((seg) =>
-              seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text,
-            )}
-          </span>
+          <>
+            <span class="inline sm:block">
+              {splitAccent(line.text, line.accent).map((seg) =>
+                seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text,
+              )}
+            </span>{" "}
+          </>
         ))}
       </h1>
 
-      {/* Mascot — 1.5x bigger (225px / 360px), same pull-up margin as before
-          so the antenna-over-text overlap stays exactly as it was. */}
-      <div class="-mt-2 mx-auto w-[225px] shrink-0 md:-mt-4 xl:w-[360px]">
-        <RobotMascot look="classic" name={h.hero.mascotName} />
+      {/*
+        Mascot — 180px/270px, sized to leave clear room below for the
+        scroll-down pill without clipping against Hero's overflow-hidden
+        bottom edge at short viewport heights (768–800px). No `name` prop
+        here — RobotMascot.astro stays byte-identical to the main site
+        (nameplate mechanism is a plain-text span, no room for an icon), so
+        the scroll-down hint below is its own independent element instead.
+      */}
+      <div class="-mt-2 mx-auto w-[180px] shrink-0 md:-mt-4 xl:w-[270px]">
+        <RobotMascot look="classic" />
+      </div>
+
+      {/* Scroll-down hint — same pill language as the mascot's own nameplate
+          (font-mono, muted ink, blurred surface pill) but a separate
+          element so it can carry an icon + text together. mt-8 gives it
+          clear breathing room below the mascot (confirmed there's still
+          slack at the bottom of Hero at short viewport heights). */}
+      <div
+        class="mx-auto mt-8 flex items-center gap-2 rounded-full border border-line bg-surface/72 px-[0.7rem] py-[0.2rem] font-mono text-[0.78rem] font-semibold tracking-[0.08em] text-ink-muted backdrop-blur-md"
+        aria-hidden="true"
+      >
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="shrink-0">
+          <path
+            d="M5 1.2V7M1.8 4.5L5 7.5L8.2 4.5"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Scroll down</span>
       </div>
     </div>
   </section>
 
   {/*
-    S2–S6: every section below the hero is full-viewport height (min-h
-    100svh) with its content vertically centered (flex flex-col
-    justify-center) — a shorter section doesn't look stranded at the top of
-    a tall one, it reads as intentionally spacious. No scroll-linked effects
-    here beyond the plain one-time stagger reveal (see lib/scroll-fx.ts):
-    native document scroll, no snap, no hijack, no fixed positioning.
+    S2–S6: every section is full-viewport height (min-h 100svh), content
+    vertically centered (flex flex-col justify-center), and — same as the
+    Hero — part of the paginated wheel zone (see [data-paginate] in
+    global.css and lib/paginate.ts). All 6 Home sections are one continuous
+    wheel-controlled sequence now; there's no mid-page handoff to native
+    scroll to glitch at (that boundary used to sit between Work and FAQ and
+    was the source of a stuck/broken transition — removed by extending the
+    zone through Contact instead). The zone releases only once, at the very
+    end (Contact → Footer). Desktop/fine-pointer/motion-ok only (gated in
+    both CSS and JS); on mobile, touch, narrow viewports, or reduced-motion
+    it's fully inert — all 6 sections render as normal static stacked
+    blocks, plain native scroll throughout, straight into the Footer.
   */}
   {/* S2 — What we do (dark): simplified to a heading + CTA, no cards */}
   <section
     class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    data-paginate
     aria-label="What we do"
   >
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
@@ -133,6 +142,7 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   {/* S3 — How we do it (light/white, rounded top) */}
   <section
     class="flex min-h-[100svh] flex-col justify-center rounded-t-[2.5rem] bg-light-base text-light-ink"
+    data-paginate
     aria-labelledby="how-title"
   >
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
@@ -157,6 +167,7 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   {/* S4 — Work (dark) */}
   <section
     class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    data-paginate
     aria-labelledby="work-title"
   >
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
@@ -193,6 +204,7 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   {/* S5 — FAQ (dark), its own section between Work and the audit CTA */}
   <section
     class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    data-paginate
     aria-label={t.contact.faq.title}
   >
     <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
@@ -203,6 +215,7 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   {/* S6 — Get your v1be (dark) */}
   <section
     class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    data-paginate
     aria-labelledby="contact-title"
   >
     <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
@@ -216,4 +229,29 @@ function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
       </div>
     </div>
   </section>
+
+  {/*
+    Spacer for the paginated zone — 7 blocks now: Home's 6 sections (Hero →
+    Contact) PLUS the Footer, which BaseLayout renders with paginate={true}
+    (see Footer.astro's `data-paginate` on this page) making it the chain's
+    final member instead of a native-scroll handoff target. All 7 are
+    position: fixed while the zone is active, so none occupy document flow;
+    without these spacers the page would have no scroll height to reach the
+    last one at all. One min-h-[100svh] block per paginated section (order
+    doesn't need to match visually — they only reserve total scroll
+    distance so `scrollY` stays in sync with `current`). Collapses to 0
+    height outside the qualifying media query (mobile/touch/reduced-motion)
+    via .paginate-spacer in global.css — in that case all 7 sections
+    (including Footer) are plain static blocks using their own natural
+    height, normal page flow straight through.
+  */}
+  <div aria-hidden="true">
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+    <div class="paginate-spacer"></div>
+  </div>
 </BaseLayout>

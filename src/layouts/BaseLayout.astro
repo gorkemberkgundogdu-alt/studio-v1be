@@ -30,6 +30,8 @@ interface Props {
   noindex?: boolean;
   /** Sayfaya özel JSON-LD objeleri; Organization + WebSite otomatik eklenir. */
   schemas?: Record<string, unknown>[];
+  /** Home'da true: Footer paginate zincirinin son üyesi olur (bkz Footer.astro). */
+  paginateFooter?: boolean;
 }
 
 const {
@@ -41,6 +43,7 @@ const {
   ogType,
   noindex,
   schemas = [],
+  paginateFooter = false,
 } = Astro.props;
 const t = useTranslations(locale);
 
@@ -107,10 +110,12 @@ const baseSchemas: Record<string, unknown>[] = [
     <main id="main">
       <slot />
     </main>
-    <Footer {locale} />
+    <Footer {locale} paginate={paginateFooter} />
     <script>
       import { initScrollFx } from "@/lib/scroll-fx";
+      import { initPaginate } from "@/lib/paginate";
       initScrollFx();
+      initPaginate();
     </script>
   </body>
 </html>

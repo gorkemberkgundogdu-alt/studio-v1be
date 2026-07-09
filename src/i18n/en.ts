@@ -381,11 +381,19 @@ export const en = {
     cta: "Back to home",
   },
   footer: {
-    // Kanonik tarif footer'da da görünür (CLAUDE.md §4).
-    description: CANONICAL_DESCRIPTION,
-    partOf: "Part of v1be",
-    rights: "All rights reserved.",
-    emailLabel: "Email",
+    taglineLines: [
+      { text: "Designed to be beautiful.", accent: "Designed" },
+      { text: "Built to be cited.", accent: "cited" },
+    ],
+    nav: {
+      home: "Home",
+      work: "Work",
+    },
+    linkedinLabel: "LinkedIn",
+    cta: "Get in Touch",
+    rights: "All rights reserved",
+    privacy: "Privacy Policy",
+    terms: "Terms & Conditions",
   },
 } as const;
 

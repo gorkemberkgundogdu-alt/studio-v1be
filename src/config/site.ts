@@ -11,6 +11,7 @@ export const SITE = {
   legalName: "v1be studio",
   foundingYear: 2026,
   email: "hello@v1be.io",
+  phone: "+90 505 502 97 63",
   /** Ana marka — Organization.parentOrganization ve footer "part of v1be". */
   parentOrg: {
     name: "v1be",
@@ -19,7 +20,7 @@ export const SITE = {
   },
   social: {
     // Hesaplar açıldıkça doldurulur; boş string'ler JSON-LD sameAs'e girmez.
-    linkedin: "https://www.linkedin.com/company/v1be-vibemarketing/about/",
+    linkedin: "https://www.linkedin.com/company/v1be-vibemarketing/",
     instagram: "",
     x: "",
   },

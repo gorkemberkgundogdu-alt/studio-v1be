@@ -87,7 +87,7 @@ Then:
 2. In `robot-looks.ts`: extend `RobotLook` with optional `bodyColor?: number; darkColor?: number; silverColor?: number; lensColor?: number;` and add a `blueprint` look = copy of `classic` values plus `bodyColor: 0x3a4550, darkColor: 0x14181d, silverColor: 0xaeb8c2, lensColor: 0xff4d2e`.
 3. In `robot-mascot.ts`: change the four material color definitions to `look.bodyColor ?? 0x63aca6` (equivalents for dark/silver/lens) — fallbacks keep the main site's palette intact if files are ever synced back.
 4. The mascot component expects CSS vars `--font-mono`, `--color-ink-muted`, `--color-line`, `--color-surface` for its nameplate — define them in this repo's global.css.
-5. Usage: Hero only, `<RobotMascot look="blueprint" name="v1ben." />`. It is decorative (`aria-hidden`), idle-loaded, and must stay that way.
+5. Usage (as-built, supersedes "Hero only" above): Hero (`look="classic"`, no nameplate) and the site-wide Footer (`look="classic"`, no nameplate — sits between the "v1be"/"studio" wordmarks; `greeter`'s close-up framing cropped the mascot's feet and was dropped in favor of `classic`'s full body). Both instances are decorative (`aria-hidden`), idle-loaded, and stay that way; the "blueprint" look and studio-specific color overrides described in steps 2–3 were reverted — `robot-looks.ts`/`robot-mascot.ts` are byte-identical to the main site again, since the real brand palette (not an invented one) made per-look color overrides unnecessary.
 
 ## 8. LANGUAGES
 
@@ -111,20 +111,23 @@ English only in v1. Architecture stays i18n-ready (translation dictionaries patt
 4. **Do you publish content automatically?** → "No. Content is produced by the v1be pipeline, scored for citability, and pushed to your CMS as a draft. Nothing goes live without human approval."
 5. **How is v1be studio related to v1be?** → "v1be studio is the services arm of v1be, the AI marketing agent platform. The studio builds and optimizes your web presence using the same methodology and tooling."
 
-## 11. ANIMATION LAYER (build last, after everything above passes checks)
+## 11. ANIMATION LAYER (as-built; supersedes earlier drafts of this section)
 
-**Hard constraints:**
-- **SEO-safe reveal:** nothing hidden by default. Inline script adds `js-anim` to `<html>`; animation initial states exist only under `.js-anim` selectors; IntersectionObserver reveals. JS-off / crawler / view-source = fully visible page.
-- **No scroll-jacking:** never override native scroll; no wheel preventDefault, no snap-lock. All effects scroll-LINKED via progress values.
-- **GPU-only:** animate `transform` / `opacity` / `clip-path` exclusively. Zero layout shift (space reserved from first paint).
-- **`prefers-reduced-motion: reduce`** disables the entire layer (mascot already follows this; match it).
-- Passive listeners; one rAF loop; `will-change` only while near viewport.
+**Hard constraints (apply everywhere, including the paginated exception below):**
+- **SEO-safe reveal:** nothing hidden by default. Inline script adds `js-anim` to `<html>`; animation initial states exist only under `.js-anim` selectors. JS-off / crawler / view-source = fully visible page, all 7 Home sections' full text present regardless of active/inert state — only `opacity`/`transform`/`pointer-events` are toggled, nothing is ever removed from the DOM.
+- **GPU-only:** animate `transform` / `opacity` exclusively. No `filter`/`blur` (measurably expensive on throttled mobile CPUs — cut, not tuned down, after Lighthouse showed multi-second stalls from an earlier depth-scroll draft).
+- **`prefers-reduced-motion: reduce`** disables every mechanism below without exception, including the paginated zone (mascot already follows this independently).
 
-**Effects:**
-1. "Go deep" section transitions on Home: each section after Hero enters through a scroll-linked circular reveal — `clip-path: circle(calc(8% + var(--reveal) * 142%) at 50% 0%)`, `--reveal` (0..1) driven by section scroll progress in the rAF loop. Prefer pure CSS scroll-driven animation under `@supports (animation-timeline: view())`, JS path otherwise.
-2. One-time stagger reveals inside sections: children `translateY(24px)→0` + fade, 550ms, `cubic-bezier(0.25,0.1,0.25,1)`, 80ms stagger, total cap 400ms, unobserve after firing.
-3. CTA micro-interaction: hover `translateY(-2px) scale(1.02)` 150ms + press state. No pulse/shimmer loops.
-4. Subtle outgoing-section parallax (`translateY(progress * -4%)`).
+**1. One-time stagger reveal (`[data-reveal]`, `lib/scroll-fx.ts`) — the default everywhere:**
+Each `<section>` is observed by one `IntersectionObserver` (threshold 0.2); on first intersect, its `[data-reveal]` descendants get `translateY(24px)→0` + fade, 550ms, `cubic-bezier(0.25,0.1,0.25,1)`, staggered 80ms per child capped at 400ms total, then the section is unobserved (no replay on scroll-up). No rAF loop, no scroll-linked continuous transform — this superseded an earlier scroll-linked depth-scroll draft (`translateZ`/`scale` tied to scroll position) that was removed entirely: continuous scroll-tied JS is a standing cost, a one-time reveal gives most of the same feel far cheaper (confirmed via Lighthouse: dropping it measurably improved Performance/LCP).
+
+**2. CTA micro-interaction (`.cta-lift`):** hover `translateY(-2px) scale(1.02)` 150ms + press state. No pulse/shimmer loops.
+
+**3. Paginated wheel controller (`[data-paginate]`, `lib/paginate.ts`) — deliberate, scoped exception to "no scroll-jacking":**
+All 6 Home sections (Hero, What we do, How we do it, Work, FAQ, Contact) are one continuous wheel/keyboard-driven paginated zone — one section fully visible at a time, `position: fixed`, cross-fade + slight translateY/scale between them (650ms). There's deliberately no mid-page handoff to native scroll (an earlier draft released control between Work and FAQ; that boundary was the source of a stuck/broken transition, so the zone was extended through Contact instead — no internal boundary left to break). The zone releases exactly once, at the very end: scrolling past Contact hands off to the Footer (rendered by BaseLayout, always plain document flow).
+- Gated in **both** CSS and JS on the same conditions, so neither can drift out of sync: `prefers-reduced-motion: no-preference` AND `pointer: fine` AND `min-width: 1024px`. Outside that (mobile, touch, narrow viewport, reduced-motion) `[data-paginate]` sections are plain `position: static` blocks and `.paginate-spacer` collapses to 0 height — the whole zone is inert, full native scroll straight through to the Footer.
+- Spacers (`.paginate-spacer`, one `min-h-[100svh]` block per paginated section, 6 total) exist because fixed-position sections don't occupy document flow — without them there'd be no scroll distance for the handoff into the Footer to land on.
+- `lib/paginate.ts` keeps `window.scrollY` synced to the active index after every transition, so releasing control at the last section (Contact → Footer) and re-entering it (scrolling back up from the Footer) both happen at a clean, exact boundary — no jump, no stuck fixed overlay left covering the Footer.
 
 ## 12. ACCEPTANCE CHECKLIST (definition of done)
 

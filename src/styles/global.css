@@ -96,14 +96,13 @@ body {
 }
 
 /* ============================================================
-   Animasyon katmanı (CLAUDE.md §11) — SEO-safe, TEK mekanizma: one-time
-   stagger reveal. Scroll-linked sürekli transform/opacity efekti YOK —
-   depth-scroll (translateZ/scale) ve mascot parallax'ı bilerek kaldırıldı:
-   sürekli scroll-tied JS her zaman bir performans/karmaşıklık maliyeti,
-   basit tek-seferlik reveal aynı hissi çok daha ucuza veriyor.
-   .js-anim yoksa (JS kapalı / crawler / view-source) HER ŞEY görünür.
-   Başlangıç durumu YALNIZCA .js-anim altında tanımlıdır. Native document
-   scroll'a hiç dokunulmaz — snap yok, wheel hijack yok, fixed positioning yok.
+   Animasyon katmanı (CLAUDE.md §11) — one-time stagger reveal. Scroll-linked
+   sürekli transform/opacity efekti YOK (translateZ/scale/parallax bilerek
+   yok — sürekli scroll-tied JS her zaman bir maliyet, tek-seferlik reveal
+   aynı hissi çok daha ucuza veriyor). .js-anim yoksa (JS kapalı / crawler /
+   view-source) HER ŞEY görünür. Native document scroll'a dokunmaz — snap
+   yok, wheel hijack yok, fixed positioning yok. (Home'un section'ları için
+   AYRI, bilinçli bir istisna var — bkz aşağıda "Paginated wheel controller".)
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {
   :root.js-anim [data-reveal] {
@@ -117,6 +116,59 @@ body {
   :root.js-anim [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ============================================================
+   Paginated wheel controller (CLAUDE.md §11 exception — bkz lib/paginate.ts)
+   Home'un TÜM section'ları (Hero, What we do, How we do it, Work, FAQ,
+   Contact) için bilinçli scroll-jacking: kullanıcı wheel/klavye ile
+   bunlar arasında tek tek, tek sürekli dizi olarak geçer — sayfa
+   ortasında native scroll'a ara devir-teslim yok (Work→FAQ sınırında
+   kırılma/takılmaya sebep oluyordu, zone Contact'a kadar genişletilerek
+   kaldırıldı). Yalnızca en sonda, Contact'tan sonraki Footer'a geçerken
+   bir kez serbest bırakılır.
+
+   Yalnızca masaüstü + fine pointer + motion tercih edilmeyen + ≥1024px'te
+   aktif — JS'teki guard'larla birebir aynalanır. Bu media query eşleşmezse
+   (mobil, touch, dar viewport, reduced-motion) [data-paginate] section'lar
+   position:static'e döner ve .paginate-spacer'lar 0 yükseklikte kalır: her
+   section kendi doğal akış yüksekliğini kullanır, sayfa uçtan uca sıradan
+   native scroll — SEO-safe, tüm içerik view-source'ta her zaman okunur.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) and (pointer: fine) and (min-width: 1024px) {
+  [data-paginate] {
+    position: fixed;
+    inset: 0;
+    top: 4rem; /* sticky navbar'ın altı */
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 650ms ease,
+      transform 650ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  [data-paginate].is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  [data-paginate].is-incoming.from-below {
+    transform: translateY(24px) scale(0.98);
+  }
+  [data-paginate].is-incoming.from-above {
+    transform: translateY(-24px) scale(0.98);
+  }
+  [data-paginate].is-outgoing.to-above {
+    transform: translateY(-24px) scale(0.98);
+    opacity: 0;
+  }
+  [data-paginate].is-outgoing.to-below {
+    transform: translateY(24px) scale(0.98);
+    opacity: 0;
+  }
+
+  .paginate-spacer {
+    min-height: 100svh;
   }
 }
 
