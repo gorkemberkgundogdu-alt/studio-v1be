@@ -1,0 +1,70 @@
+---
+/**
+ * Footer (CLAUDE.md §4): kanonik tarif, nav linkleri, "part of v1be" → v1be.io,
+ * email, minimal legal.
+ */
+import { useTranslations, localizePath, type Locale } from "@/i18n";
+import { SITE } from "@/config/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+
+const navItems = [
+  { href: localizePath(locale, "/packages/"), label: t.nav.packages },
+  { href: localizePath(locale, "/process/"), label: t.nav.process },
+  { href: localizePath(locale, "/work/"), label: t.nav.work },
+  { href: localizePath(locale, "/about/"), label: t.nav.about },
+  { href: localizePath(locale, "/contact/"), label: t.nav.cta },
+];
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="flex flex-col justify-between gap-10 md:flex-row">
+      <div class="max-w-md">
+        <p class="text-lg font-bold tracking-tight">
+          v1be<span class="text-accent"> studio</span>
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-ink-muted">{t.footer.description}</p>
+        <p class="mt-4 text-sm text-ink-muted">
+          <a
+            href={SITE.parentOrg.url}
+            class="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-accent"
+          >
+            {t.footer.partOf} ↗
+          </a>
+        </p>
+      </div>
+      <nav aria-label={t.a11y.footerNav}>
+        <ul class="flex flex-col gap-3 md:items-end">
+          {navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a
+              href={`mailto:${SITE.email}`}
+              class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+            >
+              {SITE.email}
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <p class="mt-12 border-t border-line pt-6 text-xs text-ink-muted">
+      &copy; {year} {SITE.legalName}. {t.footer.rights}
+    </p>
+  </div>
+</footer>

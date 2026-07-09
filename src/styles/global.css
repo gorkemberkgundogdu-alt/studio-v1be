@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/*
+  Design token'ların tek doğruluk kaynağı — v1be.io ile AYNI marka paleti
+  (C:\Users\HP\v1be_website\src\styles\global.css'ten birebir kopyalandı).
+  Bileşenlerde ham hex kullanma — daima bu token'lar.
+*/
+@theme {
+  --font-sans: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Marka paleti (v1be.io ile birebir aynı — studio bir varyant icat etmez): */
+  --color-base: #1d123c; /* koyu mor — sayfa zemini */
+  --color-purple: #36186b; /* derin mor — ikincil yüzey/vurgu */
+  --color-green: #137a3c; /* yeşil — ikincil vurgu (kullanılmıyorsa bile paritesi korunur) */
+  --color-cream: #fff8e8; /* krem — açık kartlar / koyu zeminde metin */
+  --color-white: #ffffff;
+  --color-accent: #d1f300; /* lime — CTA ve vurgu (robotun lens rengiyle otomatik eşleşir) */
+
+  /* Türetilmiş token'lar (palete sadık mix'ler — ana siteyle aynı formül): */
+  --color-surface: color-mix(in srgb, #36186b 38%, #1d123c);
+  --color-line: color-mix(in srgb, #fff8e8 12%, transparent);
+  --color-ink: #fff8e8;
+  --color-ink-muted: color-mix(in srgb, #fff8e8 62%, transparent);
+  --color-accent-hot: color-mix(in srgb, #d1f300 75%, #ffffff);
+
+  /* Light section token'ları (S3 — CLAUDE.md §5): krem zemin + koyu mor metin,
+     dark section'ların birebir tersi. Aynı gerçek token'lardan türetilir. */
+  --color-light-base: var(--color-cream);
+  --color-light-ink: var(--color-base);
+  --color-light-muted: color-mix(in srgb, #1d123c 62%, transparent);
+  --color-light-line: color-mix(in srgb, #1d123c 12%, transparent);
+
+  /* İnce mimari grid dokusu: 1px çizgiler, 80px hücre — gerçek ink rengiyle. */
+  --grid-line: color-mix(in srgb, #fff8e8 5%, transparent);
+  --grid-cell: 80px;
+
+  /* Fluid display ölçeği */
+  --text-display: clamp(2.75rem, 1.6rem + 6vw, 7rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.04em;
+  --text-h2: clamp(2rem, 1.5rem + 2.4vw, 3.25rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+  Yatay taşma güvenliği: dekoratif bleed'ler viewport dışına uzayabilir.
+  `clip` scroll container yaratmadığı için sticky header çalışmaya devam eder.
+*/
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  @apply bg-base text-ink font-sans antialiased;
+}
+
+/* Görünür klavye odağı — erişilebilirlik tabanı */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-base);
+}
+
+/*
+  Mimari grid dokusu — koyu section'larda ince doku. Dekoratif; içerik taşımaz.
+  .grid-texture uygulanan öğeye ::before ile biner.
+*/
+.grid-texture {
+  position: relative;
+  isolation: isolate;
+}
+.grid-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* ============================================================
+   Animasyon katmanı (CLAUDE.md §11) — SEO-safe, TEK mekanizma: one-time
+   stagger reveal. Scroll-linked sürekli transform/opacity efekti YOK —
+   depth-scroll (translateZ/scale) ve mascot parallax'ı bilerek kaldırıldı:
+   sürekli scroll-tied JS her zaman bir performans/karmaşıklık maliyeti,
+   basit tek-seferlik reveal aynı hissi çok daha ucuza veriyor.
+   .js-anim yoksa (JS kapalı / crawler / view-source) HER ŞEY görünür.
+   Başlangıç durumu YALNIZCA .js-anim altında tanımlıdır. Native document
+   scroll'a hiç dokunulmaz — snap yok, wheel hijack yok, fixed positioning yok.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  :root.js-anim [data-reveal] {
+    opacity: 0.001;
+    transform: translateY(24px);
+    transition:
+      opacity 0.55s cubic-bezier(0.25, 0.1, 0.25, 1),
+      transform 0.55s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  :root.js-anim [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* CTA micro-interaction (CLAUDE.md §11.3) — hover lift + press, döngü yok */
+@media (prefers-reduced-motion: no-preference) {
+  .cta-lift {
+    transition:
+      transform 0.15s ease-out,
+      background-color 0.3s ease-out;
+  }
+  .cta-lift:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+  .cta-lift:active {
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* Reduced-motion: animasyon katmanı tamamen kapanır — düz, tam görünür, statik. */
+  :root.js-anim [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

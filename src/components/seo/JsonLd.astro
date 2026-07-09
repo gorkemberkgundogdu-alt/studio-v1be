@@ -1,0 +1,18 @@
+---
+/**
+ * Yapılandırılmış veri çıkışının tek noktası (CLAUDE.md §9.1).
+ * Kural: JSON-LD, sayfada görünen içerikle birebir tutarlı olmalı.
+ */
+interface Props {
+  /** Tek şema objesi veya @graph'e girecek obje listesi. */
+  schema: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { schema } = Astro.props;
+
+const payload = Array.isArray(schema)
+  ? { "@context": "https://schema.org", "@graph": schema }
+  : { "@context": "https://schema.org", ...schema };
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(payload)} />

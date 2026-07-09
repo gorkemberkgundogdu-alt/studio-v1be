@@ -1,0 +1,23 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import { useTranslations } from "@/i18n";
+
+const locale = "en" as const;
+const path = "/404/";
+const t = useTranslations(locale);
+const nf = t.notFound;
+---
+
+<BaseLayout title={nf.meta.title} description={nf.meta.description} {locale} {path} noindex>
+  <section class="grid-texture">
+    <div class="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
+      <p class="font-mono text-6xl font-bold text-accent">404</p>
+      <h1 class="mt-6 text-h2 font-bold">{nf.title}</h1>
+      <p class="mt-4 text-lg text-ink-muted">{nf.body}</p>
+      <div class="mt-8">
+        <Button href="/">{nf.cta}</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

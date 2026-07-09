@@ -1,0 +1,68 @@
+---
+/**
+ * Head yönetiminin TEK sahibi (CLAUDE.md §9). Sayfalarda el yazması <meta> yasak.
+ * v1 tek dil (en); mimari çok-dile hazır kalır (LOCALES üzerinden hreflang üretir).
+ */
+import { SITE } from "@/config/site";
+import {
+  LOCALES,
+  LOCALE_TAGS,
+  OG_LOCALES,
+  DEFAULT_LOCALE,
+  localizePath,
+  type Locale,
+} from "@/i18n/locales";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  /** Locale prefix'i OLMAYAN path (örn "/packages/"). */
+  path: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  path,
+  ogImage,
+  ogType = "website",
+  noindex = false,
+} = Astro.props;
+
+const canonicalUrl = new URL(localizePath(locale, path), SITE.url).href;
+const ogImageUrl = new URL(ogImage ?? SITE.defaultOgImage, SITE.url).href;
+
+const altEntries = LOCALES.map((l) => ({
+  hreflang: LOCALE_TAGS[l],
+  href: new URL(localizePath(l, path), SITE.url).href,
+}));
+const xDefaultHref = new URL(localizePath(DEFAULT_LOCALE, path), SITE.url).href;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+{altEntries.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={OG_LOCALES[locale]} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />

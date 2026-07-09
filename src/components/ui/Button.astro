@@ -1,0 +1,37 @@
+---
+/**
+ * İki varyant: primary (redline accent) / ghost (çerçeve). CLAUDE.md §3, §11.3.
+ * href verilirse <a>, verilmezse <button>. .cta-lift micro-interaction taşır.
+ */
+interface Props {
+  href?: string;
+  variant?: "primary" | "ghost";
+  size?: "sm" | "md";
+  type?: "button" | "submit";
+  class?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  type = "button",
+  class: className,
+} = Astro.props;
+
+const classes = [
+  "cta-lift inline-flex items-center justify-center rounded-full font-semibold",
+  "transition-colors duration-300",
+  size === "sm" ? "h-9 px-4 text-sm" : "h-12 px-7 text-base",
+  variant === "primary"
+    ? "bg-accent text-(--color-base) hover:bg-accent-hot"
+    : "border border-line text-ink hover:border-ink-muted hover:text-ink",
+  className,
+];
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag href={href} type={href ? undefined : type} class:list={classes}>
+  <slot />
+</Tag>

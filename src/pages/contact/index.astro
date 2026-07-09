@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import AuditForm from "@/components/AuditForm.astro";
+import FaqAccordion from "@/components/FaqAccordion.astro";
+import { useTranslations } from "@/i18n";
+import { faqSchema, breadcrumbSchema, webPageSchema } from "@/config/schemas";
+
+const locale = "en" as const;
+const path = "/contact/";
+const t = useTranslations(locale);
+const c = t.contact;
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: t.nav.cta, path },
+];
+---
+
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  {locale}
+  {path}
+  schemas={[
+    webPageSchema({ name: c.hero.title, description: c.meta.description, locale, path }),
+    faqSchema(c.faq.items),
+    breadcrumbSchema(crumbs, locale),
+  ]}
+>
+  <Breadcrumb {locale} items={crumbs} />
+
+  <section class="grid-texture">
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+      <h1 class="text-display font-extrabold">{c.hero.title}</h1>
+      <p class="mt-6 text-lg leading-relaxed text-ink-muted">{c.hero.promise}</p>
+
+      <div class="mt-10">
+        <AuditForm {locale} />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line" aria-label={c.faq.title}>
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+      <FaqAccordion title={c.faq.title} items={c.faq.items} level="h2" />
+    </div>
+  </section>
+</BaseLayout>

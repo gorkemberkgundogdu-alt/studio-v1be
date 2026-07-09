@@ -1,0 +1,54 @@
+---
+/**
+ * Görünür FAQ akordeonu (details/summary — JS'siz çalışır, tüm copy HTML'de).
+ * FAQPage JSON-LD aynı veriden AYRI olarak sayfa seviyesinde eklenir (CLAUDE.md §10).
+ */
+interface Props {
+  title: string;
+  items: readonly { question: string; answer: string }[];
+  /** Başlık seviyesi — heading hiyerarşisi asla atlamasın (CLAUDE.md §9.6). */
+  level?: "h2" | "h3";
+}
+const { title, items, level = "h2" } = Astro.props;
+const Heading = level;
+---
+
+<section aria-labelledby="faq-title">
+  <Heading id="faq-title" class="text-2xl font-bold tracking-tight sm:text-3xl">{title}</Heading>
+  <div class="mt-8 divide-y divide-line border-y border-line">
+    {items.map((item) => (
+      <details class="faq-item group">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left font-semibold text-ink transition-colors hover:text-accent"
+        >
+          <span>{item.question}</span>
+          <svg
+            aria-hidden="true"
+            class="faq-chevron shrink-0 text-ink-muted transition-transform duration-200"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </summary>
+        <p class="pb-6 text-sm leading-relaxed text-ink-muted sm:text-base">{item.answer}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-item summary::marker,
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item[open] .faq-chevron {
+    transform: rotate(45deg);
+    color: var(--color-accent);
+  }
+</style>

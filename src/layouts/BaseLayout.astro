@@ -1,0 +1,116 @@
+---
+/**
+ * Tüm sayfaların iskeleti (CLAUDE.md §2). Head yönetimi Seo.astro'ya delege edilir.
+ * Organization + WebSite JSON-LD her sayfaya otomatik enjekte edilir; sayfaya
+ * özel şemalar `schemas` prop'uyla @graph'e eklenir.
+ * Font: Montserrat Variable, self-hosted (fontsource) + preload (LCP koruması).
+ */
+import "@/styles/global.css";
+import montserratWoff2 from "@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url";
+import "@fontsource-variable/montserrat/index.css";
+
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+import Seo from "@/components/seo/Seo.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
+import { SITE } from "@/config/site";
+import { useTranslations, type Locale } from "@/i18n";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  /** Locale prefix'siz path, örn "/" veya "/packages/". */
+  path: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Sayfaya özel JSON-LD objeleri; Organization + WebSite otomatik eklenir. */
+  schemas?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  locale,
+  path,
+  ogImage,
+  ogType,
+  noindex,
+  schemas = [],
+} = Astro.props;
+const t = useTranslations(locale);
+
+// Logo yalnızca dosya gerçekten varsa şemaya girer (CLAUDE.md §3, opsiyonel alan).
+const logoPath = fileURLToPath(new URL("../../public/logo.png", import.meta.url));
+const hasLogo = existsSync(logoPath);
+
+const sameAs = Object.values(SITE.social).filter(Boolean);
+const baseSchemas: Record<string, unknown>[] = [
+  {
+    "@type": "Organization",
+    "@id": `${SITE.url}/#organization`,
+    name: SITE.name,
+    legalName: SITE.legalName,
+    url: SITE.url,
+    email: SITE.email,
+    foundingDate: String(SITE.foundingYear),
+    description: SITE.description,
+    parentOrganization: { "@id": SITE.parentOrg.id },
+    ...(hasLogo ? { logo: `${SITE.url}/logo.png` } : {}),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${SITE.url}/#website`,
+    name: `${SITE.name} — ${SITE.tagline}`,
+    url: SITE.url,
+    publisher: { "@id": `${SITE.url}/#organization` },
+    inLanguage: locale,
+  },
+];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href={montserratWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <Seo {title} {description} {locale} {path} {ogImage} {ogType} {noindex} />
+    <JsonLd schema={[...baseSchemas, ...schemas]} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {/* SEO-safe animasyon bootstrap: JS varsa .js-anim ekler; yoksa her şey görünür (CLAUDE.md §11) */}
+    <script is:inline>
+      document.documentElement.classList.add("js-anim");
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-(--color-base)"
+    >
+      {t.a11y.skipToContent}
+    </a>
+    <Header {locale} {path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer {locale} />
+    <script>
+      import { initScrollFx } from "@/lib/scroll-fx";
+      initScrollFx();
+    </script>
+  </body>
+</html>

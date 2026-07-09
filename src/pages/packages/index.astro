@@ -1,0 +1,73 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import { useTranslations } from "@/i18n";
+import { serviceSchema, breadcrumbSchema } from "@/config/schemas";
+
+const locale = "en" as const;
+const path = "/packages/";
+const t = useTranslations(locale);
+const p = t.packages;
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: t.nav.packages, path },
+];
+
+// Her tier için Service JSON-LD (CLAUDE.md §6). Görünür scope ile aynı veri.
+const services = p.tiers.map((tier) =>
+  serviceSchema({ name: `${tier.name} — ${tier.cadence}`, description: tier.summary, locale, path }),
+);
+---
+
+<BaseLayout
+  title={p.meta.title}
+  description={p.meta.description}
+  {locale}
+  {path}
+  schemas={[...services, breadcrumbSchema(crumbs, locale)]}
+>
+  <Breadcrumb {locale} items={crumbs} />
+
+  <section class="grid-texture">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+      <p class="font-mono text-sm uppercase tracking-widest text-accent">{p.hero.eyebrow}</p>
+      <h1 class="mt-4 text-display font-extrabold">{p.hero.title}</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{p.hero.subtitle}</p>
+    </div>
+  </section>
+
+  <section class="border-t border-line" aria-label={p.hero.title}>
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
+      <div class="grid gap-6 lg:grid-cols-3" data-reveal-group>
+        {p.tiers.map((tier, i) => (
+          <article
+            class="flex flex-col rounded-2xl border border-line bg-surface p-8"
+            data-reveal
+            style={`--reveal-delay: ${i * 80}ms`}
+          >
+            <div class="flex items-baseline justify-between gap-3">
+              <h2 class="text-2xl font-bold text-ink">{tier.name}</h2>
+              <span class="font-mono text-xs uppercase tracking-widest text-accent">{tier.cadence}</span>
+            </div>
+            {/* TODO: pricing decision — names/prices are placeholders for founder review (CLAUDE.md §6) */}
+            <p class="mt-4 text-sm leading-relaxed text-ink-muted">{tier.summary}</p>
+            <ul class="mt-6 flex-1 space-y-3">
+              {tier.features.map((feature) => (
+                <li class="flex gap-3 text-sm text-ink">
+                  <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                  <span class="text-ink-muted">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <div class="mt-8">
+              <Button href="/contact/" class="w-full">{tier.cta}</Button>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="mt-10 text-center text-sm text-ink-muted">{p.note}</p>
+    </div>
+  </section>
+</BaseLayout>

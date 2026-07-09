@@ -1,0 +1,219 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import RobotMascot from "@/components/sections/RobotMascot.astro";
+import AuditForm from "@/components/AuditForm.astro";
+import FaqAccordion from "@/components/FaqAccordion.astro";
+import { useTranslations } from "@/i18n";
+import { faqSchema } from "@/config/schemas";
+
+const locale = "en" as const;
+const path = "/";
+const t = useTranslations(locale);
+const h = t.home;
+
+// Hero headline: her satırı {before, accent, after} parçalarına böler —
+// `accent` alt-dizisi lime, geri kalanı cream render edilsin diye.
+interface AccentSegment {
+  text: string;
+  accent: boolean;
+}
+function splitAccent(text: string, accent: string): AccentSegment[] {
+  if (!accent) return [{ text, accent: false }];
+  const idx = text.indexOf(accent);
+  if (idx === -1) return [{ text, accent: false }];
+  const before = text.slice(0, idx);
+  const after = text.slice(idx + accent.length);
+  const parts: AccentSegment[] = [];
+  if (before) parts.push({ text: before, accent: false });
+  parts.push({ text: accent, accent: true });
+  if (after) parts.push({ text: after, accent: false });
+  return parts;
+}
+
+// Hero subline: verilen kelimeleri (tam kelime eşleşmesi) kalın render etmek
+// için metni sıralı {text, bold} parçalarına böler.
+interface BoldSegment {
+  text: string;
+  bold: boolean;
+}
+function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
+  if (words.length === 0) return [{ text, bold: false }];
+  const escaped = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const re = new RegExp(`\\b(${escaped.join("|")})\\b`, "g");
+  const parts: BoldSegment[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push({ text: text.slice(last, m.index), bold: false });
+    parts.push({ text: m[0], bold: true });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push({ text: text.slice(last), bold: false });
+  return parts;
+}
+---
+
+<BaseLayout
+  title={h.meta.title}
+  description={h.meta.description}
+  {locale}
+  {path}
+  schemas={[faqSchema(t.contact.faq.items)]}
+>
+  {/*
+    S1 — Hero (dark). Only the headline + mascot — nothing else — fills the
+    viewport below the sticky header (min-h calc(100svh-4rem)) so nothing
+    from S2 peeks in on load. Content is vertically centered (justify-center)
+    as a single block, which is what makes the gap above (navbar→headline)
+    and the gap below (mascot's feet→page end) come out equal automatically
+    — matching top/bottom padding values alone can't guarantee that once a
+    flex column isn't centered, leftover space just pools at the bottom.
+    Mascot sits just under the last line ("for AI."), pulled up slightly so
+    its antenna still overlaps the text above (intentional, reads as natural
+    since it's animated) — that overlap amount is purely margin-driven, so
+    scaling the mascot's own size doesn't change it.
+  */}
+  <section class="grid-texture relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden">
+    <div class="mx-auto flex w-full max-w-[96rem] flex-1 flex-col justify-center px-4 py-8 sm:px-6">
+      {/*
+        4 lines instead of 2: with 2 lines, both ended in a lime-accent word
+        ("Awwwards."/"AI."), and centered, the two lime words landed almost
+        stacked on top of each other — read as an awkward vertical color
+        stripe. 4 separate lines breaks that up.
+      */}
+      <h1 class="font-black leading-[0.98] text-center" style="font-size: clamp(2.75rem, 6.5vw, 6rem)">
+        {h.hero.headline.map((line) => (
+          <span class="block">
+            {splitAccent(line.text, line.accent).map((seg) =>
+              seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text,
+            )}
+          </span>
+        ))}
+      </h1>
+
+      {/* Mascot — 1.5x bigger (225px / 360px), same pull-up margin as before
+          so the antenna-over-text overlap stays exactly as it was. */}
+      <div class="-mt-2 mx-auto w-[225px] shrink-0 md:-mt-4 xl:w-[360px]">
+        <RobotMascot look="classic" name={h.hero.mascotName} />
+      </div>
+    </div>
+  </section>
+
+  {/*
+    S2–S6: every section below the hero is full-viewport height (min-h
+    100svh) with its content vertically centered (flex flex-col
+    justify-center) — a shorter section doesn't look stranded at the top of
+    a tall one, it reads as intentionally spacious. No scroll-linked effects
+    here beyond the plain one-time stagger reveal (see lib/scroll-fx.ts):
+    native document scroll, no snap, no hijack, no fixed positioning.
+  */}
+  {/* S2 — What we do (dark): simplified to a heading + CTA, no cards */}
+  <section
+    class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    aria-label="What we do"
+  >
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+      <div
+        class="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between"
+        data-reveal-group
+      >
+        <h2 class="max-w-3xl text-h2" data-reveal>
+          {highlightWords(h.what.heading, h.what.bold).map((seg) =>
+            seg.bold ? <strong class="font-black">{seg.text}</strong> : seg.text,
+          )}
+        </h2>
+        <div class="shrink-0" data-reveal style="--reveal-delay: 80ms">
+          <Button href="/contact/">{h.what.cta}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* S3 — How we do it (light/white, rounded top) */}
+  <section
+    class="flex min-h-[100svh] flex-col justify-center rounded-t-[2.5rem] bg-light-base text-light-ink"
+    aria-labelledby="how-title"
+  >
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+      <h2 id="how-title" class="text-h2 font-bold text-light-ink" data-reveal>{h.how.title}</h2>
+      <ol class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2" data-reveal-group>
+        {h.how.steps.map((step, i) => (
+          <li class="flex gap-5" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <span class="font-mono text-2xl font-bold text-accent" aria-hidden="true">{step.number}</span>
+            <div>
+              <h3 class="text-lg font-semibold text-light-ink">{step.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-light-muted">{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-12" data-reveal>
+        <Button href="/contact/">{h.how.cta}</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* S4 — Work (dark) */}
+  <section
+    class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    aria-labelledby="work-title"
+  >
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+      <h2 id="work-title" class="text-h2 font-bold" data-reveal>{h.work.title}</h2>
+      <div class="mt-12 grid gap-6 md:grid-cols-2" data-reveal-group>
+        <article
+          class="flex flex-col rounded-2xl border border-line bg-surface p-8"
+          data-reveal
+        >
+          <h3 class="text-2xl font-bold text-ink">{h.work.caseCard.name}</h3>
+          <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">{h.work.caseCard.description}</p>
+          <a
+            href={h.work.caseCard.href}
+            class="mt-6 inline-flex items-center gap-1 font-semibold text-accent underline decoration-transparent underline-offset-4 transition hover:decoration-accent"
+          >
+            {h.work.caseCard.linkLabel} →
+          </a>
+        </article>
+
+        <article
+          class="flex flex-col justify-between rounded-2xl border border-dashed border-line p-8"
+          data-reveal
+          style="--reveal-delay: 80ms"
+        >
+          <p class="text-lg font-medium leading-relaxed text-ink-muted">{h.work.openSlot.label}</p>
+          <div class="mt-6">
+            <Button href="/contact/" variant="ghost">{h.work.openSlot.cta}</Button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* S5 — FAQ (dark), its own section between Work and the audit CTA */}
+  <section
+    class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    aria-label={t.contact.faq.title}
+  >
+    <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
+      <FaqAccordion title={t.contact.faq.title} items={t.contact.faq.items} level="h2" />
+    </div>
+  </section>
+
+  {/* S6 — Get your v1be (dark) */}
+  <section
+    class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    aria-labelledby="contact-title"
+  >
+    <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
+      <h2 id="contact-title" class="text-h2 font-bold" data-reveal>{h.contact.title}</h2>
+      <p class="mt-5 text-lg leading-relaxed text-ink-muted" data-reveal style="--reveal-delay: 60ms">
+        {h.contact.promise}
+      </p>
+
+      <div class="mt-10" data-reveal style="--reveal-delay: 120ms">
+        <AuditForm {locale} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,34 @@
+# v1be studio — Apache/cPanel config. public/ içinde durur, her build'de dist'e kopyalanır.
+
+RewriteEngine On
+
+# HTTPS zorla + www -> non-www (canonical host tek: https://studio.v1be.io)
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://studio.v1be.io%{REQUEST_URI} [L,R=301]
+
+# Sıkıştırma
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Cache: hash'li asset'ler immutable, HTML/XML/TXT her zaman revalidate
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2|woff|ttf|svg|png|jpg|jpeg|webp|avif|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  # Güvenlik başlıkları
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Doğru MIME (bazı cPanel kurulumlarında eksik olabiliyor)
+<IfModule mod_mime.c>
+  AddType application/xml .xml
+  AddType text/plain .txt
+</IfModule>
+
+ErrorDocument 404 /404.html

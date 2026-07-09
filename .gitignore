@@ -1,0 +1,21 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated assets (rebuilt by scripts/gen-og.mjs on build)
+public/og-default.png
+
+# logs
+npm-debug.log*
+*.log
+
+# env
+.env
+.env.production
+
+# os
+.DS_Store
+Thumbs.db

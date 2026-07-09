@@ -1,0 +1,189 @@
+---
+/**
+ * Ücretsiz audit talep formu (CLAUDE.md §5 S5). Alanlar: name, email, website, message.
+ * FORM_ENDPOINT (Formspree-tarzı) varsa native POST eder — JS kapalıyken de çalışır.
+ * Endpoint yoksa JS submit'i mailto'ya çevirir; her hâlükârda görünür bir doğrudan
+ * email linki fallback olarak durur (graceful degradation, CLAUDE.md §12.3).
+ */
+import { useTranslations, type Locale } from "@/i18n";
+import { SITE, FORM_ENDPOINT } from "@/config/site";
+import Button from "@/components/ui/Button.astro";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const f = t.contact.form;
+const hasEndpoint = FORM_ENDPOINT.length > 0;
+---
+
+<form
+  class="audit-form flex flex-col gap-4"
+  data-audit-form
+  data-endpoint={hasEndpoint ? FORM_ENDPOINT : undefined}
+  data-email={SITE.email}
+  action={hasEndpoint ? FORM_ENDPOINT : undefined}
+  method={hasEndpoint ? "POST" : undefined}
+  novalidate
+>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label class="flex flex-col gap-1.5 text-sm">
+      <span class="font-medium text-ink">{f.nameLabel}</span>
+      <input
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder={f.namePlaceholder}
+        class="h-11 rounded-xl border border-line bg-base px-3.5 text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+      />
+    </label>
+    <label class="flex flex-col gap-1.5 text-sm">
+      <span class="font-medium text-ink">{f.emailLabel}</span>
+      <input
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder={f.emailPlaceholder}
+        class="h-11 rounded-xl border border-line bg-base px-3.5 text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+      />
+    </label>
+  </div>
+
+  <label class="flex flex-col gap-1.5 text-sm">
+    <span class="font-medium text-ink">{f.websiteLabel}</span>
+    <input
+      type="url"
+      name="website"
+      required
+      inputmode="url"
+      autocomplete="url"
+      placeholder={f.websitePlaceholder}
+      class="h-11 rounded-xl border border-line bg-base px-3.5 text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+    />
+  </label>
+
+  <label class="flex flex-col gap-1.5 text-sm">
+    <span class="font-medium text-ink">{f.messageLabel}</span>
+    <textarea
+      name="message"
+      rows="4"
+      placeholder={f.messagePlaceholder}
+      class="rounded-xl border border-line bg-base px-3.5 py-3 text-ink placeholder:text-ink-muted/60 focus:border-accent focus:outline-none"
+    ></textarea>
+  </label>
+
+  <p class="form-error hidden text-sm text-accent" data-form-error role="alert"></p>
+
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+    <Button type="submit" class="w-full sm:w-auto">
+      <span data-submit-label>{f.submit}</span>
+    </Button>
+    <p class="text-xs text-ink-muted">{f.reassurance}</p>
+  </div>
+
+  <p class="mt-1 text-sm text-ink-muted">
+    {f.mailtoIntro}{" "}
+    <a
+      href={`mailto:${SITE.email}`}
+      class="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:decoration-accent"
+    >
+      {SITE.email}
+    </a>
+  </p>
+</form>
+
+<div
+  class="form-success hidden rounded-2xl border border-line bg-surface p-6"
+  data-form-success
+  role="status"
+  aria-live="polite"
+>
+  <p class="text-lg font-semibold text-ink">{f.successTitle}</p>
+  <p class="mt-2 text-sm leading-relaxed text-ink-muted">{f.successBody}</p>
+</div>
+
+<script>
+  // Progressive enhancement (CLAUDE.md §12.3). Endpoint varsa fetch ile inline
+  // success; yoksa mailto oluşturur. JS yoksa: native POST (endpoint) veya
+  // görünür email linki fallback.
+  const form = document.querySelector<HTMLFormElement>("[data-audit-form]");
+  if (form) {
+    const endpoint = form.dataset.endpoint;
+    const email = form.dataset.email ?? "";
+    const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
+    const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]");
+    const successEl = document.querySelector<HTMLElement>("[data-form-success]");
+    const labelDefault = submitLabel?.textContent ?? "";
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+
+    const showError = (msg: string) => {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.classList.remove("hidden");
+    };
+    const clearError = () => errorEl?.classList.add("hidden");
+
+    const isValidEmail = (v: string) => /.+@.+\..+/.test(v);
+
+    const getData = () => {
+      const fd = new FormData(form);
+      return {
+        name: String(fd.get("name") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        website: String(fd.get("website") ?? ""),
+        message: String(fd.get("message") ?? ""),
+        fd,
+      };
+    };
+
+    form.addEventListener("submit", async (e) => {
+      clearError();
+      const { name, email: em, website, message, fd } = getData();
+
+      if (!name || !em || !website) {
+        // Native required zaten yakalar; JS tarafında da nazik kontrol.
+        return;
+      }
+      if (!isValidEmail(em)) {
+        e.preventDefault();
+        emailInput?.focus();
+        showError(form.dataset.invalidEmail ?? "Please enter a valid email address.");
+        return;
+      }
+
+      if (!endpoint) {
+        // mailto fallback
+        e.preventDefault();
+        const subject = encodeURIComponent(`Free audit request — ${website}`);
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${em}\nWebsite: ${website}\n\n${message}`,
+        );
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        return;
+      }
+
+      // Formspree-tarzı: fetch ile gönder, sayfada kal, inline success göster.
+      e.preventDefault();
+      if (submitLabel) submitLabel.textContent = "Sending…";
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          body: fd,
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.classList.add("hidden");
+        successEl?.classList.remove("hidden");
+        successEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch {
+        if (submitLabel) submitLabel.textContent = labelDefault;
+        showError(
+          `Something went wrong. Please email us directly at ${email}.`,
+        );
+      }
+    });
+  }
+</script>
