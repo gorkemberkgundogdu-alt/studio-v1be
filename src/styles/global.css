@@ -172,6 +172,14 @@ body {
   }
 }
 
+/* Nav overlay açıkken body scroll kilidi (Header.astro) — paginated wheel
+   controller'ın kendisi de ayrıca lib/paginate.ts'te aynı sınıfı kontrol
+   ederek wheel/keyboard handler'larını pasifleştirir. */
+html.nav-overlay-open,
+html.nav-overlay-open body {
+  overflow: hidden;
+}
+
 /* CTA micro-interaction (CLAUDE.md §11.3) — hover lift + press, döngü yok */
 @media (prefers-reduced-motion: no-preference) {
   .cta-lift {

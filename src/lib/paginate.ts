@@ -20,6 +20,10 @@
  * position:static'e döner (global.css'teki media query hiç eşleşmez) — bu
  * dosya çalışmasa da sayfa tamamen normal, native scroll ile okunur kalır.
  *
+ * Ayrıca: nav overlay açıkken (Header.astro, <html class="nav-overlay-open">)
+ * wheel/keydown handler'ları no-op döner — overlay menüdeyken sayfa altında
+ * paginated geçiş tetiklenmesin diye.
+ *
  * Perf/doğruluk notları (canlı Puppeteer testiyle bulundu, önceki sürümden):
  *  - Tek gate: yalnızca `animating` (650ms, CSS transition'la birebir).
  *  - syncScroll "auto" kullanır ("instant" DOM spec'inde yok).
@@ -70,6 +74,7 @@ export function initPaginate(): void {
   window.addEventListener(
     "wheel",
     (e) => {
+      if (document.documentElement.classList.contains("nav-overlay-open")) return;
       const goingDown = e.deltaY > 0;
       const goingUp = e.deltaY < 0;
       if (!goingDown && !goingUp) return;
@@ -86,6 +91,7 @@ export function initPaginate(): void {
   );
 
   window.addEventListener("keydown", (e) => {
+    if (document.documentElement.classList.contains("nav-overlay-open")) return;
     const down = e.key === "PageDown" || e.key === "ArrowDown";
     const up = e.key === "PageUp" || e.key === "ArrowUp";
     if (!down && !up) return;

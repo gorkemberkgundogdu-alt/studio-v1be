@@ -18,6 +18,7 @@ export const en = {
     mainNav: "Main navigation",
     footerNav: "Footer navigation",
     menuToggle: "Menu",
+    menuClose: "Close",
   },
   nav: {
     packages: "Packages",
@@ -46,8 +47,15 @@ export const en = {
     // Karşılama ekranı artık yalnızca headline + mascot; bu metin (eski hero
     // subline'ı) artık "What we do" section'ının başlığı olarak kullanılıyor.
     what: {
-      heading:
-        "We build websites with the award-grade design, engineered from the ground up to be read and cited by AI search engines.",
+      // İki satır: ilk satır "award-grade design," ile bitecek şekilde bilinçli
+      // bölünmüş (Header redesign — CTA artık başlığın altına indi, genişlik
+      // section container'ına uyarlandı; tipografik satır kırılımı için tek
+      // string yerine dizi).
+      headingLines: [
+        "We build websites with the award-grade design,",
+        "engineered from the ground up to be read and cited",
+        "by AI search engines.",
+      ],
       bold: ["websites", "engineered", "cited", "AI"],
       cta: "Get a free audit",
     },
