@@ -25,6 +25,7 @@ npm run build      # gen-og → astro build (outputs dist/)
 npm run preview    # serve the built site
 npm run check      # astro check (0 errors expected)
 npm run gen:og     # regenerate public/og-default.png
+npm run deploy     # local build + cPanel-ready zip
 ```
 
 ## Configuration
@@ -44,9 +45,25 @@ npm run gen:og     # regenerate public/og-default.png
 
 ## Deploy
 
-Static output in `dist/`. `public/.htaccess` targets Apache/cPanel (HTTPS + non-www
-canonical, cache-control, security headers, `404.html`). Set `PUBLIC_FORM_ENDPOINT`
-in the build environment if using a hosted form provider.
+Pushes to `main` are deployed automatically to `studio.v1be.io` by
+`.github/workflows/deploy.yml`. The workflow checks the project, builds the static
+site, uploads `dist/` over FTP, then verifies the homepage, `robots.txt`, `llms.txt`
+and sitemap.
+
+Configure these GitHub Actions repository secrets:
+
+- `FTP_HOST`
+- `FTP_USER`
+- `FTP_PASS`
+- `PUBLIC_FORM_ENDPOINT` (optional; the contact form uses its email fallback when blank)
+
+The default cPanel target is `public_html/studio/`. If the subdomain document root
+is different, set the `STUDIO_FTP_SERVER_DIR` repository variable, including its
+trailing slash. The workflow can also be started manually with **Run workflow**.
+
+Static output is generated in `dist/`. `public/.htaccess` targets Apache/cPanel
+(HTTPS + non-www canonical, cache-control, security headers, `404.html`). For a
+manual release, `npm run deploy` produces `dist-deploy/v1be-studio.zip`.
 
 ## Adding a logo
 
