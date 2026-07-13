@@ -1,0 +1,76 @@
+---
+/**
+ * GDPR consent banner, v1be studio's own, no third-party CMP.
+ *
+ * Consent Mode v2 defaults are stamped DENIED in BaseLayout <head> before GTM
+ * loads. This banner only ever flips the state to granted (Accept) or confirms
+ * denied (Decline), then hides. If the visitor already chose, it never renders
+ * (guarded client-side so SSR stays cache-friendly).
+ *
+ * English only (CLAUDE.md §8 — no locale routes in v1), so copy lives here
+ * directly rather than routing through a per-locale dictionary.
+ */
+
+const c = {
+  title: "Your data, your call.",
+  text: "A few cookies help us see which pages genuinely help visitors and whether our ads pay their way. We never sell your data, and the site works exactly the same if you decline.",
+  accept: "Allow cookies",
+  decline: "No thanks",
+  privacy: "Privacy",
+};
+---
+
+<div
+  id="v1be-consent"
+  data-hidden
+  role="dialog"
+  aria-label="Cookie consent"
+  class="fixed inset-x-3 bottom-3 z-[60] mx-auto hidden max-w-3xl rounded-2xl border border-line bg-surface/95 p-4 shadow-lg backdrop-blur sm:inset-x-auto sm:right-4 sm:left-4 data-[hidden]:hidden"
+>
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="min-w-0">
+      <p class="text-sm font-semibold text-ink">{c.title}</p>
+      <p class="mt-1 text-sm leading-snug text-ink-muted">{c.text}</p>
+    </div>
+    <div class="flex shrink-0 items-center gap-2">
+      <button
+        type="button"
+        data-consent="decline"
+        class="h-9 rounded-full border border-line px-4 text-sm text-ink-muted transition-colors hover:border-ink-muted hover:text-ink"
+      >
+        {c.decline}
+      </button>
+      <button
+        type="button"
+        data-consent="accept"
+        class="h-9 rounded-full bg-accent px-5 text-sm font-semibold text-(--color-base) transition-colors hover:bg-accent-hot"
+      >
+        {c.accept}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { grantConsent, denyConsent, hasStoredConsent } from "@/lib/analytics";
+
+  const el = document.getElementById("v1be-consent");
+  if (el && !hasStoredConsent()) {
+    el.removeAttribute("data-hidden");
+    el.classList.remove("hidden");
+  }
+
+  function close() {
+    el?.setAttribute("data-hidden", "");
+    el?.classList.add("hidden");
+  }
+
+  el?.querySelector('[data-consent="accept"]')?.addEventListener("click", () => {
+    grantConsent();
+    close();
+  });
+  el?.querySelector('[data-consent="decline"]')?.addEventListener("click", () => {
+    denyConsent();
+    close();
+  });
+</script>
