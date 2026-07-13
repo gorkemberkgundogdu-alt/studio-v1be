@@ -10,27 +10,27 @@
     -apple-system, "Segoe UI", Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  /* Marka paleti (v1be.io ile birebir aynı — studio bir varyant icat etmez): */
-  --color-base: #1d123c; /* koyu mor — sayfa zemini */
-  --color-purple: #36186b; /* derin mor — ikincil yüzey/vurgu */
+  /* DENEME — kırık siyah primary, lime sabit (lokal önizleme, commit edilmedi). */
+  --color-base: #121214; /* kırık siyah — sayfa zemini (was #1d123c) */
+  --color-purple: #2b2b30; /* nötr koyu gri — ikincil yüzey (was #36186b) */
   --color-green: #137a3c; /* yeşil — ikincil vurgu (kullanılmıyorsa bile paritesi korunur) */
   --color-cream: #fff8e8; /* krem — açık kartlar / koyu zeminde metin */
   --color-white: #ffffff;
   --color-accent: #d1f300; /* lime — CTA ve vurgu (robotun lens rengiyle otomatik eşleşir) */
 
   /* Türetilmiş token'lar (palete sadık mix'ler — ana siteyle aynı formül): */
-  --color-surface: color-mix(in srgb, #36186b 38%, #1d123c);
+  --color-surface: color-mix(in srgb, #2b2b30 38%, #121214);
   --color-line: color-mix(in srgb, #fff8e8 12%, transparent);
   --color-ink: #fff8e8;
   --color-ink-muted: color-mix(in srgb, #fff8e8 62%, transparent);
   --color-accent-hot: color-mix(in srgb, #d1f300 75%, #ffffff);
 
-  /* Light section token'ları (S3 — CLAUDE.md §5): krem zemin + koyu mor metin,
+  /* Light section token'ları (S3 — CLAUDE.md §5): krem zemin + koyu metin,
      dark section'ların birebir tersi. Aynı gerçek token'lardan türetilir. */
   --color-light-base: var(--color-cream);
   --color-light-ink: var(--color-base);
-  --color-light-muted: color-mix(in srgb, #1d123c 62%, transparent);
-  --color-light-line: color-mix(in srgb, #1d123c 12%, transparent);
+  --color-light-muted: color-mix(in srgb, #121214 62%, transparent);
+  --color-light-line: color-mix(in srgb, #121214 12%, transparent);
 
   /* İnce mimari grid dokusu: 1px çizgiler, 80px hücre — gerçek ink rengiyle. */
   --grid-line: color-mix(in srgb, #fff8e8 5%, transparent);

@@ -13,6 +13,51 @@ const crumbs = [
   { name: "Home", path: "/" },
   { name: title, path },
 ];
+
+const sections = [
+  {
+    heading: "What this site is",
+    body: [
+      "v1be studio is a web design and development studio. This site describes our services, shows examples of our work, and lets you request a free audit or get in touch about a project.",
+    ],
+  },
+  {
+    heading: "About the free audit",
+    body: [
+      "The audit is a review of how your site currently appears — or doesn't — in AI search engines and traditional search results. It's free and doesn't obligate you to any paid service.",
+    ],
+  },
+  {
+    heading: "About our results",
+    body: [
+      "We build sites and content according to known technical and structural signals that correlate with better visibility in AI-generated answers and search results. We don't control ChatGPT, Gemini, Perplexity, or Google — how they choose to cite or rank any given page can change, and we can't guarantee a specific outcome, ranking, or citation. What we do guarantee is that the technical work (schema, structure, crawler access) is done correctly and verifiably.",
+    ],
+  },
+  {
+    heading: "Paid services",
+    body: [
+      "Scope, pricing, and timelines for paid work are agreed separately, in writing, before any project starts. See Packages for an overview — final terms come from a signed proposal, not this page.",
+    ],
+  },
+  {
+    heading: "Content ownership",
+    body: [
+      "Everything on this site — text, design, the mascot, code — belongs to v1be studio unless stated otherwise. Don't copy it for your own commercial use without asking.",
+    ],
+  },
+  {
+    heading: "Client content",
+    body: [
+      "If we build or write something for you under a paid engagement, ownership transfers to you according to the terms in your specific agreement, not this page.",
+    ],
+  },
+  {
+    heading: "Liability",
+    body: [
+      "We're not liable for indirect or consequential damages arising from use of this site. Nothing here overrides consumer protection law that applies to you.",
+    ],
+  },
+];
 ---
 
 <BaseLayout
@@ -29,20 +74,43 @@ const crumbs = [
 
   <section class="grid-texture">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
-      <h1 class="text-display font-extrabold">{title}</h1>
-      {/* TODO: legal review — placeholder structure only, not drafted legal copy */}
-      <p class="mt-6 text-lg leading-relaxed text-ink-muted">
-        This page will set out the terms for using v1be studio's website and engaging its
-        Audit / Build / Grow packages. Full legal copy is pending founder/legal review — contact
-        {" "}
-        <a
-          href={`mailto:${"hello@v1be.io"}`}
-          class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent"
-        >
-          hello@v1be.io
-        </a>
-        {" "}with any questions in the meantime.
+      <p class="font-mono text-sm uppercase tracking-widest text-accent">Last updated: July 2026</p>
+      <h1 class="mt-4 text-display font-extrabold">{title}</h1>
+      <p class="mt-5 text-lg leading-relaxed text-ink-muted">
+        By using studio.v1be.io, you agree to the following.
       </p>
+    </div>
+  </section>
+
+  <section class="border-t border-line" aria-label={title}>
+    <div class="mx-auto max-w-3xl space-y-12 px-4 py-16 sm:px-6 md:py-20" data-reveal-group>
+      {sections.map((s, i) => (
+        <div data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+          <h2 class="text-2xl font-bold text-ink">{s.heading}</h2>
+          {s.body.map((p) => <p class="mt-4 leading-relaxed text-ink-muted">{p}</p>)}
+        </div>
+      ))}
+
+      <div data-reveal style={`--reveal-delay: ${sections.length * 80}ms`}>
+        <h2 class="text-2xl font-bold text-ink">Governing law</h2>
+        {/* TODO: legal review — jurisdiction and city pending founder input (CLAUDE.md §9) */}
+        <p class="mt-4 leading-relaxed text-ink-muted">
+          These terms are governed by the laws of [jurisdiction — to be added]. Disputes are
+          handled in the courts of [city — to be added].
+        </p>
+      </div>
+
+      <div data-reveal style={`--reveal-delay: ${(sections.length + 1) * 80}ms`}>
+        <h2 class="text-2xl font-bold text-ink">Contact</h2>
+        <p class="mt-4 leading-relaxed text-ink-muted">
+          <a
+            href="mailto:hello@v1be.io"
+            class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-accent"
+          >
+            hello@v1be.io
+          </a>
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>
