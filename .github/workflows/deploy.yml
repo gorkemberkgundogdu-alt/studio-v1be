@@ -1,0 +1,76 @@
+name: Deploy to cPanel (studio.v1be.io)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-studio
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check Astro and TypeScript
+        run: npm run check
+
+      - name: Build static site
+        run: npm run build
+        env:
+          PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
+
+      - name: FTP deploy dist to studio docroot
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          # The current cPanel server uses Pure-FTPd without TLS support.
+          protocol: ftp
+          local-dir: dist/
+          # Override this with the STUDIO_FTP_SERVER_DIR repository variable
+          # if the studio subdomain uses a different cPanel document root.
+          server-dir: ${{ vars.STUDIO_FTP_SERVER_DIR || 'public_html/studio/' }}
+          exclude: |
+            **/.well-known/**
+
+      - name: Smoke check
+        shell: bash
+        run: |
+          # Cloudflare/LiteSpeed may briefly serve a non-200 response after FTP.
+          for attempt in 1 2 3 4 5 6; do
+            home_code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              -H 'Accept: text/html,application/xhtml+xml' \
+              https://studio.v1be.io/ || echo 000)
+            echo "homepage attempt $attempt -> HTTP $home_code"
+
+            if [ "$home_code" = "200" ] \
+              && curl -fsS -H 'Accept: text/plain' https://studio.v1be.io/robots.txt > /dev/null \
+              && curl -fsS -H 'Accept: text/plain' https://studio.v1be.io/llms.txt > /dev/null \
+              && curl -fsS -H 'Accept: application/xml' https://studio.v1be.io/sitemap-index.xml > /dev/null; then
+              echo "smoke ok"
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "smoke failed: studio homepage or SEO/GEO endpoints are unavailable"
+          exit 1

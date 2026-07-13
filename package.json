@@ -8,7 +8,8 @@
     "build": "node scripts/gen-og.mjs && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "gen:og": "node scripts/gen-og.mjs"
+    "gen:og": "node scripts/gen-og.mjs",
+    "deploy": "node scripts/deploy-studio.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
