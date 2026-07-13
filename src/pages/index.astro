@@ -180,16 +180,22 @@ const h = t.home;
       <ol class="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2" data-reveal-group>
         {h.how.steps.map((step, i) => (
           <li class="flex gap-5" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
-            <span class="font-mono text-2xl font-bold text-accent" aria-hidden="true">{step.number}</span>
+            <span class="font-mono text-2xl font-bold text-purple" aria-hidden="true">{step.number}</span>
             <div>
               <h3 class="text-lg font-semibold text-light-ink">{step.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-light-muted">{step.description}</p>
+              <p class="mt-2 text-base font-medium leading-relaxed text-light-muted">{step.description}</p>
             </div>
           </li>
         ))}
       </ol>
-      <div class="mt-12" data-reveal>
+      <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal>
         <Button href="/contact/">{h.how.cta}</Button>
+        <a
+          href="/process/"
+          class="cta-lift inline-flex items-center justify-center rounded-full bg-surface px-6 py-3 font-medium text-accent transition-opacity duration-150 hover:opacity-90"
+        >
+          {h.how.ctaSecondary}
+        </a>
       </div>
     </div>
   </section>

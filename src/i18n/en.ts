@@ -65,28 +65,42 @@ export const en = {
         {
           number: "01",
           title: "Audit",
-          description: "We snapshot how AI engines currently see you — or don't.",
+          description:
+            "We run your site through our own engine and get real AI-visibility scores, citation counts, and a prioritized issue list. No site yet? We start with a feasibility study instead.",
         },
         {
           number: "02",
-          title: "Build",
+          title: "Fix",
           description:
-            "Static-first Astro build, full schema graph, llms.txt, crawler access — audit-proof from day one.",
+            "We correct what the audit flags — broken structure, missing schema, thin content — using the same engine that found it.",
         },
         {
           number: "03",
           title: "Content",
           description:
-            "Citable articles in your brand voice, pushed as drafts, published only with your approval.",
+            "Citable articles drafted in your brand voice, scored for citability, pushed as drafts, published only with your approval.",
         },
         {
           number: "04",
+          title: "Design",
+          description:
+            "Award-grade UI/UX, built to Awwwards-nomination standard. Not a template, not an afterthought.",
+        },
+        {
+          number: "05",
+          title: "Build",
+          description:
+            "Full schema graph, llms.txt, crawler access, shipped alongside the design, not bolted on after.",
+        },
+        {
+          number: "06",
           title: "Measure",
           description:
             "We re-run the snapshot and show the before/after. Launch day is where GEO starts, not ends.",
         },
       ],
       cta: "Get a free audit",
+      ctaSecondary: "See our process →",
     },
     work: {
       title: "v1beholics",
@@ -348,7 +362,8 @@ export const en = {
     },
     faq: {
       title: "Frequently asked questions",
-      // Bu 5 madde hem görünür akordeonu hem FAQPage JSON-LD'yi besler (CLAUDE.md §10).
+      // Bu 9 madde hem görünür akordeonu hem FAQPage JSON-LD'yi besler (CLAUDE.md §10).
+      // `cta` alanı yalnızca FaqAccordion'da render olur — faqSchema() sadece question/answer okur, CTA şemaya sızmaz.
       items: [
         {
           question: "What is v1be studio?",
@@ -367,14 +382,35 @@ export const en = {
             "A snapshot of how AI engines currently present your brand, a technical GEO review of your site (schema, crawler access, structure), and a prioritized fix list — delivered in a working session, not a slide deck.",
         },
         {
+          question: "How much does this cost?",
+          answer:
+            "The audit is free. Paid packages are scoped and quoted after we see where you stand — pricing depends on whether you need a fix, a full rebuild, or ongoing content.",
+          cta: { label: "See packages →", href: "/packages/" },
+        },
+        {
+          question: "I don't have a website yet — can you still help?",
+          answer:
+            "Yes. We start with a feasibility study — keyword and competitor research in your category, and a breakdown of why competitors score the way they do — before moving into build.",
+        },
+        {
           question: "Do you publish content automatically?",
           answer:
             "No. Content is produced by the v1be pipeline, scored for citability, and pushed to your CMS as a draft. Nothing goes live without human approval.",
         },
         {
+          question: "How long does this take?",
+          answer:
+            "The audit takes days, not weeks. A full rebuild typically runs 1-2 weeks depending on scope; ongoing content is a monthly cadence.",
+        },
+        {
           question: "How is v1be studio related to v1be?",
           answer:
             "v1be studio is the services arm of v1be, the AI marketing agent platform. The studio builds and optimizes your web presence using the same methodology and tooling.",
+        },
+        {
+          question: "How is this different from a regular web design agency?",
+          answer:
+            "Most agencies design for humans and stop there. We design for Awwwards-level aesthetics and AI-engine structure at the same time, by the same team, from day one.",
         },
       ],
     },

@@ -47,6 +47,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Scrollbar için her zaman yer ayır — FAQ gibi dinamik yükseklik değiştiren
+     içerikler sayfayı scroll-gerektirir hale getirip/çıkarınca scrollbar
+     belirip kaybolmasın; bu da tüm satırların genişliğini aniden kaydırırdı. */
+  scrollbar-gutter: stable;
 }
 
 /*
