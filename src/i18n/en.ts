@@ -124,63 +124,108 @@ export const en = {
   },
   packages: {
     meta: {
-      title: "Packages — Audit, Build & Grow | v1be studio",
+      title: "Packages — start from zero or fix what's broken | v1be studio",
       description:
-        "Three productized GEO offers: a one-time AI visibility Audit, a GEO-first Build, and a monthly Grow content engine. The free audit is the entry to all.",
+        "Two ways to get a GEO-first site: build from zero, or fix and rebuild what you already have without losing your SEO equity. Free audit either way.",
     },
     hero: {
       eyebrow: "Packages",
-      title: "Three ways to get cited.",
+      title: "Two ways to start.",
       subtitle:
-        "Every engagement starts with the free audit — it's the funnel entry for all three tiers.",
+        "Building from zero or fixing what's broken — the destination is the same: cited, not just crawled.",
     },
-    tiers: [
+    disciplines: {
+      eyebrow: "One site, many crafts",
+      chips: ["Copywriting", "UI/UX", "Frontend", "Backend", "Graphic design", "SEO/GEO"],
+      note: "Price depends on what you bring and what you need from us.",
+    },
+    // İki yol, kasıtlı olarak eşit görsel ağırlıkta — hiçbirinde "recommended"
+    // vurgusu yok (bkz packages/index.astro kart markup'ı).
+    paths: [
       {
-        name: "Audit",
-        cadence: "one-time",
-        summary:
-          "A snapshot of how AI engines see you today, plus the prioritized fixes that matter most.",
-        features: [
-          "AI visibility snapshot across ChatGPT, Gemini and Perplexity",
-          "Technical GEO audit: schema, crawler access, structure",
-          "Prioritized fix list ranked by impact",
-          "Delivered as a working session, not a slide deck",
-          "A clear picture of what you'd fix first",
+        microLabel: "No website yet",
+        title: "Start from zero",
+        priceOriginal: "$999",
+        priceNew: "$749",
+        priceSuffix: "starting, one-time",
+        bullets: [
+          "Up to 5 pages, custom-built",
+          "Entity home and core schema from day one",
+          "Live and citable, not just online",
         ],
-        cta: "Get a free audit",
+        scopeNote: "More than 5 pages? Let's scope it together.",
+        cta: "Start the build →",
+        href: "/contact/?path=new",
+        // Yalnızca Service JSON-LD besler, görünür kopyaya girmez.
+        schemaSummary:
+          "A GEO-first website built from scratch — up to five custom pages with an entity home and core schema in place from day one, live and citable at launch.",
       },
       {
-        name: "Build",
-        cadence: "project",
-        summary:
-          "A GEO-first website that is audit-proof from launch: design, Astro build and the full infrastructure.",
-        features: [
-          "GEO-first design engineered for AI readability",
-          "Static-first Astro build, semantic HTML, answer-first structure",
-          "Full schema graph, llms.txt and robots infrastructure",
-          "Self-hosted fonts, image discipline, zero-CLS layout",
-          "Launch validation in Google's Rich Results Test",
-          "Sitemap, OG images and crawler access done right",
+        microLabel: "Not happy with your site",
+        title: "Fix what's broken",
+        priceOriginal: "$1,249",
+        priceNew: "$999",
+        priceSuffix: "starting, one-time",
+        bullets: [
+          "Redirect map keeps your SEO equity",
+          "Schema and structure rebuilt for AI search",
+          "Same GEO-first foundation, no lost ground",
         ],
-        cta: "Get a free audit",
-      },
-      {
-        name: "Grow",
-        cadence: "monthly",
-        summary:
-          "A content engine that keeps you citable — drafts scored before they ship, plus continuous fixes.",
-        features: [
-          "Citability-scored articles produced by the v1be pipeline",
-          "Articles pushed to your CMS as drafts, never auto-published",
-          "Human approval required before anything goes live",
-          "Continuous technical GEO fixes and schema upkeep",
-          "Monthly before/after visibility report",
-          "Ongoing measurement across ChatGPT, Gemini and Perplexity",
-        ],
-        cta: "Get a free audit",
+        scopeNote: "More than 5 pages? Let's scope it together.",
+        cta: "Start the rebuild →",
+        href: "/contact/?path=redesign",
+        schemaSummary:
+          "A GEO-first rebuild of an existing site — a redirect map protects SEO equity while schema and structure are rebuilt for AI search, same foundation, no lost ground.",
       },
     ],
-    note: "The free audit is the entry point for every tier.",
+    trust: [
+      "You own the code",
+      "Scope stays clear, no surprise invoices",
+      "Audit is always free",
+      "Redirects protect your existing SEO",
+    ],
+    // Packages'a özel FAQ — Contact/Home'daki paylaşımlı listeden ayrı
+    // (bazı maddeler bu sayfanın iki-yol çerçevesine özel, orada bağlamsız
+    // kalırdı). Aynı mimari: görünür accordion + FAQPage JSON-LD, tek veri.
+    faq: {
+      title: "Frequently asked questions",
+      items: [
+        {
+          question: "Do we own the code after launch?",
+          answer:
+            "Yes. You get the repository and full ownership. No lock-in, no recurring license fee to keep your own site running.",
+        },
+        {
+          question: "How do I know which path is right for me?",
+          answer:
+            "If you don't have a live site, start from zero. If you have one but it isn't converting, ranking, or showing up in AI answers, fix what's broken — the reason doesn't matter, design or SEO/GEO, same path.",
+        },
+        {
+          question: "What if my project doesn't fit either path?",
+          answer:
+            "Most projects fit one of the two above. If yours needs a different shape — more pages, a web app, e-commerce — tell us and we'll scope it as a custom project.",
+        },
+        {
+          question: "Do these prices include ongoing content or SEO work after launch?",
+          answer:
+            "No. These cover the one-time build. For ongoing GEO content production, that's v1be's Vibe plan — a separate subscription, we'll point you there when you're ready.",
+        },
+        {
+          question: "Is the free audit part of a package?",
+          answer: "No. It's free regardless of which path you choose, or whether you choose one at all.",
+        },
+        {
+          question: "What happens if scope grows mid-project?",
+          answer:
+            "We agree on scope before we start. If something changes, you hear about it before it hits your invoice, not after.",
+        },
+      ],
+    },
+    auditBridge: {
+      lead: "Not sure which fits?",
+      linkLabel: "Get a free audit first.",
+      href: "/contact/",
+    },
   },
   process: {
     meta: {

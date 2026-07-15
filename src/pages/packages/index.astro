@@ -2,8 +2,10 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Button from "@/components/ui/Button.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import FaqAccordion from "@/components/FaqAccordion.astro";
+import RobotMascot from "@/components/sections/RobotMascot.astro";
 import { useTranslations } from "@/i18n";
-import { serviceSchema, breadcrumbSchema } from "@/config/schemas";
+import { serviceSchema, faqSchema, breadcrumbSchema } from "@/config/schemas";
 
 const locale = "en" as const;
 const path = "/packages/";
@@ -15,9 +17,10 @@ const crumbs = [
   { name: t.nav.packages, path },
 ];
 
-// Her tier için Service JSON-LD (CLAUDE.md §6). Görünür scope ile aynı veri.
-const services = p.tiers.map((tier) =>
-  serviceSchema({ name: `${tier.name} — ${tier.cadence}`, description: tier.summary, locale, path }),
+// Her yol için Service JSON-LD — görünür kopyayla aynı kaynaktan (schemaSummary
+// yalnızca şemaya girer, kartta ayrıca render edilmez).
+const services = p.paths.map((item) =>
+  serviceSchema({ name: item.title, description: item.schemaSummary, locale, path }),
 );
 ---
 
@@ -26,48 +29,144 @@ const services = p.tiers.map((tier) =>
   description={p.meta.description}
   {locale}
   {path}
-  schemas={[...services, breadcrumbSchema(crumbs, locale)]}
+  schemas={[...services, faqSchema(p.faq.items), breadcrumbSchema(crumbs, locale)]}
 >
   <Breadcrumb {locale} items={crumbs} />
 
+  {/* 1 — Hero: metin sol/orta, mascot sağda (Home'un tam ortalanmış hero'sundan
+      bilinçli fark — burada tek bir yerleşik poz, blueprint look yok çünkü
+      kodda mevcut değil, CLAUDE.md §7 gereği main site ile aynı "classic"). */}
   <section class="grid-texture">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <p class="font-mono text-sm uppercase tracking-widest text-accent">{p.hero.eyebrow}</p>
-      <h1 class="mt-4 text-display font-extrabold">{p.hero.title}</h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{p.hero.subtitle}</p>
+      <div class="grid items-center gap-10 lg:grid-cols-[1.3fr_auto]">
+        <div>
+          <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent">{p.hero.eyebrow}</p>
+          <h1
+            class="mt-4 font-extrabold"
+            style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+          >
+            {p.hero.title}
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{p.hero.subtitle}</p>
+        </div>
+        <div class="mx-auto w-[160px] shrink-0 md:w-[200px]">
+          <RobotMascot look="classic" />
+        </div>
+      </div>
     </div>
   </section>
 
+  {/* 2 — Disciplines strip */}
+  <section class="border-t border-line" aria-label={p.disciplines.eyebrow}>
+    <div class="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 md:py-16" data-reveal-group>
+      <p class="font-mono text-sm uppercase tracking-widest text-accent" data-reveal>
+        {p.disciplines.eyebrow}
+      </p>
+      <ul class="mt-6 flex flex-wrap items-center justify-center gap-3" data-reveal style="--reveal-delay: 80ms">
+        {p.disciplines.chips.map((chip) => (
+          <li class="rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-ink-muted">
+            {chip}
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-sm text-ink-muted" data-reveal style="--reveal-delay: 160ms">{p.disciplines.note}</p>
+    </div>
+  </section>
+
+  {/* 3 — Path cards: eşit görsel ağırlık, hiçbirinde featured vurgusu yok.
+      Lime separator: masaüstünde dikey (absolute, grid'in ortasında), mobilde
+      yatay (normal akışta, kartlar arası) — tek bir stil ikilisi, JS yok. */}
   <section class="border-t border-line" aria-label={p.hero.title}>
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <div class="grid gap-6 lg:grid-cols-3" data-reveal-group>
-        {p.tiers.map((tier, i) => (
+    <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-20">
+      <div class="relative grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14" data-reveal-group>
+        <div class="h-px w-full bg-accent lg:hidden" aria-hidden="true"></div>
+        <div
+          class="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-accent lg:block"
+          aria-hidden="true"
+        >
+        </div>
+
+        {p.paths.map((item, i) => (
           <article
             class="flex flex-col rounded-2xl border border-line bg-surface p-8"
             data-reveal
             style={`--reveal-delay: ${i * 80}ms`}
           >
-            <div class="flex items-baseline justify-between gap-3">
-              <h2 class="text-2xl font-bold text-ink">{tier.name}</h2>
-              <span class="font-mono text-xs uppercase tracking-widest text-accent">{tier.cadence}</span>
-            </div>
-            {/* TODO: pricing decision — names/prices are placeholders for founder review (CLAUDE.md §6) */}
-            <p class="mt-4 text-sm leading-relaxed text-ink-muted">{tier.summary}</p>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">{item.microLabel}</p>
+            <h2 class="mt-3 text-2xl font-bold text-ink">{item.title}</h2>
+
+            <p class="mt-5 flex flex-wrap items-baseline gap-x-2">
+              <span class="text-lg text-ink-muted line-through">{item.priceOriginal}</span>
+              <span class="text-3xl font-extrabold text-ink">{item.priceNew}</span>
+              <span class="text-sm text-ink-muted">{item.priceSuffix}</span>
+            </p>
+
             <ul class="mt-6 flex-1 space-y-3">
-              {tier.features.map((feature) => (
+              {item.bullets.map((bullet) => (
                 <li class="flex gap-3 text-sm text-ink">
                   <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
-                  <span class="text-ink-muted">{feature}</span>
+                  <span class="text-ink-muted">{bullet}</span>
                 </li>
               ))}
             </ul>
+
+            <p class="mt-6 text-sm text-ink-muted">{item.scopeNote}</p>
+
             <div class="mt-8">
-              <Button href="/contact/" class="w-full">{tier.cta}</Button>
+              <Button href={item.href} class="w-full">{item.cta}</Button>
             </div>
           </article>
         ))}
       </div>
-      <p class="mt-10 text-center text-sm text-ink-muted">{p.note}</p>
+    </div>
+  </section>
+
+  {/* 4 — Trust strip: koyu/ink bant, lime check ikonlar */}
+  <section class="border-t border-line bg-surface" aria-label="Why clients trust us">
+    <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 md:py-16">
+      <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+        {p.trust.map((item, i) => (
+          <li class="flex items-start gap-3" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <svg
+              aria-hidden="true"
+              class="mt-0.5 shrink-0 text-accent"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            <span class="text-sm font-medium text-ink">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* 5 — FAQ: packages'a özel liste, görünür + FAQPage şeması aynı veriden */}
+  <section class="border-t border-line" aria-label={p.faq.title}>
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+      <FaqAccordion title={p.faq.title} items={p.faq.items} level="h2" />
+    </div>
+  </section>
+
+  {/* 6 — Audit köprü CTA: kart değil, sade tek satır, kapanıştan hemen önce */}
+  <section class="border-t border-line">
+    <div class="mx-auto max-w-3xl px-4 py-12 text-center sm:px-6 md:py-16">
+      <p class="text-base text-ink-muted">
+        {p.auditBridge.lead}{" "}
+        <a
+          href={p.auditBridge.href}
+          class="font-semibold text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
+        >
+          {p.auditBridge.linkLabel}
+        </a>
+      </p>
     </div>
   </section>
 </BaseLayout>
