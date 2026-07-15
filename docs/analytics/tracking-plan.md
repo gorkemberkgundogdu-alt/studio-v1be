@@ -17,7 +17,7 @@ The site emits events to `window.dataLayer` through `src/lib/analytics.ts`. GTM 
 
 All events also include `v1be.locale` and `v1be.page_path`. Package-selection events contain no personal data. `generate_lead` may include consent-gated enhanced-conversion fields as defined in the tracking layer.
 
-Accepted audit attribution sources are allowlisted as `packages-hero`, `packages-proof`, and `packages-footer`; unknown query values normalize to `contact` and never enter analytics dimensions verbatim.
+Accepted audit attribution sources are allowlisted as `packages-hero` and `packages-proof`; unknown query values normalize to `contact` and never enter analytics dimensions verbatim.
 
 ## GTM publication checklist
 

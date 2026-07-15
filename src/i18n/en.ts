@@ -321,11 +321,6 @@ export const en = {
         },
       ],
     },
-    auditBridge: {
-      lead: "Not sure which fits?",
-      linkLabel: "Get a free audit first.",
-      href: "/contact/?source=packages-footer",
-    },
   },
   process: {
     meta: {

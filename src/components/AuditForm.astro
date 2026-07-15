@@ -147,7 +147,7 @@ const projectContextMap = {
     const selectedPath = params.get("path") ?? "";
     const selectedNeeds = params.getAll("needs");
     const sourceParam = params.get("source") ?? "";
-    const allowedSources = new Set(["packages-hero", "packages-proof", "packages-footer"]);
+    const allowedSources = new Set(["packages-hero", "packages-proof"]);
     const formSource = selectedPath
       ? "packages_brief"
       : allowedSources.has(sourceParam) ? sourceParam : "contact";
