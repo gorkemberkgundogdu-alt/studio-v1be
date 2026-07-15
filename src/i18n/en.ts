@@ -205,14 +205,6 @@ export const en = {
         limitMessage: "Three priorities selected. Remove one to choose another.",
       },
     },
-    pathsIntro: {
-      eyebrow: "Two starting points",
-      title: "Same standard. Different starting line.",
-      intro:
-        "The route changes with what already exists. The outcome does not: a fast, structured website your audience and AI engines can understand.",
-    },
-    // İki yol, kasıtlı olarak eşit görsel ağırlıkta — hiçbirinde "recommended"
-    // vurgusu yok (bkz packages/index.astro kart markup'ı).
     paths: [
       {
         id: "new",
@@ -221,17 +213,12 @@ export const en = {
         selectorDescription:
           "Build the message, experience and technical foundation together from day one.",
         briefCta: "Get your free audit",
-        priceOriginal: "$999",
         priceNew: "$749",
-        priceSuffix: "starting, one-time",
         bullets: [
           "Up to 5 pages, custom-built",
           "Entity home and core schema from day one",
           "Live and citable, not just online",
         ],
-        scopeNote: "More than 5 pages? Let's scope it together.",
-        cta: "Get a free audit →",
-        href: "/contact/?path=new",
         // Yalnızca Service JSON-LD besler, görünür kopyaya girmez.
         schemaSummary:
           "A GEO-first website built from scratch — up to five custom pages with an entity home and core schema in place from day one, live and citable at launch.",
@@ -243,17 +230,12 @@ export const en = {
         selectorDescription:
           "Keep what has value, repair what creates friction and protect existing search equity.",
         briefCta: "Get your free audit",
-        priceOriginal: "$1,249",
         priceNew: "$999",
-        priceSuffix: "starting, one-time",
         bullets: [
           "Redirect map keeps your SEO equity",
           "Schema and structure rebuilt for AI search",
           "Same GEO-first foundation, no lost ground",
         ],
-        scopeNote: "More than 5 pages? Let's scope it together.",
-        cta: "Get a free audit →",
-        href: "/contact/?path=redesign",
         schemaSummary:
           "A GEO-first rebuild of an existing site — a redirect map protects SEO equity while schema and structure are rebuilt for AI search, same foundation, no lost ground.",
       },
