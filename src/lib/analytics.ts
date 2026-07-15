@@ -13,15 +13,16 @@
  *     Meta advanced matching. It is pushed only on the lead event and only ever
  *     leaves the browser through consent-gated tags, never before consent.
  *
- * Consent Mode v2 lives here too: BaseLayout <head> stamps the default state
- * *before* GTM loads (denied for new visitors, granted for returning visitors
- * who already accepted — read synchronously from localStorage); this module
- * only flips it when the visitor interacts with the banner.
+ * Consent Mode v2 lives here too: BaseLayout <head> stamps the default state,
+ * while this module is the only place that loads GTM. In strict/basic mode no
+ * Google or GTM-managed request is made before explicit consent.
  *
  * Package sales (future checkout) use the GA4 standard ecommerce vocabulary:
  * view_item → select_item → begin_checkout → add_payment_info → purchase,
  * with `transaction_id` as the cross-platform dedup key.
  */
+
+import { ANALYTICS } from "@/config/analytics";
 
 /* ============================ dataLayer plumbing ========================== */
 
@@ -52,7 +53,6 @@ export type V1beEvent =
   | "discount_popup_view" // the pricing discount popup became visible
   | "cta_click" // a primary call-to-action was clicked
   | "contact_channel_click" // email / social / phone link clicked
-  | "consent_update" // visitor granted/updated consent
   // GA4 standard ecommerce vocabulary — the package purchase funnel. These
   // ride the top-level `ecommerce` object (not `v1be.*`) because the GA4 tags
   // in GTM read ecommerce data straight from dataLayer.
@@ -246,20 +246,39 @@ export function trackPurchase(p: PurchaseEvent): void {
 
 /* ============================ Consent Mode v2 ============================= */
 
-const CONSENT_KEY = "v1be_studio_consent_v1";
 type ConsentChoice = "granted" | "denied";
 
-/**
- * Two channels, deliberately separate:
- *  • gtag consent update — Google's built-in gating (GA4/Ads react instantly).
- *  • the `consent_update` dataLayer EVENT — GTM's "EV - consent granted"
- *    trigger uses it to fire Meta/LinkedIn/Clarity base tags the moment the
- *    visitor accepts, without waiting for the next page load.
- * Only explicit user action pushes the event; silent restores must NOT, or
- * base pixels would double-fire PageView on every return visit (once via
- * All Pages, once via the event).
- */
-function applyConsent(choice: ConsentChoice, pushEvent: boolean): void {
+let gtmLoaded = false;
+
+function ensureGtag(): void {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag =
+    window.gtag ||
+    function gtag() {
+      window.dataLayer?.push(arguments as unknown as DL);
+    };
+}
+
+/** No third-party request is made until analytics consent is granted. */
+function loadGoogleTagManager(): void {
+  if (
+    gtmLoaded ||
+    document.querySelector('script[src*="googletagmanager.com/gtm.js?id=GTM-"]')
+  ) {
+    return;
+  }
+  gtmLoaded = true;
+  ensureGtag();
+  dataLayer().push({ "gtm.start": Date.now(), event: "gtm.js" });
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${ANALYTICS.gtmId}`;
+  script.dataset.gtmId = ANALYTICS.gtmId;
+  document.head.append(script);
+}
+
+/** Queue Google's consent state before the consent-gated GTM loader runs. */
+function applyConsent(choice: ConsentChoice): void {
   const state = {
     ad_storage: choice,
     ad_user_data: choice,
@@ -267,13 +286,12 @@ function applyConsent(choice: ConsentChoice, pushEvent: boolean): void {
     analytics_storage: choice,
   };
   window.gtag?.("consent", "update", state);
-  if (pushEvent) track("consent_update", { consent: choice, ...state });
 }
 
 /** True once the visitor has made any explicit choice. */
 export function hasStoredConsent(): boolean {
   try {
-    return Boolean(window.localStorage.getItem(CONSENT_KEY));
+    return Boolean(window.localStorage.getItem(ANALYTICS.consentKey));
   } catch {
     return false;
   }
@@ -281,20 +299,22 @@ export function hasStoredConsent(): boolean {
 
 export function grantConsent(): void {
   try {
-    window.localStorage.setItem(CONSENT_KEY, "granted");
+    window.localStorage.setItem(ANALYTICS.consentKey, "granted");
   } catch {
     /* private mode, consent is session-only, still applied */
   }
-  applyConsent("granted", true);
+  ensureGtag();
+  applyConsent("granted");
+  loadGoogleTagManager();
 }
 
 export function denyConsent(): void {
   try {
-    window.localStorage.setItem(CONSENT_KEY, "denied");
+    window.localStorage.setItem(ANALYTICS.consentKey, "denied");
   } catch {
     /* ignore */
   }
-  applyConsent("denied", true);
+  applyConsent("denied");
 }
 
 /**
@@ -302,17 +322,20 @@ export function denyConsent(): void {
  * synchronously in BaseLayout <head>: the consent *default* is read from
  * localStorage before GTM loads, so returning visitors' very first page_view
  * is already consented. This late re-apply only covers the edge where the
- * head snippet could not read storage; it never pushes the consent_update
- * event (see applyConsent).
+ * head snippet could not read storage.
  */
 export function restoreConsent(): void {
   let stored: string | null = null;
   try {
-    stored = window.localStorage.getItem(CONSENT_KEY);
+    stored = window.localStorage.getItem(ANALYTICS.consentKey);
   } catch {
     /* ignore */
   }
-  if (stored === "granted") applyConsent("granted", false);
+  if (stored === "granted") {
+    ensureGtag();
+    applyConsent("granted");
+    loadGoogleTagManager();
+  }
   // "denied" or null → leave the head default (denied) untouched.
 }
 

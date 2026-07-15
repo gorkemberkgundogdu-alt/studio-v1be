@@ -61,6 +61,8 @@ const navItems = [
   role="dialog"
   aria-modal="true"
   aria-label={t.a11y.mainNav}
+  aria-hidden="true"
+  inert
 >
   <div class="mx-auto flex w-full max-w-6xl flex-col px-6 sm:px-10">
     <div class="flex justify-end pb-2 sm:pb-3">
@@ -190,6 +192,8 @@ const navItems = [
     };
 
     function open() {
+      overlay!.removeAttribute("inert");
+      overlay!.setAttribute("aria-hidden", "false");
       overlay!.classList.add("is-open");
       document.documentElement.classList.add("nav-overlay-open");
       trigger!.setAttribute("aria-expanded", "true");
@@ -199,6 +203,8 @@ const navItems = [
     }
 
     function close() {
+      overlay!.setAttribute("inert", "");
+      overlay!.setAttribute("aria-hidden", "true");
       overlay!.classList.remove("is-open");
       document.documentElement.classList.remove("nav-overlay-open");
       trigger!.setAttribute("aria-expanded", "false");

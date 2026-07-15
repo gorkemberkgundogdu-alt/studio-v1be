@@ -23,9 +23,9 @@ const hasEndpoint = FORM_ENDPOINT.length > 0;
   data-audit-form
   data-endpoint={hasEndpoint ? FORM_ENDPOINT : undefined}
   data-email={SITE.email}
-  action={hasEndpoint ? FORM_ENDPOINT : undefined}
-  method={hasEndpoint ? "POST" : undefined}
-  novalidate
+  action={hasEndpoint ? FORM_ENDPOINT : `mailto:${SITE.email}`}
+  method="POST"
+  enctype={hasEndpoint ? undefined : "text/plain"}
 >
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="flex flex-col gap-1.5 text-sm">

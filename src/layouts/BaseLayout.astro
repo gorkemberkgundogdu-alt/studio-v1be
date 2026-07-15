@@ -18,6 +18,7 @@ import Header from "@/components/layout/Header.astro";
 import Footer from "@/components/layout/Footer.astro";
 import ConsentBanner from "@/components/analytics/ConsentBanner.astro";
 import { SITE } from "@/config/site";
+import { ANALYTICS } from "@/config/analytics";
 import { useTranslations, type Locale } from "@/i18n";
 
 interface Props {
@@ -86,8 +87,8 @@ const baseSchemas: Record<string, unknown>[] = [
          synchronously from localStorage — otherwise their first page_view of
          every visit fires while consent is still "denied" (hydration runs long
          after GTM) and Meta/LinkedIn base pixels stay blocked until the next
-         navigation. Key must match CONSENT_KEY in src/lib/analytics.ts. -->
-    <script is:inline>
+         navigation. The key comes from the shared analytics config. -->
+    <script is:inline define:vars={{ consentKey: ANALYTICS.consentKey }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         window.dataLayer.push(arguments);
@@ -96,7 +97,7 @@ const baseSchemas: Record<string, unknown>[] = [
       (function () {
         var granted = false;
         try {
-          granted = localStorage.getItem("v1be_studio_consent_v1") === "granted";
+          granted = localStorage.getItem(consentKey) === "granted";
         } catch (e) {
           /* storage blocked → stay denied */
         }
@@ -113,20 +114,6 @@ const baseSchemas: Record<string, unknown>[] = [
       })();
     </script>
     <!-- End Consent Mode v2 defaults -->
-    <!-- Google Tag Manager -->
-    <script is:inline>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-P4W692GG");
-    </script>
-    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
@@ -147,16 +134,6 @@ const baseSchemas: Record<string, unknown>[] = [
     </script>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-P4W692GG"
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden"
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-(--color-base)"
