@@ -3,13 +3,21 @@
  * İki varyant: primary (redline accent) / ghost (çerçeve). CLAUDE.md §3, §11.3.
  * href verilirse <a>, verilmezse <button>. .cta-lift micro-interaction taşır.
  */
-interface Props {
+type DataAttributes = {
+  [key: `data-${string}`]: string | number | boolean | undefined;
+};
+
+type AriaAttributes = {
+  [key: `aria-${string}`]: string | number | boolean | undefined;
+};
+
+type Props = {
   href?: string;
   variant?: "primary" | "ghost";
   size?: "sm" | "md";
   type?: "button" | "submit";
   class?: string;
-}
+} & DataAttributes & AriaAttributes;
 
 const {
   href,
@@ -17,6 +25,7 @@ const {
   size = "md",
   type = "button",
   class: className,
+  ...attributes
 } = Astro.props;
 
 const classes = [
@@ -32,6 +41,6 @@ const classes = [
 const Tag = href ? "a" : "button";
 ---
 
-<Tag href={href} type={href ? undefined : type} class:list={classes}>
+<Tag href={href} type={href ? undefined : type} class:list={classes} {...attributes}>
   <slot />
 </Tag>

@@ -48,8 +48,13 @@ function dataLayer(): DL[] {
 
 /** Every custom event the site is allowed to emit. Keep in sync with GTM. */
 export type V1beEvent =
-  | "generate_lead" // a real lead landed in Supabase (contact form or popup)
+  | "generate_lead" // a real lead was confirmed by the configured endpoint
   | "form_start" // first meaningful interaction with a lead form
+  | "packages_brief_start" // first configurator interaction
+  | "packages_path_select" // new-build vs rebuild choice
+  | "packages_priority_update" // a priority was selected or removed
+  | "packages_brief_submit" // configurator continued to the audit form
+  | "audit_form_submit" // valid audit form handed to endpoint or mail client
   | "discount_popup_view" // the pricing discount popup became visible
   | "cta_click" // a primary call-to-action was clicked
   | "contact_channel_click" // email / social / phone link clicked
@@ -112,8 +117,8 @@ export interface LeadEvent {
 }
 
 /**
- * Fire the canonical GA4 `generate_lead`. Called from the single lead choke
- * point (lib/leads.ts) so there is exactly one place a conversion is born.
+ * Fire the canonical GA4 `generate_lead` only after the configured lead
+ * endpoint confirms a successful submission.
  */
 export function trackLead({ lead_type, lead_source, goal, user_data }: LeadEvent): void {
   track("generate_lead", {

@@ -61,8 +61,8 @@ const configuratorPaths = p.paths.map((item) => ({
           </h1>
           <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{p.hero.subtitle}</p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button href="/contact/?source=packages-hero">{p.hero.primaryCta}</Button>
-            <Button href="#scope-builder" variant="ghost">{p.hero.secondaryCta}</Button>
+            <Button href="/contact/?source=packages-hero" data-cta="packages_hero_audit">{p.hero.primaryCta}</Button>
+            <Button href="#scope-builder" variant="ghost" data-cta="packages_hero_brief">{p.hero.secondaryCta}</Button>
           </div>
           <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted">{p.hero.reassurance}</p>
         </div>
@@ -111,6 +111,7 @@ const configuratorPaths = p.paths.map((item) => ({
         {p.auditBridge.lead}{" "}
         <a
           href={p.auditBridge.href}
+          data-cta="packages_footer_audit"
           class="font-semibold text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
         >
           {p.auditBridge.linkLabel}

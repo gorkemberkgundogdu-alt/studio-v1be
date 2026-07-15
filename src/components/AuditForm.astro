@@ -123,6 +123,8 @@ const projectContextMap = {
 </div>
 
 <script>
+  import { track, trackLead } from "@/lib/analytics";
+
   // Progressive enhancement (CLAUDE.md §12.3). Endpoint varsa fetch ile inline
   // success; yoksa mailto oluşturur. JS yoksa: native POST (endpoint) veya
   // görünür email linki fallback.
@@ -132,6 +134,7 @@ const projectContextMap = {
     const email = form.dataset.email ?? "";
     const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
     const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]");
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const successEl = document.querySelector<HTMLElement>("[data-form-success]");
     const labelDefault = submitLabel?.textContent ?? "";
     const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
@@ -143,6 +146,12 @@ const projectContextMap = {
     const params = new URLSearchParams(window.location.search);
     const selectedPath = params.get("path") ?? "";
     const selectedNeeds = params.getAll("needs");
+    const sourceParam = params.get("source") ?? "";
+    const allowedSources = new Set(["packages-hero", "packages-proof", "packages-footer"]);
+    const formSource = selectedPath
+      ? "packages_brief"
+      : allowedSources.has(sourceParam) ? sourceParam : "contact";
+    const isPackagesLead = selectedPath.length > 0 || formSource.startsWith("packages");
     const projectContextMap = JSON.parse(form.dataset.projectContextMap ?? '{"paths":{},"needs":{}}') as {
       paths: Record<string, string>;
       needs: Record<string, string>;
@@ -172,6 +181,15 @@ const projectContextMap = {
     const clearError = () => errorEl?.classList.add("hidden");
 
     const isValidEmail = (v: string) => /.+@.+\..+/.test(v);
+    let submitting = false;
+
+    form.addEventListener("input", () => {
+      track("form_start", {
+        form_id: "free_audit",
+        form_source: formSource,
+        brief_attached: selectedPath.length > 0 || selectedNeeds.length > 0,
+      });
+    }, { once: true });
 
     const getData = () => {
       const fd = new FormData(form);
@@ -208,12 +226,22 @@ const projectContextMap = {
         const body = encodeURIComponent(
           `Name: ${name}\nEmail: ${em}\nWebsite: ${website}\nPath: ${projectPath || "Not selected"}\nPriorities: ${projectNeeds || "Not selected"}\n\n${message}`,
         );
+        track("audit_form_submit", {
+          form_id: "free_audit",
+          form_source: formSource,
+          delivery_method: "mailto",
+          brief_attached: selectedPath.length > 0 || selectedNeeds.length > 0,
+        });
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         return;
       }
 
       // Formspree-tarzı: fetch ile gönder, sayfada kal, inline success göster.
       e.preventDefault();
+      if (submitting) return;
+      submitting = true;
+      submitButton?.setAttribute("disabled", "");
+      submitButton?.setAttribute("aria-busy", "true");
       if (submitLabel) submitLabel.textContent = "Sending…";
       try {
         const res = await fetch(endpoint, {
@@ -222,10 +250,25 @@ const projectContextMap = {
           headers: { Accept: "application/json" },
         });
         if (!res.ok) throw new Error(String(res.status));
+        track("audit_form_submit", {
+          form_id: "free_audit",
+          form_source: formSource,
+          delivery_method: "form_endpoint",
+          brief_attached: selectedPath.length > 0 || selectedNeeds.length > 0,
+        });
+        trackLead({
+          lead_type: "contact_form",
+          lead_source: isPackagesLead ? "pricing" : "contact",
+          goal: "free_audit",
+          user_data: { email: em, name, brand: website },
+        });
         form.classList.add("hidden");
         successEl?.classList.remove("hidden");
         successEl?.scrollIntoView({ behavior: "smooth", block: "center" });
       } catch {
+        submitting = false;
+        submitButton?.removeAttribute("disabled");
+        submitButton?.removeAttribute("aria-busy");
         if (submitLabel) submitLabel.textContent = labelDefault;
         showError(
           `Something went wrong. Please email us directly at ${email}.`,

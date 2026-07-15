@@ -195,6 +195,7 @@ const defaultPath = pathOptions[0];
             type="submit"
             class="cta-lift mt-8 flex h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-center font-bold text-base transition-colors hover:bg-accent-hot"
             data-summary-cta
+            data-cta="packages_brief_submit"
           >
             {defaultPath.cta} {summary.ctaSuffix}
           </button>
@@ -260,6 +261,8 @@ const defaultPath = pathOptions[0];
 </style>
 
 <script>
+  import { track } from "@/lib/analytics";
+
   const MAX_NEEDS = 3;
 
   document.querySelectorAll<HTMLElement>("[data-scope-builder]").forEach((builder) => {
@@ -273,6 +276,16 @@ const defaultPath = pathOptions[0];
     const emptySelection = builder.querySelector<HTMLElement>("[data-empty-selection]");
     const status = builder.querySelector<HTMLElement>("[data-need-status]");
     const layers = Array.from(builder.querySelectorAll<HTMLElement>("[data-layer]"));
+    const form = builder.querySelector<HTMLFormElement>("form");
+    let briefStarted = false;
+
+    const markBriefStarted = () => {
+      if (briefStarted) return;
+      briefStarted = true;
+      track("packages_brief_start", {
+        path_id: paths.find((input) => input.checked)?.value,
+      });
+    };
 
     const update = () => {
       const activePath = paths.find((input) => input.checked);
@@ -316,8 +329,28 @@ const defaultPath = pathOptions[0];
       if (status) status.textContent = limitReached ? builder.dataset.limitMessage ?? "" : "";
     };
 
-    paths.forEach((input) => input.addEventListener("change", update));
-    needs.forEach((input) => input.addEventListener("change", update));
+    paths.forEach((input) => input.addEventListener("change", () => {
+      markBriefStarted();
+      track("packages_path_select", { path_id: input.value });
+      update();
+    }));
+    needs.forEach((input) => input.addEventListener("change", () => {
+      markBriefStarted();
+      track("packages_priority_update", {
+        priority_id: input.value,
+        selected: input.checked,
+        selected_count: needs.filter((need) => need.checked).length,
+      });
+      update();
+    }));
+    form?.addEventListener("submit", () => {
+      const activeNeeds = needs.filter((input) => input.checked).map((input) => input.value);
+      track("packages_brief_submit", {
+        path_id: paths.find((input) => input.checked)?.value,
+        priority_ids: activeNeeds,
+        priority_count: activeNeeds.length,
+      });
+    });
     update();
   });
 </script>
