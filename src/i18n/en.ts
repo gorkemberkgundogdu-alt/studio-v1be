@@ -133,18 +133,94 @@ export const en = {
       title: "Two ways to start.",
       subtitle:
         "Building from zero or fixing what's broken — the destination is the same: cited, not just crawled.",
+      primaryCta: "Get a free audit",
+      secondaryCta: "Build your project brief",
+      reassurance: "Two minutes. No commitment. The audit stays free.",
     },
-    disciplines: {
-      eyebrow: "One site, many crafts",
-      chips: ["Copywriting", "UI/UX", "Frontend", "Backend", "Graphic design", "SEO/GEO"],
-      note: "Price depends on what you bring and what you need from us.",
+    configurator: {
+      eyebrow: "Shape the engagement",
+      title: "What should your next website fix?",
+      intro:
+        "Start with where you are, then choose the problems that feel most urgent. We turn those signals into a practical starting brief — not a generic package list.",
+      pathQuestion: "Where are you starting from?",
+      needsQuestion: "What needs to change first?",
+      needsNote: "Choose up to three. Your priority layers will update as you go.",
+      needs: [
+        {
+          id: "clarity",
+          title: "People don't understand our offer",
+          briefLabel: "Message clarity",
+          description: "The message needs sharper positioning, structure and copy.",
+          layerIds: ["message", "experience"],
+        },
+        {
+          id: "friction",
+          title: "The experience feels difficult",
+          briefLabel: "UX friction",
+          description: "Navigation, hierarchy or conversion paths create unnecessary work.",
+          layerIds: ["experience", "interface"],
+        },
+        {
+          id: "credibility",
+          title: "The design doesn't feel credible",
+          briefLabel: "Visual credibility",
+          description: "The interface needs a stronger visual system and clearer proof.",
+          layerIds: ["interface", "message"],
+        },
+        {
+          id: "performance",
+          title: "The site is slow or fragile",
+          briefLabel: "Performance and resilience",
+          description: "Performance, accessibility and the frontend foundation need attention.",
+          layerIds: ["code", "experience"],
+        },
+        {
+          id: "systems",
+          title: "We need integrations or custom logic",
+          briefLabel: "Integrations and custom logic",
+          description: "Forms, data flows or backend systems need to work as one product.",
+          layerIds: ["systems", "code"],
+        },
+        {
+          id: "visibility",
+          title: "Search and AI engines can't understand us",
+          briefLabel: "SEO and AI visibility",
+          description: "Structure, entities and evidence need to become machine-readable.",
+          layerIds: ["discoverability", "message"],
+        },
+      ],
+      layers: [
+        { id: "message", title: "Message", caption: "Positioning, structure and copy" },
+        { id: "experience", title: "Experience", caption: "Journeys, hierarchy and conversion" },
+        { id: "interface", title: "Interface", caption: "Visual system and interaction" },
+        { id: "systems", title: "Systems", caption: "Logic, data and integrations" },
+        { id: "code", title: "Code", caption: "Performance and accessibility" },
+        { id: "discoverability", title: "Discoverability", caption: "SEO, GEO and structured data" },
+      ],
+      summary: {
+        eyebrow: "Project brief",
+        empty: "Choose a priority to activate its website layers.",
+        layersLabel: "Priority signals",
+        ctaSuffix: "→",
+        limitMessage: "Three priorities selected. Remove one to choose another.",
+      },
+    },
+    pathsIntro: {
+      eyebrow: "Two starting points",
+      title: "Same standard. Different starting line.",
+      intro:
+        "The route changes with what already exists. The outcome does not: a fast, structured website your audience and AI engines can understand.",
     },
     // İki yol, kasıtlı olarak eşit görsel ağırlıkta — hiçbirinde "recommended"
     // vurgusu yok (bkz packages/index.astro kart markup'ı).
     paths: [
       {
+        id: "new",
         microLabel: "No website yet",
         title: "Start from zero",
+        selectorDescription:
+          "Build the message, experience and technical foundation together from day one.",
+        briefCta: "Get your free audit",
         priceOriginal: "$999",
         priceNew: "$749",
         priceSuffix: "starting, one-time",
@@ -154,15 +230,19 @@ export const en = {
           "Live and citable, not just online",
         ],
         scopeNote: "More than 5 pages? Let's scope it together.",
-        cta: "Start the build →",
+        cta: "Get a free audit →",
         href: "/contact/?path=new",
         // Yalnızca Service JSON-LD besler, görünür kopyaya girmez.
         schemaSummary:
           "A GEO-first website built from scratch — up to five custom pages with an entity home and core schema in place from day one, live and citable at launch.",
       },
       {
+        id: "redesign",
         microLabel: "Not happy with your site",
         title: "Fix what's broken",
+        selectorDescription:
+          "Keep what has value, repair what creates friction and protect existing search equity.",
+        briefCta: "Get your free audit",
         priceOriginal: "$1,249",
         priceNew: "$999",
         priceSuffix: "starting, one-time",
@@ -172,18 +252,56 @@ export const en = {
           "Same GEO-first foundation, no lost ground",
         ],
         scopeNote: "More than 5 pages? Let's scope it together.",
-        cta: "Start the rebuild →",
+        cta: "Get a free audit →",
         href: "/contact/?path=redesign",
         schemaSummary:
           "A GEO-first rebuild of an existing site — a redirect map protects SEO equity while schema and structure are rebuilt for AI search, same foundation, no lost ground.",
       },
     ],
-    trust: [
-      "You own the code",
-      "Scope stays clear, no surprise invoices",
-      "Audit is always free",
-      "Redirects protect your existing SEO",
-    ],
+    proof: {
+      eyebrow: "Proof lives in the handoff",
+      title: "No promise without an artifact.",
+      intro:
+        "Instead of asking you to trust four generic claims, we map each one to a concrete deliverable you can inspect, approve and keep.",
+      items: [
+        {
+          number: "01",
+          kind: "repository",
+          eyebrow: "Repository handoff",
+          title: "The code is yours.",
+          description:
+            "You receive the repository, assets and handoff notes. No platform lock-in or recurring license to keep your own website running.",
+        },
+        {
+          number: "02",
+          kind: "scope",
+          eyebrow: "Agreed before build",
+          title: "Scope stays visible.",
+          description:
+            "Included work, later opportunities and any scope change stay explicit before they affect delivery or your invoice.",
+        },
+        {
+          number: "03",
+          kind: "audit",
+          eyebrow: "Evidence before opinion",
+          title: "The audit is a working artifact.",
+          description:
+            "We show what search and AI engines can find, what they miss and which fixes deserve attention first — without a sales deck.",
+        },
+        {
+          number: "04",
+          kind: "redirects",
+          eyebrow: "Protected migration",
+          title: "Existing search equity has a map.",
+          description:
+            "For rebuilds, old routes are mapped to their new destination so the launch does not casually discard the authority you already earned.",
+        },
+      ],
+      cta: "Get your free audit",
+      ctaHref: "/contact/?source=packages-proof",
+      secondaryCta: "See our work",
+      secondaryHref: "/work/",
+    },
     // Packages'a özel FAQ — Contact/Home'daki paylaşımlı listeden ayrı
     // (bazı maddeler bu sayfanın iki-yol çerçevesine özel, orada bağlamsız
     // kalırdı). Aynı mimari: görünür accordion + FAQPage JSON-LD, tek veri.

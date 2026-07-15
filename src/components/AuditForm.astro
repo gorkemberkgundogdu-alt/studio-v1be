@@ -16,6 +16,10 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 const f = t.contact.form;
 const hasEndpoint = FORM_ENDPOINT.length > 0;
+const projectContextMap = {
+  paths: Object.fromEntries(t.packages.paths.map((path) => [path.id, path.title])),
+  needs: Object.fromEntries(t.packages.configurator.needs.map((need) => [need.id, need.briefLabel])),
+};
 ---
 
 <form
@@ -23,10 +27,23 @@ const hasEndpoint = FORM_ENDPOINT.length > 0;
   data-audit-form
   data-endpoint={hasEndpoint ? FORM_ENDPOINT : undefined}
   data-email={SITE.email}
+  data-project-context-map={JSON.stringify(projectContextMap)}
   action={hasEndpoint ? FORM_ENDPOINT : `mailto:${SITE.email}`}
   method="POST"
   enctype={hasEndpoint ? undefined : "text/plain"}
 >
+  <div
+    class="hidden rounded-xl border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-ink"
+    data-project-context
+    role="status"
+  >
+    <span class="font-mono text-xs font-bold uppercase tracking-wider text-accent">Project brief attached</span>
+    <span class="mt-1 block text-ink-muted" data-project-context-copy></span>
+  </div>
+
+  <input type="hidden" name="project_path" value="" data-project-path />
+  <input type="hidden" name="project_needs" value="" data-project-needs />
+
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="flex flex-col gap-1.5 text-sm">
       <span class="font-medium text-ink">{f.nameLabel}</span>
@@ -118,6 +135,34 @@ const hasEndpoint = FORM_ENDPOINT.length > 0;
     const successEl = document.querySelector<HTMLElement>("[data-form-success]");
     const labelDefault = submitLabel?.textContent ?? "";
     const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const projectPathInput = form.querySelector<HTMLInputElement>("[data-project-path]");
+    const projectNeedsInput = form.querySelector<HTMLInputElement>("[data-project-needs]");
+    const projectContext = form.querySelector<HTMLElement>("[data-project-context]");
+    const projectContextCopy = form.querySelector<HTMLElement>("[data-project-context-copy]");
+
+    const params = new URLSearchParams(window.location.search);
+    const selectedPath = params.get("path") ?? "";
+    const selectedNeeds = params.getAll("needs");
+    const projectContextMap = JSON.parse(form.dataset.projectContextMap ?? '{"paths":{},"needs":{}}') as {
+      paths: Record<string, string>;
+      needs: Record<string, string>;
+    };
+    const pathLabels = projectContextMap.paths;
+    const needLabels = projectContextMap.needs;
+
+    if (selectedPath || selectedNeeds.length > 0) {
+      if (projectPathInput) projectPathInput.value = pathLabels[selectedPath] ?? selectedPath;
+      if (projectNeedsInput) {
+        projectNeedsInput.value = selectedNeeds.map((need) => needLabels[need] ?? need).join(", ");
+      }
+      if (projectContextCopy) {
+        projectContextCopy.textContent = [
+          pathLabels[selectedPath] ?? selectedPath,
+          selectedNeeds.map((need) => needLabels[need] ?? need).join(" · "),
+        ].filter(Boolean).join(" — ");
+      }
+      projectContext?.classList.remove("hidden");
+    }
 
     const showError = (msg: string) => {
       if (!errorEl) return;
@@ -135,13 +180,15 @@ const hasEndpoint = FORM_ENDPOINT.length > 0;
         email: String(fd.get("email") ?? ""),
         website: String(fd.get("website") ?? ""),
         message: String(fd.get("message") ?? ""),
+        projectPath: String(fd.get("project_path") ?? ""),
+        projectNeeds: String(fd.get("project_needs") ?? ""),
         fd,
       };
     };
 
     form.addEventListener("submit", async (e) => {
       clearError();
-      const { name, email: em, website, message, fd } = getData();
+      const { name, email: em, website, message, projectPath, projectNeeds, fd } = getData();
 
       if (!name || !em || !website) {
         // Native required zaten yakalar; JS tarafında da nazik kontrol.
@@ -159,7 +206,7 @@ const hasEndpoint = FORM_ENDPOINT.length > 0;
         e.preventDefault();
         const subject = encodeURIComponent(`Free audit request — ${website}`);
         const body = encodeURIComponent(
-          `Name: ${name}\nEmail: ${em}\nWebsite: ${website}\n\n${message}`,
+          `Name: ${name}\nEmail: ${em}\nWebsite: ${website}\nPath: ${projectPath || "Not selected"}\nPriorities: ${projectNeeds || "Not selected"}\n\n${message}`,
         );
         window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         return;

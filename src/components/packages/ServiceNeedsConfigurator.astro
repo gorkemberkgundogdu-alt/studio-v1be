@@ -1,0 +1,318 @@
+---
+interface PathOption {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  price: string;
+  cta: string;
+}
+
+interface NeedOption {
+  id: string;
+  title: string;
+  description: string;
+  layerIds: readonly string[];
+}
+
+interface Layer {
+  id: string;
+  title: string;
+  caption: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  pathQuestion: string;
+  pathOptions: readonly PathOption[];
+  needsQuestion: string;
+  needsNote: string;
+  needOptions: readonly NeedOption[];
+  layers: readonly Layer[];
+  summary: {
+    eyebrow: string;
+    empty: string;
+    layersLabel: string;
+    ctaSuffix: string;
+    limitMessage: string;
+  };
+}
+
+const {
+  eyebrow,
+  title,
+  intro,
+  pathQuestion,
+  pathOptions,
+  needsQuestion,
+  needsNote,
+  needOptions,
+  layers,
+  summary,
+} = Astro.props;
+
+const defaultPath = pathOptions[0];
+---
+
+<section
+  id="scope-builder"
+  class="scroll-mt-20 rounded-t-[2.5rem] bg-light-base text-light-ink"
+  aria-labelledby="scope-builder-title"
+  data-scope-builder
+  data-limit-message={summary.limitMessage}
+  data-cta-suffix={summary.ctaSuffix}
+>
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+    <div class="max-w-3xl" data-reveal-group>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-purple" data-reveal>{eyebrow}</p>
+      <h2 id="scope-builder-title" class="mt-4 text-h2 font-black text-light-ink" data-reveal>{title}</h2>
+      <p class="mt-5 text-lg leading-relaxed text-light-muted" data-reveal>{intro}</p>
+    </div>
+
+    <form action="/contact/" method="get" class="mt-12 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+      <div class="space-y-10">
+        <fieldset>
+          <legend class="text-lg font-bold text-light-ink">
+            <span class="mr-3 font-mono text-sm text-green">01</span>{pathQuestion}
+          </legend>
+          <div class="mt-5 grid gap-3 sm:grid-cols-2">
+            {pathOptions.map((option, index) => (
+              <label
+                class="scope-choice relative cursor-pointer rounded-2xl border border-light-line bg-white/45 p-5 hover:border-light-ink/30 motion-safe:transition motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
+                data-path-option
+                data-path-title={option.title}
+                data-path-description={option.description}
+                data-path-price={option.price}
+                data-path-cta={option.cta}
+              >
+                <input
+                  class="sr-only"
+                  type="radio"
+                  name="path"
+                  value={option.id}
+                  checked={index === 0}
+                />
+                <span class="flex items-start justify-between gap-4">
+                  <span>
+                    <span class="block text-xs font-bold uppercase tracking-[0.14em] text-light-muted">{option.label}</span>
+                    <span class="mt-2 block text-lg font-black text-light-ink">{option.title}</span>
+                  </span>
+                  <span class="choice-indicator mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-light-line" aria-hidden="true">
+                    <span class="h-2.5 w-2.5 rounded-full bg-accent"></span>
+                  </span>
+                </span>
+                <span class="mt-3 block text-sm leading-relaxed text-light-muted">{option.description}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="text-lg font-bold text-light-ink">
+            <span class="mr-3 font-mono text-sm text-green">02</span>{needsQuestion}
+          </legend>
+          <p class="mt-2 text-sm text-light-muted">{needsNote}</p>
+          <div class="mt-5 grid gap-3 sm:grid-cols-2">
+            {needOptions.map((option) => (
+              <label
+                class="need-choice relative cursor-pointer rounded-2xl border border-light-line bg-white/45 p-5 hover:border-light-ink/30 motion-safe:transition motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
+              >
+                <input
+                  class="sr-only"
+                  type="checkbox"
+                  name="needs"
+                  value={option.id}
+                  data-need-option
+                  data-need-title={option.title}
+                  data-layer-ids={option.layerIds.join(",")}
+                />
+                <span class="flex items-start gap-3">
+                  <span class="need-indicator mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border border-light-line" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="m2.25 6.1 2.15 2.15 5.35-5.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <span>
+                    <span class="block text-sm font-bold leading-snug text-light-ink">{option.title}</span>
+                    <span class="mt-2 block text-sm leading-relaxed text-light-muted">{option.description}</span>
+                  </span>
+                </span>
+              </label>
+            ))}
+          </div>
+          <p class="mt-3 min-h-5 text-sm font-semibold text-green" aria-live="polite" data-need-status></p>
+        </fieldset>
+      </div>
+
+      <aside class="overflow-hidden rounded-[1.75rem] bg-base text-ink shadow-2xl shadow-black/15 lg:sticky lg:top-24" aria-live="polite">
+        <div class="flex items-center justify-between border-b border-line px-6 py-4">
+          <span class="font-mono text-xs uppercase tracking-[0.16em] text-ink-muted">{summary.eyebrow}</span>
+          <span class="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-widest text-accent">
+            <span class="h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_var(--color-accent)]"></span>
+            Live
+          </span>
+        </div>
+
+        <div class="grid-texture relative p-6 sm:p-8">
+          <p class="font-mono text-xs uppercase tracking-widest text-ink-muted">Starting point</p>
+          <div class="mt-3 flex flex-wrap items-end justify-between gap-3">
+            <h3 class="text-2xl font-black" data-summary-title>{defaultPath.title}</h3>
+            <span class="font-mono text-sm font-bold text-accent" data-summary-price>{defaultPath.price}</span>
+          </div>
+          <p class="mt-3 text-sm leading-relaxed text-ink-muted" data-summary-description>{defaultPath.description}</p>
+
+          <div class="my-7 h-px bg-line"></div>
+
+          <p class="font-mono text-xs uppercase tracking-widest text-ink-muted">{summary.layersLabel}</p>
+          <div class="mt-4 flex min-h-8 flex-wrap gap-2" data-selected-needs>
+            <span class="text-sm text-ink-muted" data-empty-selection>{summary.empty}</span>
+          </div>
+
+          <ol class="mt-7 space-y-2" aria-label="Website system layers">
+            {layers.map((layer, index) => (
+              <li
+                class="system-layer grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-xl border border-line bg-surface/65 px-3 py-3 motion-safe:transition-colors"
+                data-layer={layer.id}
+              >
+                <span class="font-mono text-[0.65rem] text-ink-muted">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <span class="block text-sm font-bold">{layer.title}</span>
+                  <span class="block text-xs text-ink-muted">{layer.caption}</span>
+                </span>
+                <span class="layer-state h-2 w-2 rounded-full border border-line" aria-hidden="true"></span>
+              </li>
+            ))}
+          </ol>
+
+          <button
+            type="submit"
+            class="cta-lift mt-8 flex h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-center font-bold text-base transition-colors hover:bg-accent-hot"
+            data-summary-cta
+          >
+            {defaultPath.cta} {summary.ctaSuffix}
+          </button>
+          <p class="mt-3 text-center text-xs text-ink-muted">No commitment. Your audit stays free.</p>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<style>
+  .scope-choice:has(input:checked),
+  .need-choice:has(input:checked) {
+    border-color: var(--color-base);
+    background: color-mix(in srgb, var(--color-accent) 13%, white);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-base) 10%, transparent);
+  }
+
+  .scope-choice:focus-within,
+  .need-choice:focus-within {
+    outline: 3px solid color-mix(in srgb, var(--color-purple) 65%, transparent);
+    outline-offset: 3px;
+  }
+
+  .choice-indicator > span,
+  .need-indicator > svg {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .choice-indicator > span,
+    .need-indicator > svg {
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+  }
+
+  .scope-choice:has(input:checked) .choice-indicator {
+    border-color: var(--color-base);
+  }
+
+  .scope-choice:has(input:checked) .choice-indicator > span,
+  .need-choice:has(input:checked) .need-indicator > svg {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .need-choice:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.48;
+  }
+
+  .system-layer[data-active] {
+    border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  }
+
+  .system-layer[data-active] .layer-state {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--color-accent) 70%, transparent);
+  }
+</style>
+
+<script>
+  const MAX_NEEDS = 3;
+
+  document.querySelectorAll<HTMLElement>("[data-scope-builder]").forEach((builder) => {
+    const paths = Array.from(builder.querySelectorAll<HTMLInputElement>('input[name="path"]'));
+    const needs = Array.from(builder.querySelectorAll<HTMLInputElement>("[data-need-option]"));
+    const summaryTitle = builder.querySelector<HTMLElement>("[data-summary-title]");
+    const summaryDescription = builder.querySelector<HTMLElement>("[data-summary-description]");
+    const summaryPrice = builder.querySelector<HTMLElement>("[data-summary-price]");
+    const summaryCta = builder.querySelector<HTMLElement>("[data-summary-cta]");
+    const selectedNeeds = builder.querySelector<HTMLElement>("[data-selected-needs]");
+    const emptySelection = builder.querySelector<HTMLElement>("[data-empty-selection]");
+    const status = builder.querySelector<HTMLElement>("[data-need-status]");
+    const layers = Array.from(builder.querySelectorAll<HTMLElement>("[data-layer]"));
+
+    const update = () => {
+      const activePath = paths.find((input) => input.checked);
+      const pathCard = activePath?.closest<HTMLElement>("[data-path-option]");
+      const activeNeeds = needs.filter((input) => input.checked);
+      const limitReached = activeNeeds.length >= MAX_NEEDS;
+
+      needs.forEach((input) => {
+        input.disabled = limitReached && !input.checked;
+      });
+
+      if (pathCard) {
+        if (summaryTitle) summaryTitle.textContent = pathCard.dataset.pathTitle ?? "";
+        if (summaryDescription) summaryDescription.textContent = pathCard.dataset.pathDescription ?? "";
+        if (summaryPrice) summaryPrice.textContent = pathCard.dataset.pathPrice ?? "";
+        if (summaryCta) {
+          summaryCta.textContent = `${pathCard.dataset.pathCta ?? "Continue"} ${builder.dataset.ctaSuffix ?? ""}`.trim();
+        }
+      }
+
+      if (selectedNeeds) {
+        selectedNeeds.querySelectorAll("[data-selected-chip]").forEach((chip) => chip.remove());
+        if (emptySelection) emptySelection.hidden = activeNeeds.length > 0;
+
+        activeNeeds.forEach((input) => {
+          const chip = document.createElement("span");
+          chip.dataset.selectedChip = "";
+          chip.className = "rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-ink";
+          chip.textContent = input.dataset.needTitle ?? input.value;
+          selectedNeeds.append(chip);
+        });
+      }
+
+      const activeLayerIds = new Set(
+        activeNeeds.flatMap((input) => (input.dataset.layerIds ?? "").split(",").filter(Boolean)),
+      );
+      layers.forEach((layer) => {
+        layer.toggleAttribute("data-active", activeLayerIds.has(layer.dataset.layer ?? ""));
+      });
+
+      if (status) status.textContent = limitReached ? builder.dataset.limitMessage ?? "" : "";
+    };
+
+    paths.forEach((input) => input.addEventListener("change", update));
+    needs.forEach((input) => input.addEventListener("change", update));
+    update();
+  });
+</script>

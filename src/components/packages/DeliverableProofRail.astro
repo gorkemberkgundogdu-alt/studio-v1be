@@ -1,0 +1,165 @@
+---
+import Button from "@/components/ui/Button.astro";
+
+interface ProofItem {
+  number: string;
+  kind: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  items: readonly ProofItem[];
+  cta: string;
+  ctaHref: string;
+  secondaryCta: string;
+  secondaryHref: string;
+}
+
+const { eyebrow, title, intro, items, cta, ctaHref, secondaryCta, secondaryHref } = Astro.props;
+---
+
+<section class="grid-texture border-t border-line" aria-labelledby="proof-title">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+    <div class="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end" data-reveal-group>
+      <div>
+        <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{eyebrow}</p>
+        <h2 id="proof-title" class="mt-4 text-h2 font-black" data-reveal>{title}</h2>
+      </div>
+      <p class="max-w-2xl text-lg leading-relaxed text-ink-muted lg:justify-self-end" data-reveal>{intro}</p>
+    </div>
+
+    <div class="mt-12 grid gap-5 md:grid-cols-2" data-reveal-group>
+      {items.map((item, index) => (
+        <article
+          class="proof-card group overflow-hidden rounded-[1.75rem] border border-line bg-surface"
+          data-reveal
+          style={`--reveal-delay: ${index * 80}ms`}
+        >
+          <div class="artifact-stage border-b border-line bg-base/70 p-5 sm:p-6" aria-hidden="true">
+            <div class="mb-5 flex items-center justify-between">
+              <span class="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-ink-muted">Deliverable {item.number}</span>
+              <span class="flex gap-1.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-line"></span>
+                <span class="h-1.5 w-1.5 rounded-full bg-line"></span>
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+              </span>
+            </div>
+
+            {item.kind === "repository" && (
+              <div class="artifact-panel rounded-xl border border-line bg-surface/80 p-4">
+                <div class="flex items-center gap-2 border-b border-line pb-3 font-mono text-[0.7rem] text-ink-muted">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 5.5h6l2 2h8v11H4z" />
+                  </svg>
+                  client / website
+                </div>
+                <div class="mt-3 space-y-2 font-mono text-[0.68rem]">
+                  <div class="flex items-center justify-between"><span class="text-ink">src/</span><span class="text-accent">owned</span></div>
+                  <div class="flex items-center justify-between"><span class="text-ink">public/</span><span class="text-ink-muted">assets</span></div>
+                  <div class="flex items-center justify-between"><span class="text-ink">README.md</span><span class="text-ink-muted">handoff</span></div>
+                </div>
+              </div>
+            )}
+
+            {item.kind === "scope" && (
+              <div class="grid grid-cols-2 gap-3">
+                <div class="artifact-panel rounded-xl border border-accent/35 bg-surface/80 p-3">
+                  <p class="font-mono text-[0.65rem] uppercase tracking-wider text-accent">Included</p>
+                  <div class="mt-3 space-y-2">
+                    <span class="block h-2 rounded-full bg-ink/75"></span>
+                    <span class="block h-2 w-4/5 rounded-full bg-ink/45"></span>
+                    <span class="block h-2 w-3/5 rounded-full bg-ink/25"></span>
+                  </div>
+                </div>
+                <div class="artifact-panel rounded-xl border border-line bg-surface/80 p-3">
+                  <p class="font-mono text-[0.65rem] uppercase tracking-wider text-ink-muted">Later</p>
+                  <div class="mt-3 space-y-2">
+                    <span class="block h-2 w-3/4 rounded-full bg-ink/25"></span>
+                    <span class="block h-2 w-1/2 rounded-full bg-ink/15"></span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {item.kind === "audit" && (
+              <div class="artifact-panel rounded-xl border border-line bg-surface/80 p-4">
+                <div class="grid grid-cols-[1fr_auto] items-center gap-4">
+                  <div>
+                    <p class="font-mono text-[0.65rem] uppercase tracking-wider text-ink-muted">AI visibility scan</p>
+                    <div class="mt-3 space-y-2.5">
+                      <span class="block h-2 w-11/12 rounded-full bg-accent"></span>
+                      <span class="block h-2 w-7/12 rounded-full bg-ink/40"></span>
+                      <span class="block h-2 w-9/12 rounded-full bg-ink/20"></span>
+                    </div>
+                  </div>
+                  <span class="grid h-12 w-12 place-items-center rounded-full border border-accent/50 font-mono text-xs font-bold text-accent">SCAN</span>
+                </div>
+                <div class="mt-4 flex gap-2 font-mono text-[0.62rem] uppercase tracking-wider text-ink-muted">
+                  <span class="rounded-full border border-line px-2 py-1">Found</span>
+                  <span class="rounded-full border border-line px-2 py-1">Missing</span>
+                  <span class="rounded-full border border-accent/35 px-2 py-1 text-accent">Priority</span>
+                </div>
+              </div>
+            )}
+
+            {item.kind === "redirects" && (
+              <div class="artifact-panel rounded-xl border border-line bg-surface/80 p-4 font-mono text-[0.68rem]">
+                <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-b border-line pb-3 text-ink-muted">
+                  <span>Old route</span><span>→</span><span>New route</span>
+                </div>
+                <div class="mt-3 space-y-2.5">
+                  <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3"><span>/old-service</span><span class="text-accent">301</span><span>/services</span></div>
+                  <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3"><span>/about-us</span><span class="text-accent">301</span><span>/about</span></div>
+                  <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-3"><span>/contact-us</span><span class="text-accent">301</span><span>/contact</span></div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div class="p-6 sm:p-7">
+            <p class="font-mono text-xs uppercase tracking-[0.14em] text-accent">{item.eyebrow}</p>
+            <h3 class="mt-3 text-xl font-black text-ink">{item.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-muted">{item.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center" data-reveal>
+      <Button href={ctaHref}>{cta}</Button>
+      <a
+        href={secondaryHref}
+        class="cta-lift inline-flex h-12 items-center justify-center rounded-full border border-line px-7 font-bold text-ink transition-colors hover:border-accent hover:text-accent"
+      >
+        {secondaryCta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .artifact-stage {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .artifact-panel {
+    transform: translateY(2px);
+    transition: transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1), border-color 220ms ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .proof-card:hover .artifact-panel,
+    .proof-card:focus-within .artifact-panel {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--color-accent) 38%, var(--color-line));
+    }
+  }
+</style>
