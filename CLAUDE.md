@@ -59,7 +59,7 @@ Section order and content. All copy below is final v1 copy (refine typography, n
 
 **S3 — How we do it (light/white, rounded top).** H2: "How we do it". Four macro stages: 01 Diagnose (audit the current state or define the opportunity from zero), 02 Design (message, content structure and award-grade UI/UX), 03 Build (semantic HTML, schema graph, llms.txt and crawler access), 04 Validate & measure (launch validation plus the before/after visibility snapshot). CTAs: "Get a free audit" and "See our process".
 
-**S4 — Work (dark).** H2: "v1be, applied." One full-width lime case card: **v1be.io** — "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first." The entire card links to `/work/v1be-io/`; there is no open-slot card on Home.
+**S4 — Work (dark).** H2: "v1be, applied." The primary item is one full-width lime case card: **v1be.io** — "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first." The entire card links to `/work/v1be-io/`. A compact, visually secondary dashed card follows: "This slot is reserved for a brand that wants to be cited." + "Get a free audit" CTA. On short desktop viewports, the scene uses the existing `data-paginate-scroll` boundary behavior so neither card is clipped.
 
 **S5 — FAQ (dark).** Visible accordion with six decision-priority questions selected from the Contact FAQ source via `homeOrder`: free-audit scope, cost, duration, starting without a website, GEO vs SEO, and the difference from a regular agency. The visible six-item list and Home FAQPage schema use the same `homeFaqItems` array.
 

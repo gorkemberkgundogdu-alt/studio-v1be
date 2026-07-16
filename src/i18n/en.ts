@@ -100,6 +100,10 @@ export const en = {
         linkLabel: "Read the case study",
         href: "/work/v1be-io/",
       },
+      openSlot: {
+        label: "This slot is reserved for a brand that wants to be cited.",
+        cta: "Get a free audit",
+      },
     },
     contact: {
       title: "Get your v1be",

@@ -43,6 +43,12 @@ const classes = [
 const Tag = href ? "a" : "button";
 ---
 
-<Tag href={href} type={href ? undefined : type} class:list={classes} {...attributes}>
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={classes}
+  style={variant === "surface" ? "color: var(--color-accent)" : undefined}
+  {...attributes}
+>
   <slot />
 </Tag>
