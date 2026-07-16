@@ -12,6 +12,9 @@ const locale = "en" as const;
 const path = "/";
 const t = useTranslations(locale);
 const h = t.home;
+const homeFaqItems = t.contact.faq.items
+  .filter((item) => "homeOrder" in item)
+  .sort((a, b) => a.homeOrder - b.homeOrder);
 ---
 
 <BaseLayout
@@ -19,7 +22,7 @@ const h = t.home;
   description={h.meta.description}
   {locale}
   {path}
-  schemas={[faqSchema(t.contact.faq.items)]}
+  schemas={[faqSchema(homeFaqItems)]}
   paginateFooter
 >
   {/*
@@ -141,8 +144,11 @@ const h = t.home;
           </span>
         ))}
       </h2>
-      <div class="mt-12 flex justify-center" data-reveal style="--reveal-delay: 80ms">
-        <Button href="/contact/" size="sm">{h.what.cta}</Button>
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-4" data-reveal style="--reveal-delay: 80ms">
+        <Button href="/contact/" class="min-w-48">{h.what.cta}</Button>
+        <Button href="/work/" variant="surface" class="min-w-48">
+          {h.what.ctaSecondary}
+        </Button>
       </div>
 
       {/* Keep-scrolling hint — same pill language as Hero's "Scroll down"
@@ -190,12 +196,9 @@ const h = t.home;
       </ol>
       <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal>
         <Button href="/contact/">{h.how.cta}</Button>
-        <a
-          href="/process/"
-          class="cta-lift inline-flex items-center justify-center rounded-full bg-surface px-6 py-3 font-medium text-accent transition-opacity duration-150 hover:opacity-90"
-        >
+        <Button href="/process/" variant="surface">
           {h.how.ctaSecondary}
-        </a>
+        </Button>
       </div>
     </div>
   </section>
@@ -208,32 +211,27 @@ const h = t.home;
   >
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
       <h2 id="work-title" class="text-h2 font-bold" data-reveal>{h.work.title}</h2>
-      <div class="mt-12 grid gap-6 md:grid-cols-2" data-reveal-group>
-        <article
-          class="flex flex-col rounded-2xl border border-line bg-surface p-8"
-          data-reveal
-        >
-          <h3 class="text-2xl font-bold text-ink">{h.work.caseCard.name}</h3>
-          <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">{h.work.caseCard.description}</p>
-          <a
-            href={h.work.caseCard.href}
-            class="mt-6 inline-flex items-center gap-1 font-semibold text-accent underline decoration-transparent underline-offset-4 transition hover:decoration-accent"
+      <a
+        href={h.work.caseCard.href}
+        class="group mt-12 block rounded-[2rem] bg-accent p-8 text-(--color-base) transition-transform duration-200 motion-safe:hover:-translate-y-1 sm:p-10 md:p-12"
+        data-reveal
+      >
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-3xl">
+            <h3 class="text-[clamp(2.75rem,1.75rem+5vw,6rem)] font-black leading-none tracking-[-0.05em]">
+              {h.work.caseCard.name}
+            </h3>
+            <p class="mt-6 text-base font-medium leading-relaxed opacity-75 sm:text-lg">
+              {h.work.caseCard.description}
+            </p>
+          </div>
+          <span
+            class="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-base px-6 py-3 font-bold text-accent transition-transform duration-200 motion-safe:group-hover:translate-x-1"
           >
             {h.work.caseCard.linkLabel} →
-          </a>
-        </article>
-
-        <article
-          class="flex flex-col justify-between rounded-2xl border border-dashed border-line p-8"
-          data-reveal
-          style="--reveal-delay: 80ms"
-        >
-          <p class="text-lg font-medium leading-relaxed text-ink-muted">{h.work.openSlot.label}</p>
-          <div class="mt-6">
-            <Button href="/contact/" variant="ghost">{h.work.openSlot.cta}</Button>
-          </div>
-        </article>
-      </div>
+          </span>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -246,7 +244,7 @@ const h = t.home;
   >
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20" data-reveal-group>
       <div data-reveal>
-        <FaqAccordion title={t.contact.faq.title} items={t.contact.faq.items} level="h2" />
+        <FaqAccordion title={t.contact.faq.title} items={homeFaqItems} level="h2" />
       </div>
     </div>
   </section>

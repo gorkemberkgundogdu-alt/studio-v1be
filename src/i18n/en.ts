@@ -58,62 +58,47 @@ export const en = {
       ],
       bold: ["websites", "engineered", "cited", "AI"],
       cta: "Get a free audit",
+      ctaSecondary: "See our work",
     },
     how: {
       title: "How we do it",
       steps: [
         {
           number: "01",
-          title: "Audit",
+          title: "Diagnose",
           description:
-            "We run your site through our own engine and get real AI-visibility scores, citation counts, and a prioritized issue list. No site yet? We start with a feasibility study instead.",
+            "We audit how people and AI engines read your site, then turn the findings into a prioritized brief. Starting from zero? We begin with the opportunity and requirements instead.",
         },
         {
           number: "02",
-          title: "Fix",
+          title: "Design",
           description:
-            "We correct what the audit flags — broken structure, missing schema, thin content — using the same engine that found it.",
+            "We shape the message, content structure and award-grade UI/UX around what your audience needs and how AI engines understand each page.",
         },
         {
           number: "03",
-          title: "Content",
+          title: "Build",
           description:
-            "Citable articles drafted in your brand voice, scored for citability, pushed as drafts, published only with your approval.",
+            "We ship a fast website with semantic HTML, a full schema graph, llms.txt and crawler access built in from day one.",
         },
         {
           number: "04",
-          title: "Design",
+          title: "Validate & measure",
           description:
-            "Award-grade UI/UX, built to Awwwards-nomination standard. Not a template, not an afterthought.",
-        },
-        {
-          number: "05",
-          title: "Build",
-          description:
-            "Full schema graph, llms.txt, crawler access, shipped alongside the design, not bolted on after.",
-        },
-        {
-          number: "06",
-          title: "Measure",
-          description:
-            "We re-run the snapshot and show the before/after. Launch day is where GEO starts, not ends.",
+            "We validate the launch, re-run the visibility snapshot and show the before/after. Launch is the baseline, not the finish line.",
         },
       ],
       cta: "Get a free audit",
       ctaSecondary: "See our process →",
     },
     work: {
-      title: "v1beholics",
+      title: "v1be, applied.",
       caseCard: {
         name: "v1be.io",
         description:
           "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first.",
         linkLabel: "Read the case study",
         href: "/work/v1be-io/",
-      },
-      openSlot: {
-        label: "This slot is reserved for a brand that wants to be cited.",
-        cta: "Get a free audit",
       },
     },
     contact: {
@@ -502,7 +487,8 @@ export const en = {
     },
     faq: {
       title: "Frequently asked questions",
-      // Bu 9 madde hem görünür akordeonu hem FAQPage JSON-LD'yi besler (CLAUDE.md §10).
+      // Dokuz maddenin tamamı Contact'ta görünür. `homeOrder` işaretli altı madde
+      // Home'da aynı sırayla görünür ve Home FAQPage şemasını besler (CLAUDE.md §10).
       // `cta` alanı yalnızca FaqAccordion'da render olur — faqSchema() sadece question/answer okur, CTA şemaya sızmaz.
       items: [
         {
@@ -512,22 +498,26 @@ export const en = {
             " Every site we ship is validated in Google's Rich Results Test before launch.",
         },
         {
+          homeOrder: 5,
           question: "What is GEO and how is it different from SEO?",
           answer:
             "GEO (Generative Engine Optimization) makes your brand visible inside AI-generated answers from ChatGPT, Gemini and Perplexity. SEO optimizes for ranked links; GEO optimizes for being cited in the answer itself. They overlap but reward different content structures.",
         },
         {
+          homeOrder: 1,
           question: "What does the free audit include?",
           answer:
             "A snapshot of how AI engines currently present your brand, a technical GEO review of your site (schema, crawler access, structure), and a prioritized fix list — delivered in a working session, not a slide deck.",
         },
         {
+          homeOrder: 2,
           question: "How much does this cost?",
           answer:
             "The audit is free. Paid packages are scoped and quoted after we see where you stand — pricing depends on whether you need a fix, a full rebuild, or ongoing content.",
           cta: { label: "See packages →", href: "/packages/" },
         },
         {
+          homeOrder: 4,
           question: "I don't have a website yet — can you still help?",
           answer:
             "Yes. We start with a feasibility study — keyword and competitor research in your category, and a breakdown of why competitors score the way they do — before moving into build.",
@@ -538,6 +528,7 @@ export const en = {
             "No. Content is produced by the v1be pipeline, scored for citability, and pushed to your CMS as a draft. Nothing goes live without human approval.",
         },
         {
+          homeOrder: 3,
           question: "How long does this take?",
           answer:
             "The audit takes days, not weeks. A full rebuild typically runs 1-2 weeks depending on scope; ongoing content is a monthly cadence.",
@@ -548,6 +539,7 @@ export const en = {
             "v1be studio is the services arm of v1be, the AI marketing agent platform. The studio builds and optimizes your web presence using the same methodology and tooling.",
         },
         {
+          homeOrder: 6,
           question: "How is this different from a regular web design agency?",
           answer:
             "Most agencies design for humans and stop there. We design for Awwwards-level aesthetics and AI-engine structure at the same time, by the same team, from day one.",

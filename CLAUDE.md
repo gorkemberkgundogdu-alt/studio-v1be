@@ -55,17 +55,15 @@ Section order and content. All copy below is final v1 copy (refine typography, n
 
 **S1 — Hero (dark).** Giant display heading: `v1be studio` (gradient text `linear-gradient(180deg, #5A6470 0%, #C4D6E2 100%)`, clip to text). Subline: "Websites engineered to be cited — not just indexed. GEO-first design, development and content for brands and agencies." CTA: Get a free audit. Right/center: the robot mascot (§7), `look="blueprint"`, nameplate `v1ben.`.
 
-**S2 — What we do (dark).** H2: "What we do". Three cards:
-1. **GEO-first websites** — "Design and build engineered for how AI engines read: answer-first structure, semantic HTML, structured data as infrastructure."
-2. **Content engine** — "SEO- and GEO-optimized articles produced by the v1be pipeline, scored for citability before publishing, human-approved always."
-3. **Visibility & proof** — "Baseline audits, schema validation and before/after measurement across ChatGPT, Gemini and Perplexity."
-Section-end CTA: Get a free audit.
+**S2 — What we do (dark).** Full-viewport value statement: "We build websites with the award-grade design, engineered from the ground up to be read and cited by AI search engines." Two equal-size CTAs: "Get a free audit" and "See our work" → `/work/`.
 
-**S3 — How we do it (light/white, rounded top).** H2: "How we do it". Four numbered steps (redline numbers): 01 Audit ("We snapshot how AI engines currently see you — or don't."), 02 Build ("Static-first Astro build, full schema graph, llms.txt, crawler access — audit-proof from day one."), 03 Content ("Citable articles in your brand voice, pushed as drafts, published only with your approval."), 04 Measure ("We re-run the snapshot and show the before/after. Launch day is where GEO starts, not ends."). Section-end CTA.
+**S3 — How we do it (light/white, rounded top).** H2: "How we do it". Four macro stages: 01 Diagnose (audit the current state or define the opportunity from zero), 02 Design (message, content structure and award-grade UI/UX), 03 Build (semantic HTML, schema graph, llms.txt and crawler access), 04 Validate & measure (launch validation plus the before/after visibility snapshot). CTAs: "Get a free audit" and "See our process".
 
-**S4 — Work (dark).** H2: "Work". Case card: **v1be.io** — "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first." → link `/work/v1be-io/`. A second slot styled as an open slot: "This slot is reserved for a brand that wants to be cited." + CTA.
+**S4 — Work (dark).** H2: "v1be, applied." One full-width lime case card: **v1be.io** — "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first." The entire card links to `/work/v1be-io/`; there is no open-slot card on Home.
 
-**S5 — Contact (dark).** H2: "Get your free audit". One-paragraph promise: "Tell us your domain. We'll show you how AI engines see you today — what they cite, what they miss, and what we'd fix first. No deck, no fluff; a working session." Simple form (name, email, website URL, message) posting to a Netlify/Formspree-style endpoint (leave provider as env/config), plus direct email link. FAQ block (5 items, §10) below the form — visible accordion + FAQPage schema from the same data.
+**S5 — FAQ (dark).** Visible accordion with six decision-priority questions selected from the Contact FAQ source via `homeOrder`: free-audit scope, cost, duration, starting without a website, GEO vs SEO, and the difference from a regular agency. The visible six-item list and Home FAQPage schema use the same `homeFaqItems` array.
+
+**S6 — Contact (dark).** H2: "Get your v1be". One-paragraph promise: "Tell us your domain. We'll show you how AI engines see you today — what they cite, what they miss, and what we'd fix first. No deck, no fluff; a working session." Simple form (name, email, website URL, message), plus direct email link.
 
 ## 6. PACKAGES PAGE (v1 content)
 

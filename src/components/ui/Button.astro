@@ -1,6 +1,6 @@
 ---
 /**
- * İki varyant: primary (redline accent) / ghost (çerçeve). CLAUDE.md §3, §11.3.
+ * Üç varyant: primary (accent), surface (koyu dolgu) ve ghost (çerçeve). CLAUDE.md §3, §11.3.
  * href verilirse <a>, verilmezse <button>. .cta-lift micro-interaction taşır.
  */
 type DataAttributes = {
@@ -13,7 +13,7 @@ type AriaAttributes = {
 
 type Props = {
   href?: string;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "ghost" | "surface";
   size?: "sm" | "md";
   type?: "button" | "submit";
   class?: string;
@@ -34,6 +34,8 @@ const classes = [
   size === "sm" ? "h-9 px-4 text-sm" : "h-12 px-7 text-base",
   variant === "primary"
     ? "bg-accent text-(--color-base) hover:bg-accent-hot"
+    : variant === "surface"
+      ? "bg-surface text-accent hover:bg-purple"
     : "border border-line text-ink hover:border-ink-muted hover:text-ink",
   className,
 ];
