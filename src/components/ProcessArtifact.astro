@@ -52,7 +52,7 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
         {metrics.map((metric) => (
           <div class="rounded-xl border border-line bg-surface/60 p-4">
             <dt class="min-h-8 text-xs leading-snug text-ink-muted">{metric.label}</dt>
-            <dd class="mt-2 text-base font-extrabold text-accent">{metric.value}</dd>
+            <dd class="mt-2 text-base font-extrabold" style="color: var(--color-accent)">{metric.value}</dd>
           </div>
         ))}
       </dl>
