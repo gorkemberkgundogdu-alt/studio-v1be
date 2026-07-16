@@ -36,29 +36,35 @@ const crumbs = [
   <Breadcrumb {locale} items={crumbs} />
 
   <section class="grid-texture overflow-hidden">
-    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1fr)_280px]">
       <div data-reveal-group>
         <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.hero.eyebrow}</p>
-        <h1 class="mt-5 max-w-4xl text-display font-black" data-reveal>{pr.hero.title}</h1>
-        <p class="mt-7 max-w-3xl text-lg leading-relaxed text-ink-muted sm:text-xl" data-reveal>{pr.hero.subtitle}</p>
-        <div class="mt-9 flex flex-wrap gap-3" data-reveal>
+        <h1
+          class="mt-4 max-w-4xl font-extrabold"
+          style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+          data-reveal
+        >
+          {pr.hero.title}
+        </h1>
+        <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.hero.subtitle}</p>
+        <div class="mt-8 flex flex-wrap gap-3" data-reveal>
           <Button href="/contact/?source=process-hero" data-cta="process_hero_audit">{pr.hero.primaryCta}</Button>
           <Button href="#process-stages" variant="surface">{pr.hero.secondaryCta}</Button>
         </div>
       </div>
 
-      <aside class="overflow-hidden rounded-[1.5rem] border border-line bg-surface/75" aria-label={pr.overview.label} data-reveal>
+      <aside class="w-full overflow-hidden rounded-[1.5rem] border border-line bg-surface/75" aria-label={pr.overview.label} data-reveal>
         <div class="flex items-center justify-between gap-4 border-b border-line px-5 py-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
           <span>{pr.overview.label}</span>
           <span class="text-accent">{pr.overview.summary}</span>
         </div>
-        <ol class="px-5 py-2" role="list">
+        <ol class="grid grid-cols-2 gap-px bg-line" role="list">
           {processSteps.map((step, index) => (
-            <li class="border-b border-line last:border-b-0">
-              <a class="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-4 transition-colors hover:text-accent" href={`#process-${step.id}`}>
+            <li class="bg-surface/95">
+              <a class="grid min-h-16 grid-cols-[1.5rem_1fr] content-center items-center gap-x-2 px-3 py-2 motion-safe:transition-colors hover:text-accent" href={`#process-${step.id}`}>
                 <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
                 <strong class="text-sm">{step.label}</strong>
-                <span class="text-xs text-ink-muted">{pr.overview.stageStatus[index]}</span>
+                <span class="col-start-2 text-[0.65rem] text-ink-muted">{pr.overview.stageStatus[index]}</span>
               </a>
             </li>
           ))}
@@ -108,7 +114,7 @@ const crumbs = [
       <ol role="list">
         {processSteps.map((step) => (
           <li class="border-b border-line py-20 first:pt-0 last:border-b-0 last:pb-0">
-            <section id={`process-${step.id}`} class="grid scroll-mt-24 gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-10" data-reveal-group>
+            <section id={`process-${step.id}`} class="grid scroll-mt-24 gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-10" data-reveal-contained data-reveal-group>
               <div>
                 <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{step.number} · {step.label}</p>
                 <h2 class="mt-4 text-h2 font-black" data-reveal>{step.title}</h2>
@@ -125,7 +131,7 @@ const crumbs = [
                 <div class="mt-9 grid gap-7" data-reveal-group>
                   {step.sections.map((section, sectionIndex) => (
                     <>
-                      <section data-reveal style={`--reveal-delay: ${Math.min(sectionIndex * 60, 180)}ms`}>
+                      <section data-reveal-contained data-reveal style={`--reveal-delay: ${Math.min(sectionIndex * 60, 180)}ms`}>
                         <h3 class="text-lg font-extrabold">{section.title}</h3>
                         {section.body && <p class="mt-3 text-sm leading-relaxed text-ink-muted">{section.body}</p>}
                         {step.id === "design" && sectionIndex < 2 && (

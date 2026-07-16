@@ -13,7 +13,9 @@
  * Bir section görünüme girdiğinde, içindeki [data-reveal] çocuklarına
  * sırayla (80ms artan, toplamda 400ms'de tavan) --reveal-delay yazılır ve
  * .is-revealed eklenir; section bir daha izlenmez (scroll yukarı çıkınca
- * tekrar oynamaz).
+ * tekrar oynamaz). `data-reveal-contained` kullanan iç içe section'larda her
+ * reveal en yakın section'ı tarafından yönetilir; diğer sayfaların mevcut
+ * reveal kapsamı değişmez.
  */
 export function initScrollFx(): void {
   const root = document.documentElement;
@@ -31,7 +33,14 @@ export function initScrollFx(): void {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         const section = entry.target as HTMLElement;
-        const children = section.querySelectorAll<HTMLElement>("[data-reveal]");
+        const children = section.hasAttribute("data-reveal-contained")
+          ? [
+              ...(section.matches("[data-reveal]") ? [section] : []),
+              ...Array.from(section.querySelectorAll<HTMLElement>("[data-reveal]")).filter(
+                (element) => element.closest("section") === section,
+              ),
+            ]
+          : Array.from(section.querySelectorAll<HTMLElement>("[data-reveal]"));
         children.forEach((el, i) => {
           const delay = Math.min(i * STAGGER_MS, MAX_DELAY_MS);
           el.style.setProperty("--reveal-delay", `${delay}ms`);
