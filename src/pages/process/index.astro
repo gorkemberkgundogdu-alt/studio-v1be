@@ -86,22 +86,85 @@ const crumbs = [
   </nav>
 
   <section class="border-y border-light-line bg-light-base text-light-ink" aria-labelledby="starting-point-title">
-    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-24" data-reveal-group>
-      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-green" data-reveal>{pr.startingPoint.eyebrow}</p>
-      <h2 id="starting-point-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.startingPoint.title}</h2>
-      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-light-muted" data-reveal>{pr.startingPoint.intro}</p>
-
-      <div class="mt-10 grid gap-4 md:grid-cols-2" data-reveal-group>
-        {pr.startingPoint.paths.map((entry, index) => (
-          <article class="rounded-[1.35rem] border border-light-line bg-white/35 p-7 sm:p-8" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
-            <span class="font-mono text-xs font-bold text-green">0{index + 1}</span>
-            <h3 class="mt-4 text-2xl font-extrabold">{entry.title}</h3>
-            <p class="mt-3 leading-relaxed text-light-muted">{entry.description}</p>
-          </article>
-        ))}
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28" data-reveal-group>
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(34rem,1.28fr)] lg:items-end">
+        <div>
+          <p class="font-mono text-sm font-semibold uppercase tracking-widest text-green" data-reveal>{pr.startingPoint.eyebrow}</p>
+          <h2 id="starting-point-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.startingPoint.title}</h2>
+        </div>
+        <p class="max-w-3xl text-lg leading-relaxed text-light-muted lg:pb-1" data-reveal>{pr.startingPoint.intro}</p>
       </div>
 
-      <p class="mt-6 font-mono text-xs font-semibold uppercase tracking-wider text-green" data-reveal>{pr.startingPoint.convergence}</p>
+      <div class="process-convergence mt-12 overflow-hidden rounded-[1.75rem] border border-light-line bg-white/45" data-process-convergence data-active-path="0" data-reveal>
+        <div class="flex items-center justify-between gap-4 border-b border-light-line px-5 py-4 sm:px-7">
+          <p class="font-mono text-[0.6875rem] font-black uppercase tracking-[0.18em] text-green">{pr.startingPoint.flow.modelLabel}</p>
+          <p class="hidden font-mono text-[0.625rem] font-semibold uppercase tracking-wider text-light-muted sm:block">{pr.startingPoint.flow.selectLabel}</p>
+        </div>
+
+        <div class="grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(15rem,0.78fr)_minmax(25rem,1.22fr)] lg:items-center lg:gap-10 lg:p-9">
+          <div class="grid gap-3" role="group" aria-label={pr.startingPoint.flow.choiceLabel}>
+            {pr.startingPoint.paths.map((entry, index) => (
+              <button
+                class="process-entry group relative overflow-hidden rounded-2xl border border-light-line bg-light-base p-5 text-left motion-safe:transition-transform motion-safe:duration-300 hover:-translate-y-0.5 hover:border-green/50"
+                type="button"
+                data-process-entry={index}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                <span class="absolute inset-y-0 left-0 w-1 origin-bottom scale-y-0 bg-green motion-safe:transition-transform motion-safe:duration-300" aria-hidden="true"></span>
+                <span class="font-mono text-[0.6875rem] font-black text-green">0{index + 1}</span>
+                <span class="mt-2 block text-xl font-extrabold">{entry.title}</span>
+                <span class="mt-2 block text-sm leading-relaxed text-light-muted">{entry.description}</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="relative min-h-[24rem] rounded-2xl border border-light-line bg-light-base/70 p-5 sm:min-h-[21rem] sm:p-7" aria-label={pr.startingPoint.convergence}>
+            <div class="process-grid absolute inset-0 rounded-2xl" aria-hidden="true"></div>
+            <svg class="absolute inset-0 size-full" viewBox="0 0 720 336" preserveAspectRatio="none" aria-hidden="true">
+              <path class="process-route process-route--zero" d="M 18 76 C 132 76, 118 168, 236 168" pathLength="1"></path>
+              <path class="process-route process-route--live" d="M 18 260 C 132 260, 118 168, 236 168" pathLength="1"></path>
+              <path class="process-route process-route--shared" d="M 236 168 C 302 168, 304 168, 360 168" pathLength="1"></path>
+              <path class="process-route process-route--shared" d="M 436 168 C 486 168, 486 59, 520 59 L 548 59" pathLength="1"></path>
+              <path class="process-route process-route--shared" d="M 520 59 L 520 277" pathLength="1"></path>
+              <path class="process-route process-route--shared" d="M 520 132 L 548 132 M 520 204 L 548 204 M 520 277 L 548 277" pathLength="1"></path>
+            </svg>
+
+            <div class="absolute left-[4%] top-[13%] flex items-center gap-2 text-green" aria-hidden="true">
+              <span class="size-2.5 rounded-full border-2 border-green bg-light-base"></span>
+              <span class="font-mono text-[0.6rem] font-black uppercase tracking-wider">{pr.startingPoint.flow.opportunityLabel}</span>
+            </div>
+            <div class="absolute bottom-[13%] left-[4%] flex items-center gap-2 text-green" aria-hidden="true">
+              <span class="size-2.5 rounded-full border-2 border-green bg-light-base"></span>
+              <span class="font-mono text-[0.6rem] font-black uppercase tracking-wider">{pr.startingPoint.flow.evidenceLabel}</span>
+            </div>
+
+            <div class="absolute left-[34%] top-1/2 z-10 w-28 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-green bg-light-base px-3 py-5 text-center shadow-[0_14px_40px_rgba(18,18,20,0.08)] sm:left-[40%] sm:w-[8.5rem] sm:px-4 lg:left-[43%]">
+              <span class="mx-auto grid size-8 place-items-center rounded-full bg-green font-mono text-xs font-black text-cream">→</span>
+              <strong class="mt-3 block text-sm font-black">{pr.startingPoint.flow.convergenceTitle}</strong>
+              <small class="mt-1 block text-[0.625rem] font-semibold uppercase tracking-wider text-light-muted">{pr.startingPoint.flow.convergenceStatus}</small>
+            </div>
+
+            <ol class="absolute bottom-[8%] right-[2%] top-[8%] z-10 grid w-[45%] grid-rows-4 gap-2 sm:right-[3%] sm:w-[35%] lg:w-[30%]" role="list" aria-label={pr.startingPoint.flow.stagesLabel}>
+              {processSteps.map((step) => (
+                <li class="flex items-center gap-2 rounded-xl border border-light-line bg-light-base px-2.5 py-2 shadow-[0_8px_24px_rgba(18,18,20,0.05)]">
+                  <span class="grid size-7 shrink-0 place-items-center rounded-lg bg-green text-cream">
+                    <ProcessStageIcon kind={step.id} />
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block font-mono text-[0.5625rem] font-black text-green">{step.number}</span>
+                    <strong class="block text-[0.625rem] font-extrabold leading-tight sm:text-[0.6875rem]">{step.label}</strong>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <div class="grid gap-3 border-t border-light-line px-5 py-4 sm:grid-cols-[1fr_auto] sm:items-center sm:px-7">
+          <p class="font-mono text-xs font-bold uppercase tracking-wider text-green">{pr.startingPoint.convergence}</p>
+          <p class="font-mono text-[0.625rem] uppercase tracking-wider text-light-muted">{processSteps.map((step) => step.label).join(" → ")}</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -253,6 +316,19 @@ const crumbs = [
 </BaseLayout>
 
 <script>
+  const convergence = document.querySelector<HTMLElement>("[data-process-convergence]");
+
+  if (convergence) {
+    const entries = Array.from(convergence.querySelectorAll<HTMLButtonElement>("[data-process-entry]"));
+
+    const setActivePath = (index: number) => {
+      convergence.dataset.activePath = String(index);
+      entries.forEach((entry, entryIndex) => entry.setAttribute("aria-pressed", String(entryIndex === index)));
+    };
+
+    entries.forEach((entry, index) => entry.addEventListener("click", () => setActivePath(index)));
+  }
+
   const processNav = document.querySelector<HTMLElement>("[data-process-nav]");
 
   if (processNav) {
@@ -306,6 +382,55 @@ const crumbs = [
 </script>
 
 <style>
+  .process-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-light-ink) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-light-ink) 6%, transparent) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to right, transparent, black 16%, black 84%, transparent);
+  }
+
+  .process-route {
+    fill: none;
+    stroke: color-mix(in srgb, var(--color-light-ink) 18%, transparent);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .process-route--zero,
+  .process-route--live {
+    stroke: var(--color-green);
+    opacity: 0.14;
+    transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .process-convergence[data-active-path="0"] .process-route--zero,
+  .process-convergence[data-active-path="1"] .process-route--live {
+    opacity: 1;
+  }
+
+  .process-route--shared {
+    stroke: var(--color-green);
+    stroke-dasharray: 8 9;
+  }
+
+  .process-entry[aria-pressed="true"] {
+    border-color: color-mix(in srgb, var(--color-green) 55%, transparent);
+    background: color-mix(in srgb, var(--color-green) 7%, var(--color-light-base));
+    transform: translateY(-2px);
+  }
+
+  .process-entry[aria-pressed="true"] > span:first-child {
+    transform: scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process-route--zero,
+    .process-route--live {
+      transition: none;
+    }
+  }
+
   .process-stage-link[aria-current="step"] {
     border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
     background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
