@@ -1,0 +1,18 @@
+---
+interface Props {
+  items: readonly string[];
+  class?: string;
+  itemClass?: string;
+}
+
+const { items, class: className, itemClass } = Astro.props;
+---
+
+<ul class:list={["grid gap-3", className]} role="list">
+  {items.map((item) => (
+    <li class:list={["flex gap-3 leading-relaxed text-ink-muted", itemClass ?? "text-sm"]}>
+      <span class="font-bold text-accent" aria-hidden="true">✓</span>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>

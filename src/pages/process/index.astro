@@ -2,13 +2,20 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Button from "@/components/ui/Button.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import CheckList from "@/components/CheckList.astro";
+import ProcessArtifact from "@/components/ProcessArtifact.astro";
 import { useTranslations } from "@/i18n";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
+import { isProcessStageId } from "@/types/process";
 
 const locale = "en" as const;
 const path = "/process/";
 const t = useTranslations(locale);
 const pr = t.process;
+const processSteps = pr.steps.map((step) => {
+  if (!isProcessStageId(step.id)) throw new Error(`Unknown process stage: ${step.id}`);
+  return { ...step, id: step.id };
+});
 
 const crumbs = [
   { name: "Home", path: "/" },
@@ -28,37 +35,244 @@ const crumbs = [
 >
   <Breadcrumb {locale} items={crumbs} />
 
-  <section class="grid-texture">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <p class="font-mono text-sm uppercase tracking-widest text-accent">{pr.hero.eyebrow}</p>
-      <h1 class="mt-4 text-display font-extrabold">{pr.hero.title}</h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{pr.hero.subtitle}</p>
+  <section class="grid-texture overflow-hidden">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+      <div data-reveal-group>
+        <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.hero.eyebrow}</p>
+        <h1 class="mt-5 max-w-4xl text-display font-black" data-reveal>{pr.hero.title}</h1>
+        <p class="mt-7 max-w-3xl text-lg leading-relaxed text-ink-muted sm:text-xl" data-reveal>{pr.hero.subtitle}</p>
+        <div class="mt-9 flex flex-wrap gap-3" data-reveal>
+          <Button href="/contact/?source=process-hero" data-cta="process_hero_audit">{pr.hero.primaryCta}</Button>
+          <Button href="#process-stages" variant="surface">{pr.hero.secondaryCta}</Button>
+        </div>
+      </div>
+
+      <aside class="overflow-hidden rounded-[1.5rem] border border-line bg-surface/75" aria-label={pr.overview.label} data-reveal>
+        <div class="flex items-center justify-between gap-4 border-b border-line px-5 py-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
+          <span>{pr.overview.label}</span>
+          <span class="text-accent">{pr.overview.summary}</span>
+        </div>
+        <ol class="px-5 py-2" role="list">
+          {processSteps.map((step, index) => (
+            <li class="border-b border-line last:border-b-0">
+              <a class="grid grid-cols-[2rem_1fr_auto] items-center gap-3 py-4 transition-colors hover:text-accent" href={`#process-${step.id}`}>
+                <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
+                <strong class="text-sm">{step.label}</strong>
+                <span class="text-xs text-ink-muted">{pr.overview.stageStatus[index]}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </aside>
     </div>
   </section>
 
-  <section class="border-t border-line" aria-label={pr.hero.title}>
-    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-20">
-      <ol class="space-y-12" data-reveal-group>
-        {pr.steps.map((step, i) => (
-          <li class="grid gap-5 sm:grid-cols-[auto_1fr]" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
-            <span class="font-mono text-4xl font-bold text-accent" aria-hidden="true">{step.number}</span>
-            <div class="border-l border-line pl-6">
-              <h2 class="text-2xl font-bold text-ink">{step.title}</h2>
-              <p class="mt-3 leading-relaxed text-ink-muted">{step.description}</p>
-            </div>
+  <section class="border-y border-light-line bg-light-base text-light-ink" aria-labelledby="starting-point-title">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-24" data-reveal-group>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-green" data-reveal>{pr.startingPoint.eyebrow}</p>
+      <h2 id="starting-point-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.startingPoint.title}</h2>
+      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-light-muted" data-reveal>{pr.startingPoint.intro}</p>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2" data-reveal-group>
+        {pr.startingPoint.paths.map((entry, index) => (
+          <article class="rounded-[1.35rem] border border-light-line bg-white/35 p-7 sm:p-8" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+            <span class="font-mono text-xs font-bold text-green">0{index + 1}</span>
+            <h3 class="mt-4 text-2xl font-extrabold">{entry.title}</h3>
+            <p class="mt-3 leading-relaxed text-light-muted">{entry.description}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-6 font-mono text-xs font-semibold uppercase tracking-wider text-green" data-reveal>{pr.startingPoint.convergence}</p>
+    </div>
+  </section>
+
+  <div id="process-stages" class="grid-texture scroll-mt-16" aria-label={pr.hero.title}>
+    <div class="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[11rem_minmax(0,1fr)]">
+      <nav class="process-stage-nav relative grid grid-cols-2 gap-2 self-start lg:sticky lg:top-24 lg:grid-cols-1" aria-label="Process stages" data-process-nav>
+        <span class="absolute -left-3 top-3 bottom-3 hidden w-px bg-line lg:block" aria-hidden="true"></span>
+        <span class="absolute -left-3 bottom-3 top-3 hidden w-px origin-top scale-y-0 bg-accent motion-safe:transition-transform motion-safe:duration-300 lg:block" aria-hidden="true" data-process-progress></span>
+        {processSteps.map((step, index) => (
+          <a
+            class="process-stage-link group grid grid-cols-[2rem_1fr] items-center gap-2 rounded-xl border border-line bg-surface/45 px-3 py-3 text-sm text-ink-muted motion-safe:transition-colors hover:border-accent/40 hover:text-ink"
+            href={`#process-${step.id}`}
+            data-process-stage-link={step.id}
+            aria-current={index === 0 ? "step" : undefined}
+          >
+            <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
+            <span class="font-semibold">{step.label}</span>
+          </a>
+        ))}
+      </nav>
+
+      <ol role="list">
+        {processSteps.map((step) => (
+          <li class="border-b border-line py-20 first:pt-0 last:border-b-0 last:pb-0">
+            <section id={`process-${step.id}`} class="grid scroll-mt-24 gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-10" data-reveal-group>
+              <div>
+                <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{step.number} · {step.label}</p>
+                <h2 class="mt-4 text-h2 font-black" data-reveal>{step.title}</h2>
+                <p class="mt-5 text-lg leading-relaxed text-ink-muted" data-reveal>{step.intro}</p>
+
+                {step.description && (
+                  step.id === "validate" ? (
+                    <blockquote class="mt-7 border-l-2 border-accent bg-surface/60 px-5 py-4 text-xl font-extrabold" data-reveal>{step.description}</blockquote>
+                  ) : (
+                    <p class="mt-5 leading-relaxed text-ink-muted" data-reveal>{step.description}</p>
+                  )
+                )}
+
+                <div class="mt-9 grid gap-7" data-reveal-group>
+                  {step.sections.map((section, sectionIndex) => (
+                    <>
+                      <section data-reveal style={`--reveal-delay: ${Math.min(sectionIndex * 60, 180)}ms`}>
+                        <h3 class="text-lg font-extrabold">{section.title}</h3>
+                        {section.body && <p class="mt-3 text-sm leading-relaxed text-ink-muted">{section.body}</p>}
+                        {step.id === "design" && sectionIndex < 2 && (
+                          <p class="mt-4 font-mono text-xs font-semibold uppercase tracking-wider text-accent">{pr.designReviewLabel}</p>
+                        )}
+                        {section.items.length > 0 && <CheckList items={section.items} class="mt-4 gap-2.5" />}
+                      </section>
+                      {step.gates
+                        .filter((gate) => gate.afterSection === sectionIndex)
+                        .map((gate) => (
+                          <div class="rounded-xl border border-accent/30 bg-accent/5 p-5" data-reveal>
+                            <p class="font-mono text-xs font-semibold uppercase tracking-wider text-accent">{gate.label}</p>
+                            <p class="mt-2 text-sm leading-relaxed text-ink-muted">{gate.description}</p>
+                          </div>
+                        ))}
+                    </>
+                  ))}
+                </div>
+
+                <p class="mt-9 border-l-2 border-accent pl-5 font-semibold leading-relaxed text-ink" data-reveal>{step.outcome}</p>
+              </div>
+
+              <div class="lg:sticky lg:top-24 lg:self-start" data-reveal>
+                <ProcessArtifact kind={step.id} {...step.artifact} />
+              </div>
+            </section>
           </li>
         ))}
       </ol>
     </div>
-  </section>
+  </div>
 
-  <section class="grid-texture border-t border-line">
-    <div class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 md:py-20">
-      <h2 class="text-h2 font-bold">{pr.cta.title}</h2>
-      <p class="mt-4 text-lg text-ink-muted">{pr.cta.subtitle}</p>
-      <div class="mt-8 flex justify-center">
-        <Button href="/contact/">{pr.cta.button}</Button>
+  <section class="border-t border-line bg-surface/25" aria-labelledby="collaboration-title">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28" data-reveal-group>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.collaboration.eyebrow}</p>
+      <h2 id="collaboration-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.collaboration.title}</h2>
+      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.collaboration.intro}</p>
+
+      <dl class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+        {pr.collaboration.rhythm.map((item, index) => (
+          <div class="border-t-2 border-accent bg-surface p-5" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+            <dt class="text-2xl font-black text-ink">{item.value}</dt>
+            <dd class="mt-2 text-sm leading-relaxed text-ink-muted">{item.label}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="mt-8 grid gap-8 border-t border-line pt-8 lg:grid-cols-[1fr_auto] lg:items-end" data-reveal>
+        <CheckList items={pr.collaboration.principles} class="sm:grid-cols-2" />
+        <p class="font-mono text-xs font-semibold uppercase tracking-wider text-accent lg:text-right">{pr.collaboration.closing}</p>
       </div>
     </div>
   </section>
+
+  <section class="border-t border-line" aria-labelledby="after-launch-title">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28" data-reveal-group>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.afterLaunch.eyebrow}</p>
+      <h2 id="after-launch-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.afterLaunch.title}</h2>
+      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.afterLaunch.intro}</p>
+
+      <div class="mt-10 grid gap-5 lg:grid-cols-2" data-reveal-group>
+        <article class="rounded-[1.4rem] border border-line bg-surface p-7 sm:p-8" data-reveal>
+          <h3 class="text-xl font-extrabold">{pr.afterLaunch.includedTitle}</h3>
+          <CheckList items={pr.afterLaunch.included} class="mt-5" />
+        </article>
+
+        <article class="rounded-[1.4rem] border border-accent/35 bg-accent/5 p-7 sm:p-8" data-reveal style="--reveal-delay: 70ms">
+          <h3 class="text-xl font-extrabold">{pr.afterLaunch.growTitle}</h3>
+          <p class="mt-5 text-sm leading-relaxed text-ink-muted">{pr.afterLaunch.growDescription}</p>
+          <p class="mt-5 text-sm font-semibold leading-relaxed text-ink">{pr.afterLaunch.ownership}</p>
+        </article>
+      </div>
+
+      <p class="mt-6 rounded-xl border border-line bg-base/65 p-5 font-mono text-xs font-semibold uppercase tracking-wider text-accent" data-reveal>{pr.afterLaunch.boundary}</p>
+    </div>
+  </section>
+
+  <section class="grid-texture border-t border-line" aria-labelledby="process-cta-title">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 md:py-28" data-reveal-group>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.cta.eyebrow}</p>
+      <h2 id="process-cta-title" class="mt-5 text-h2 font-black" data-reveal>{pr.cta.title}</h2>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.cta.subtitle}</p>
+      <div class="mt-8 flex justify-center" data-reveal>
+        <Button href="/contact/?source=process-final" data-cta="process_final_audit">{pr.cta.button}</Button>
+      </div>
+      <p class="mt-5 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{pr.cta.note}</p>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  const processNav = document.querySelector<HTMLElement>("[data-process-nav]");
+
+  if (processNav) {
+    const links = Array.from(processNav.querySelectorAll<HTMLAnchorElement>("[data-process-stage-link]"));
+    const progress = processNav.querySelector<HTMLElement>("[data-process-progress]");
+    const stages = links
+      .map((link) => {
+        const id = link.dataset.processStageLink;
+        const section = id ? document.getElementById(`process-${id}`) : null;
+        return id && section ? { id, link, section } : null;
+      })
+      .filter((stage): stage is { id: string; link: HTMLAnchorElement; section: HTMLElement } => stage !== null);
+
+    let activeId = stages[0]?.id ?? "";
+
+    const setActiveStage = (id: string) => {
+      const active = stages.find((stage) => stage.id === id);
+      if (!active) return;
+      activeId = id;
+
+      stages.forEach((stage) => {
+        if (stage.id === id) stage.link.setAttribute("aria-current", "step");
+        else stage.link.removeAttribute("aria-current");
+      });
+
+      if (progress) {
+        const railHeight = Math.max(processNav.clientHeight - 24, 1);
+        const activePosition = active.link.offsetTop + active.link.offsetHeight / 2 - 12;
+        progress.style.transform = `scaleY(${Math.min(Math.max(activePosition / railHeight, 0), 1)})`;
+      }
+    };
+
+    const hashId = window.location.hash.replace("#process-", "");
+    setActiveStage(stages.some((stage) => stage.id === hashId) ? hashId : activeId);
+
+    const stageObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => Math.abs(a.boundingClientRect.top - window.innerHeight * 0.3) - Math.abs(b.boundingClientRect.top - window.innerHeight * 0.3));
+        const current = visible[0]?.target as HTMLElement | undefined;
+        if (current?.id) setActiveStage(current.id.replace("process-", ""));
+      },
+      { rootMargin: "-20% 0px -65% 0px", threshold: 0 },
+    );
+
+    stages.forEach((stage) => stageObserver.observe(stage.section));
+    window.addEventListener("hashchange", () => setActiveStage(window.location.hash.replace("#process-", "")));
+    window.addEventListener("resize", () => setActiveStage(activeId), { passive: true });
+  }
+</script>
+
+<style>
+  .process-stage-link[aria-current="step"] {
+    border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+    color: var(--color-ink);
+  }
+</style>

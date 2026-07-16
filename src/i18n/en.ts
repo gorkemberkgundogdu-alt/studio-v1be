@@ -313,46 +313,359 @@ export const en = {
   },
   process: {
     meta: {
-      title: "Process — how a v1be studio engagement runs | v1be studio",
+      title: "Process — from first signal to verified launch | v1be studio",
       description:
-        "How we run an engagement, step by step: audit, build, content and measure. Launch day is where GEO starts, not ends.",
+        "A visible four-stage website process: diagnose, design, build, validate and measure—with three approval gates and proof at every handoff.",
     },
     hero: {
       eyebrow: "Process",
-      title: "How an engagement runs.",
+      title: "From first signal to a site you can prove.",
       subtitle:
-        "Four stages, one loop. We start by measuring how AI engines see you, and we finish by measuring it again.",
+        "We diagnose what people and AI engines understand, design around what they need, build the system, then validate the result. You approve the work at every consequential handoff.",
+      primaryCta: "Get a free audit",
+      secondaryCta: "See how the process works ↓",
     },
-    steps: [
+    overview: {
+      label: "Engagement map",
+      summary: "4 stages · 3 gates",
+      stageStatus: ["brief", "2 gates", "preview", "proof"],
+    },
+    startingPoint: {
+      eyebrow: "Two ways in",
+      title: "Two ways in. One governed process.",
+      intro:
+        "Starting from zero, we begin with the opportunity and requirements. Already live, we audit what works, locate the friction and protect the value worth keeping. From there, both paths move through the same visible process.",
+      paths: [
+        {
+          title: "Starting from zero",
+          description:
+            "We define the audience, opportunity and requirements before shaping the message, experience and technical foundation together.",
+        },
+        {
+          title: "Already live",
+          description:
+            "We audit what is working, identify what creates friction and protect the search equity worth keeping before anything is rebuilt.",
+        },
+      ],
+        convergence: "Different starting points. The same four-stage process.",
+      },
+      designReviewLabel: "You review:",
+      steps: [
       {
+        id: "diagnose",
         number: "01",
-        title: "Audit",
+        label: "Diagnose",
+        title: "Diagnose what the site must solve.",
+        intro:
+          "Before design begins, we find the gap between what your audience needs, what your website communicates and what search and AI engines can understand.",
         description:
-          "We snapshot how AI engines currently present your brand and run a technical GEO review — schema, crawler access, structure. You get a prioritized fix list in a working session.",
+          "We establish the baseline first: what people understand, what creates friction and where your brand appears—or disappears—in search and AI-generated answers. Starting from zero, we replace the visibility audit with an opportunity and requirements review.",
+        sections: [
+          {
+            title: "What we examine",
+            body: "",
+            items: [
+              "Your audience, offer and primary conversion goal",
+              "Message clarity and gaps in the current journey",
+              "Search structure, crawler access and AI visibility",
+              "Existing content, routes and search equity worth protecting",
+            ],
+          },
+          {
+            title: "What you bring",
+            body: "",
+            items: [
+              "Your domain or project idea",
+              "Business goals and priority audiences",
+              "Existing brand, content and analytics material",
+              "The decisions or constraints we should know early",
+            ],
+          },
+          {
+            title: "What you receive",
+            body: "",
+            items: [
+              "A baseline visibility snapshot",
+              "A prioritized opportunity and risk map",
+              "An agreed project brief that replaces assumptions with decisions",
+            ],
+          },
+        ],
+        gates: [],
+        outcome: "We agree on the problem before designing the answer.",
+        artifact: {
+          label: "Baseline snapshot",
+          status: "Live artifact",
+          metrics: [
+            { label: "Message clarity", value: "Review" },
+            { label: "AI visibility", value: "Baseline" },
+            { label: "Technical risk", value: "Mapped" },
+          ],
+          rows: [],
+          checks: [],
+          calloutLabel: "Stage output",
+          callout: "Baseline snapshot · Priority map · Agreed brief",
+        },
       },
       {
+        id: "design",
         number: "02",
-        title: "Build",
-        description:
-          "We design and build GEO-first: a static Astro site with a full schema graph, llms.txt and crawler access. Audit-proof from day one, validated in Google's Rich Results Test before launch.",
+        label: "Design",
+        title: "Design the logic, then the look.",
+        intro:
+          "The agreed brief becomes a content structure first, then a visual experience. We decide what each page must communicate and what each journey must make possible before styling the interface around it.",
+        description: "",
+        sections: [
+          {
+            title: "Content and structure",
+            body:
+              "We shape the sitemap, page purposes, message hierarchy, UX writing and primary user journeys. SEO and GEO are planned inside the content structure—not added after the pages are designed.",
+            items: [
+              "Sitemap and page priorities",
+              "Core messaging and UX writing",
+              "Conversion paths and calls to action",
+              "Search intent, entities and answer-ready content structure",
+            ],
+          },
+          {
+            title: "Experience and visual direction",
+            body:
+              "Once the logic is approved, we turn it into key-page wireframes and an award-grade interface system. Layout, hierarchy, responsive behavior and interaction direction are designed as one experience—not as separate desktop screens.",
+            items: [
+              "Key-page wireframes",
+              "Visual direction and UI system",
+              "Responsive layout behavior",
+              "Interaction and motion direction",
+            ],
+          },
+          {
+            title: "What you receive",
+            body: "",
+            items: [
+              "An approved sitemap and content hierarchy",
+              "Core page copy and UX writing direction",
+              "Key-page wireframes",
+              "A responsive UI direction and component behavior notes",
+            ],
+          },
+        ],
+        gates: [
+          {
+            label: "Approval Gate 01 · Content & Structure",
+            description:
+              "Approve what the site says, how it is organized and where each journey should lead before visual design moves forward.",
+            afterSection: 0,
+          },
+          {
+            label: "Approval Gate 02 · Experience & Visual",
+            description:
+              "Approve how the experience works and feels before development begins.",
+            afterSection: 1,
+          },
+        ],
+        outcome: "Build begins with approved decisions, not assumptions.",
+        artifact: {
+          label: "Wireframe / UI direction",
+          status: "2 approval gates",
+          metrics: [],
+          rows: [],
+          checks: [
+            "Content hierarchy approved",
+            "Primary journeys mapped",
+            "Responsive direction visible",
+            "Interaction behavior agreed",
+          ],
+          calloutLabel: "Design handoff",
+          callout: "Logic first. Visual direction second. Build after approval.",
+        },
       },
       {
+        id: "build",
         number: "03",
-        title: "Content",
-        description:
-          "Citable articles in your brand voice, produced by the v1be pipeline and scored for citability. Everything is pushed to your CMS as a draft and published only with your approval.",
+        label: "Build",
+        title: "Build the approved experience as a system.",
+        intro:
+          "We turn the approved content, interface and behavior into a fast, accessible website that works as one maintainable system. The build does not reinterpret the design behind closed doors—it makes every approved decision real and reviewable.",
+        description: "",
+        sections: [
+          {
+            title: "The experience becomes real",
+            body:
+              "We build responsive components, navigation, forms and interactions against the approved designs. You review the work in a live preview, where real content, real breakpoints and real browser behavior can be inspected before launch.",
+            items: [],
+          },
+          {
+            title: "SEO and GEO are built in",
+            body:
+              "Semantic HTML, page metadata, structured data, internal links, crawler access, sitemap and llms.txt are part of the architecture from day one. They are implemented alongside the interface—not added as a plugin after the website is finished.",
+            items: [],
+          },
+          {
+            title: "What we build",
+            body: "",
+            items: [
+              "A responsive, component-based Astro website",
+              "Semantic and accessible page structure",
+              "Forms, agreed integrations and conversion tracking",
+              "Page metadata, canonical URLs and internal linking",
+              "Schema graph, sitemap, robots.txt and llms.txt",
+              "Performance-conscious assets and interaction behavior",
+            ],
+          },
+          {
+            title: "What you can inspect",
+            body: "",
+            items: [
+              "A working preview on real routes",
+              "Responsive behavior across key viewport sizes",
+              "Interactions, forms and conversion paths",
+              "Visible progress against the agreed scope",
+            ],
+          },
+        ],
+        gates: [],
+        outcome: "The approved design now exists as a real, testable website.",
+        artifact: {
+          label: "client / website",
+          status: "Working preview",
+          metrics: [],
+          rows: [
+            { label: "src/", value: "components + routes" },
+            { label: "public/", value: "production assets" },
+            { label: "schema graph", value: "structured data" },
+            { label: "preview", value: "real breakpoints" },
+            { label: "tracking", value: "agreed events" },
+          ],
+          checks: [],
+          calloutLabel: "Inspectable build",
+          callout: "Real content. Real browsers. No static promise.",
+        },
       },
       {
+        id: "validate",
         number: "04",
-        title: "Measure",
-        description:
-          "We re-run the visibility snapshot and show you the before/after across ChatGPT, Gemini and Perplexity. Launch day is where GEO starts, not ends.",
+        label: "Validate & measure",
+        title: "Validate the product. Measure the difference.",
+        intro:
+          "Before launch, we test the working website against the experience, technical and visibility decisions agreed at the start. Then we return to the original baseline and measure what changed using the same criteria.",
+        description: "No launch without evidence.",
+        sections: [
+          {
+            title: "We validate the experience",
+            body: "",
+            items: [
+              "Responsive behavior across priority devices and viewport sizes",
+              "Navigation, forms and primary conversion paths",
+              "Keyboard access, focus states and essential accessibility checks",
+              "Content, metadata, links and redirects on final routes",
+            ],
+          },
+          {
+            title: "We validate the technical foundation",
+            body:
+              "Technical validation proves that the implementation works as intended. It does not manufacture a ranking or citation guarantee.",
+            items: [
+              "Core Web Vitals and page performance",
+              "Structured data in Google's Rich Results Test and Schema Markup Validator",
+              "Sitemap, robots.txt, canonical URLs and crawler access",
+              "Analytics and agreed conversion events",
+            ],
+          },
+          {
+            title: "We measure the difference",
+            body:
+              "We re-run the agreed search and AI visibility query set, compare it with the opening snapshot and document what improved, what still needs time and what should happen next.",
+            items: [],
+          },
+          {
+            title: "What you receive",
+            body:
+              "If enough real-user data has not accumulated by the checkpoint, we show that limitation clearly and report the verified technical, indexing and query-set signals available—without turning incomplete data into a success claim.",
+            items: [
+              "A launch QA and validation report",
+              "Performance, schema and crawler evidence",
+              "A before-and-after visibility snapshot",
+              "The repository, assets and handoff notes",
+              "A scheduled 30-day post-launch checkpoint",
+            ],
+          },
+        ],
+        gates: [
+          {
+            label: "Approval Gate 03 · Build, Evidence & Launch",
+            description:
+              "Approve the working product and the evidence behind it before the website goes live.",
+            afterSection: 3,
+          },
+        ],
+        outcome: "Launch is the baseline, not the finish line.",
+        artifact: {
+          label: "Launch evidence",
+          status: "Verified",
+          metrics: [
+            { label: "Core Web Vitals", value: "Checked" },
+            { label: "Schema", value: "Validated" },
+            { label: "Crawler access", value: "Open" },
+          ],
+          rows: [],
+          checks: [
+            "Responsive and accessibility review",
+            "Forms and conversion paths",
+            "Before-and-after snapshot",
+            "30-day checkpoint scheduled",
+          ],
+          calloutLabel: "Launch rule",
+          callout: "No launch without evidence.",
+        },
       },
     ],
+    collaboration: {
+      eyebrow: "Collaboration",
+      title: "Clear decisions. Fewer meetings.",
+      intro:
+        "You should always know where the project stands without spending every day in a status call. We keep progress visible in writing and use meetings for decisions, not recaps.",
+      rhythm: [
+        { value: "60 min", label: "Kickoff to align goals, scope and decision owners" },
+        { value: "2× weekly", label: "Concise written progress updates" },
+        { value: "30–45 min", label: "Focused review to close each approval gate" },
+        { value: "2 business days", label: "Feedback window for clear momentum" },
+      ],
+      principles: [
+        "One decision owner on your side keeps approvals accountable",
+        "Feedback is consolidated in one shared place",
+        "Approved decisions remain visible throughout the project",
+        "Scope changes are discussed before they affect delivery or cost",
+        "Critical blockers are raised the same day",
+      ],
+      closing: "Progress stays visible. Meetings stay useful.",
+    },
+    afterLaunch: {
+      eyebrow: "After launch",
+      title: "The handoff is complete. The learning continues.",
+      intro:
+        "Launch closes the build, not your access to the work. You leave with the website, its evidence and a clear view of what should happen next.",
+      includedTitle: "Included with every build",
+      included: [
+        "The repository, production-ready assets and handoff notes",
+        "The final launch evidence pack",
+        "Full ownership of the website we built for you",
+        "A 30-day post-launch checkpoint against the original baseline",
+        "A prioritized set of next opportunities based on the evidence available",
+      ],
+      growTitle: "Continue with Grow",
+      growDescription:
+        "If you want the learning to continue, Grow turns the launch baseline into an ongoing improvement loop: new citable content, prioritized fixes and regular visibility measurement across the agreed search and AI query set.",
+      ownership:
+        "Grow is optional. You do not need an ongoing subscription to keep the website, the code or the work already delivered.",
+      boundary: "Measurement is included in the build. Continuous optimization is a separate engagement.",
+    },
     cta: {
       title: "Start with the audit.",
-      subtitle: "Tell us your domain and we'll show you where you stand today.",
+      eyebrow: "Start with evidence",
+      subtitle:
+        "Tell us your domain or project idea. We'll show you what people and AI engines can understand today, what they miss and what the first decision should be.",
       button: "Get a free audit",
+      note: "Evidence, not a proposal deck. One working session, a visible baseline and a prioritized first move.",
     },
   },
   work: {

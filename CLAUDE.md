@@ -73,6 +73,10 @@ Three tiers as cards — names/prices are placeholders flagged for founder revie
 3. **Grow** — monthly: content engine (citability-scored articles as drafts), continuous fixes, monthly before/after visibility report.
 Each card: what's included (5–7 bullets), "Get a free audit" CTA (audit is the funnel entry for all tiers). Service JSON-LD for each tier.
 
+### Process page — visible engagement system
+
+`/process/` uses the proof-first headline "From first signal to a site you can prove." and a compact engagement map. Two starting conditions (from zero / already live) converge into four macro stages: Diagnose, Design, Build, Validate & measure. A sticky desktop evidence rail links to each stage; every stage pairs the operational copy with an inspectable UI artifact. The three explicit approval gates are Content & Structure, Experience & Visual, and Build, Evidence & Launch. Collaboration promises are a 60-minute kickoff, two written updates per week, one focused review per gate and a two-business-day feedback window. Every Build includes the launch evidence pack and a 30-day checkpoint; ongoing optimization remains an optional Grow engagement. The page uses native smooth scroll plus the shared one-time reveal layer—never Home pagination or scroll-jacking.
+
 ## 7. ROBOT MASCOT (shared component from main site)
 
 Source repo on this machine: **`C:\Users\HP\v1be_website\`**. Copy these three files unchanged into the same relative paths here:

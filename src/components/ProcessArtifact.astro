@@ -1,0 +1,95 @@
+---
+import CheckList from "@/components/CheckList.astro";
+import type { ProcessStageId } from "@/types/process";
+
+type Metric = { label: string; value: string };
+type Row = { label: string; value: string };
+interface Props {
+  kind: ProcessStageId;
+  label: string;
+  status: string;
+  metrics: readonly Metric[];
+  rows: readonly Row[];
+  checks: readonly string[];
+  calloutLabel: string;
+  callout: string;
+}
+
+const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = Astro.props;
+---
+
+<figure class="process-artifact overflow-hidden rounded-[1.4rem] border border-line bg-base/75" aria-label={`${label}: ${status}`}>
+  <figcaption class="flex items-center justify-between gap-4 border-b border-line px-5 py-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
+    <span>{label}</span>
+    <span class="text-accent">{status}</span>
+  </figcaption>
+
+  <div class="min-h-[18rem] p-5 sm:p-6">
+    {kind === "design" && (
+      <div class="grid min-h-[13.5rem] grid-cols-[5.25rem_1fr] gap-3" aria-hidden="true">
+        <div class="rounded-xl border border-line bg-surface/65 p-3">
+          <span class="block h-2 w-9 rounded-full bg-accent/75"></span>
+          <span class="mt-5 block h-2 rounded-full bg-ink/15"></span>
+          <span class="mt-2 block h-2 w-3/4 rounded-full bg-ink/15"></span>
+          <span class="mt-8 block h-12 rounded-lg border border-line"></span>
+          <span class="mt-3 block h-12 rounded-lg border border-line"></span>
+        </div>
+        <div class="rounded-xl border border-line bg-surface/45 p-4">
+          <span class="block h-2 w-20 rounded-full bg-accent/75"></span>
+          <span class="mt-5 block h-3 w-4/5 rounded-full bg-ink/30"></span>
+          <span class="mt-2 block h-3 w-3/5 rounded-full bg-ink/20"></span>
+          <span class="mt-6 block h-[5.5rem] rounded-xl border border-line bg-base/50"></span>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <span class="block h-10 rounded-lg border border-accent/25"></span>
+            <span class="block h-10 rounded-lg border border-line"></span>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {metrics.length > 0 && (
+      <dl class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {metrics.map((metric) => (
+          <div class="rounded-xl border border-line bg-surface/60 p-4">
+            <dt class="min-h-8 text-xs leading-snug text-ink-muted">{metric.label}</dt>
+            <dd class="mt-2 text-base font-extrabold text-accent">{metric.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+
+    {kind === "diagnose" && (
+      <div class="mt-6 space-y-3" aria-hidden="true">
+        <span class="block h-2 w-full rounded-full bg-accent/75"></span>
+        <span class="block h-2 w-4/5 rounded-full bg-ink/20"></span>
+        <span class="block h-2 w-3/5 rounded-full bg-ink/15"></span>
+      </div>
+    )}
+
+    {rows.length > 0 && (
+      <div class="rounded-xl border border-line bg-surface/45 p-4 font-mono text-xs">
+        {rows.map((row) => (
+          <div class="flex items-center justify-between gap-4 border-b border-line py-2.5 last:border-b-0">
+            <strong class="text-ink">{row.label}</strong>
+            <span class="text-right text-ink-muted">{row.value}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {checks.length > 0 && (
+      <CheckList items={checks} class={kind === "design" ? "mt-5" : undefined} />
+    )}
+
+    <div class="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-4">
+      <p class="font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-accent">{calloutLabel}</p>
+      <p class="mt-2 text-sm font-semibold leading-relaxed text-ink">{callout}</p>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .process-artifact {
+    box-shadow: 0 24px 70px color-mix(in srgb, #000 34%, transparent);
+  }
+</style>
