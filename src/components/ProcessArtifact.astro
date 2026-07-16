@@ -19,14 +19,14 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
 ---
 
 <figure class="process-artifact overflow-hidden rounded-[1.4rem] border border-line bg-base/75" aria-label={`${label}: ${status}`}>
-  <figcaption class="flex items-center justify-between gap-4 border-b border-line px-5 py-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
+  <figcaption class="process-artifact-caption flex items-center justify-between gap-4 border-b border-line px-5 py-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
     <span>{label}</span>
     <span class="text-accent">{status}</span>
   </figcaption>
 
-  <div class="min-h-[18rem] p-5 sm:p-6">
+  <div class="process-artifact-body min-h-[18rem] p-5 sm:p-6">
     {kind === "design" && (
-      <div class="grid min-h-[13.5rem] grid-cols-[5.25rem_1fr] gap-3" aria-hidden="true">
+      <div class="process-artifact-design grid min-h-[13.5rem] grid-cols-[5.25rem_1fr] gap-3" aria-hidden="true">
         <div class="rounded-xl border border-line bg-surface/65 p-3">
           <span class="block h-2 w-9 rounded-full bg-accent/75"></span>
           <span class="mt-5 block h-2 rounded-full bg-ink/15"></span>
@@ -50,7 +50,7 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
     {metrics.length > 0 && (
       <dl class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {metrics.map((metric) => (
-          <div class="rounded-xl border border-line bg-surface/60 p-4">
+          <div class="process-artifact-metric rounded-xl border border-line bg-surface/60 p-4">
             <dt class="min-h-8 text-xs leading-snug text-ink-muted">{metric.label}</dt>
             <dd class="mt-2 text-base font-extrabold" style="color: var(--color-accent)">{metric.value}</dd>
           </div>
@@ -67,7 +67,7 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
     )}
 
     {rows.length > 0 && (
-      <div class="rounded-xl border border-line bg-surface/45 p-4 font-mono text-xs">
+      <div class="process-artifact-rows rounded-xl border border-line bg-surface/45 p-4 font-mono text-xs">
         {rows.map((row) => (
           <div class="flex items-center justify-between gap-4 border-b border-line py-2.5 last:border-b-0">
             <strong class="text-ink">{row.label}</strong>
@@ -78,10 +78,10 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
     )}
 
     {checks.length > 0 && (
-      <CheckList items={checks} class={kind === "design" ? "mt-5" : undefined} />
+      <CheckList items={checks} class={kind === "design" ? "process-artifact-checks mt-5" : "process-artifact-checks"} />
     )}
 
-    <div class="mt-6 rounded-xl border border-accent/30 bg-accent/5 p-4">
+    <div class="process-artifact-callout mt-6 rounded-xl border border-accent/30 bg-accent/5 p-4">
       <p class="font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-accent">{calloutLabel}</p>
       <p class="mt-2 text-sm font-semibold leading-relaxed text-ink">{callout}</p>
     </div>
@@ -91,5 +91,71 @@ const { kind, label, status, metrics, rows, checks, calloutLabel, callout } = As
 <style>
   .process-artifact {
     box-shadow: 0 24px 70px color-mix(in srgb, #000 34%, transparent);
+  }
+
+  @media (min-width: 1280px) and (min-height: 860px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :global(:root.js-anim .is-process-deck) .process-artifact-caption {
+      padding: 0.7rem 1rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-body {
+      min-height: 0;
+      padding: 0.65rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-design {
+      height: 6rem;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-metric {
+      padding: 0.55rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-metric dt {
+      min-height: 0;
+      font-size: 0.6rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-metric dd {
+      margin-top: 0.3rem;
+      font-size: 0.75rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-callout {
+      margin-top: 0.55rem;
+      padding: 0.55rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-callout p:first-child {
+      font-size: 0.55rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-callout p:last-child {
+      margin-top: 0.3rem;
+      font-size: 0.68rem;
+      line-height: 1.3;
+    }
+
+    :global(:root.js-anim .is-process-deck .process-artifact-checks) {
+      gap: 0.2rem;
+      margin-top: 0.55rem;
+    }
+
+    :global(:root.js-anim .is-process-deck .process-artifact-checks li) {
+      gap: 0.45rem;
+      font-size: 0.65rem;
+      line-height: 1.25;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-rows {
+      padding: 0.6rem;
+    }
+
+    :global(:root.js-anim .is-process-deck) .process-artifact-rows > div {
+      padding-top: 0.35rem;
+      padding-bottom: 0.35rem;
+    }
   }
 </style>

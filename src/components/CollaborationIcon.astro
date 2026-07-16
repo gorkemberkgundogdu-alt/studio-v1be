@@ -1,13 +1,5 @@
 ---
-type CollaborationIconKind =
-  | "kickoff"
-  | "updates"
-  | "review"
-  | "feedback"
-  | "delivery"
-  | "owner"
-  | "visibility"
-  | "blockers";
+import type { CollaborationIconKind } from "@/types/collaboration";
 
 interface Props {
   kind: CollaborationIconKind;

@@ -75,7 +75,7 @@ Each card: what's included (5–7 bullets), "Get a free audit" CTA (audit is the
 
 ### Process page — visible engagement system
 
-`/process/` uses the proof-first headline "From first signal to a site you can prove." and a compact engagement map. Two starting conditions (from zero / already live) converge into four macro stages: Diagnose, Design, Build, Validate & measure. A sticky desktop evidence rail links to each stage; every stage pairs the operational copy with an inspectable UI artifact. The three explicit approval gates are Content & Structure, Experience & Visual, and Build, Evidence & Launch. Collaboration promises are a 60-minute kickoff, two written updates per week, one focused review per gate and a two-business-day feedback window. Every Build includes the launch evidence pack and a 30-day checkpoint; ongoing optimization remains an optional Grow engagement. The page uses native smooth scroll plus the shared one-time reveal layer—never Home pagination or scroll-jacking.
+`/process/` uses the proof-first headline "From first signal to a site you can prove." and a compact engagement map. Two starting conditions (from zero / already live) converge into four macro stages: Diagnose, Design, Build, Validate & measure. On large fine-pointer desktops (at least 1280×860, with motion allowed), those four stages occupy one sticky stage deck: wheel/keyboard advances one stage at a time, stage links use the same soft replacement transition, and native scrolling is released at the first and last boundaries. Short desktops, touch devices, reduced-motion users and mobile retain the complete natural vertical flow. Every stage pairs the operational copy with an inspectable UI artifact. The three explicit approval gates are Content & Structure, Experience & Visual, and Build, Evidence & Launch. Collaboration promises are a 60-minute kickoff, two written updates per week, one focused review per gate and a two-business-day feedback window. The Collaboration UI renders those four cadence promises as a five-node flow whose final Delivery alignment node is an outcome state, not an additional meeting or service promise. Every Build includes the launch evidence pack and a 30-day checkpoint; ongoing optimization remains an optional Grow engagement.
 
 ## 7. ROBOT MASCOT (shared component from main site)
 
@@ -117,7 +117,7 @@ English only in v1. Architecture stays i18n-ready (translation dictionaries patt
 
 **Hard constraints:**
 - **SEO-safe reveal:** nothing hidden by default. Inline script adds `js-anim` to `<html>`; animation initial states exist only under `.js-anim` selectors; IntersectionObserver reveals. JS-off / crawler / view-source = fully visible page.
-- **No scroll-jacking:** never override native scroll; no wheel preventDefault, no snap-lock. All effects scroll-LINKED via progress values.
+- **No global scroll-jacking:** never override native scroll outside the explicitly documented Home pagination and large-desktop Process stage-deck scopes. The Process deck releases native scrolling at both boundaries and is never enabled for touch, short viewports or reduced motion.
 - **GPU-only:** animate `transform` / `opacity` / `clip-path` exclusively. Zero layout shift (space reserved from first paint).
 - **`prefers-reduced-motion: reduce`** disables the entire layer (mascot already follows this; match it).
 - Passive listeners; one rAF loop; `will-change` only while near viewport.
