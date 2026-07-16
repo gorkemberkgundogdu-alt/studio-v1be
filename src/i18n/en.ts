@@ -631,12 +631,11 @@ export const en = {
         { value: "2 business days", label: "Feedback window for clear momentum" },
       ],
       principles: [
-        "One decision owner on your side keeps approvals accountable",
-        "Feedback is consolidated in one shared place",
-        "Approved decisions remain visible throughout the project",
-        "Scope changes are discussed before they affect delivery or cost",
-        "Critical blockers are raised the same day",
+        "One decision owner keeps approvals accountable",
+        "Feedback and approved decisions stay visible in one shared place",
+        "Scope changes and critical blockers surface before they affect delivery",
       ],
+      principlesLabel: "Working agreements",
       closing: "Progress stays visible. Meetings stay useful.",
     },
     afterLaunch: {

@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import CheckList from "@/components/CheckList.astro";
 import ProcessArtifact from "@/components/ProcessArtifact.astro";
+import ProcessStageIcon from "@/components/ProcessStageIcon.astro";
 import RobotMascot from "@/components/sections/RobotMascot.astro";
 import { useTranslations } from "@/i18n";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
@@ -61,19 +62,22 @@ const crumbs = [
   </section>
 
   <nav class="border-y border-line bg-surface/45" aria-label={pr.overview.label}>
-    <div class="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-center lg:gap-8">
+    <div class="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-center lg:gap-6">
       <div class="flex items-center gap-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
         <span>{pr.overview.label}</span>
         <span class="text-accent">{pr.overview.summary}</span>
       </div>
-      <ol class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 md:grid-cols-4 md:gap-x-6" role="list">
+      <ol class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 md:grid-cols-4" role="list">
         {processSteps.map((step, index) => (
           <li class="min-w-0">
-            <a class="grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2 py-1 text-sm motion-safe:transition-colors hover:text-accent" href={`#process-${step.id}`}>
+            <a class="group grid grid-cols-[1.25rem_minmax(0,1fr)_1.5rem] items-center gap-1.5 py-1 text-[0.8125rem] motion-safe:transition-colors hover:text-accent" href={`#process-${step.id}`}>
               <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
               <span class="flex min-w-0 flex-col leading-tight">
                 <strong class="min-[1100px]:whitespace-nowrap">{step.label}</strong>
                 <small class="mt-1 text-[0.65rem] font-normal text-ink-muted">{pr.overview.stageStatus[index]}</small>
+              </span>
+              <span class="grid size-6 place-items-center rounded-md border border-line text-ink-muted group-hover:border-accent/45 group-hover:text-accent">
+                <ProcessStageIcon kind={step.id} />
               </span>
             </a>
           </li>
@@ -173,24 +177,42 @@ const crumbs = [
     </div>
   </div>
 
-  <section class="border-t border-line bg-surface/25" aria-labelledby="collaboration-title">
+  <section class="border-y border-light-line bg-light-base text-light-ink" aria-labelledby="collaboration-title">
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28" data-reveal-group>
-      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.collaboration.eyebrow}</p>
+      <p class="font-mono text-sm font-semibold uppercase tracking-widest text-green" data-reveal>{pr.collaboration.eyebrow}</p>
       <h2 id="collaboration-title" class="mt-5 max-w-4xl text-h2 font-black" data-reveal>{pr.collaboration.title}</h2>
-      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.collaboration.intro}</p>
+      <p class="mt-5 max-w-3xl text-lg leading-relaxed text-light-muted" data-reveal>{pr.collaboration.intro}</p>
 
-      <dl class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
-        {pr.collaboration.rhythm.map((item, index) => (
-          <div class="border-t-2 border-accent bg-surface p-5" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
-            <dt class="text-2xl font-black text-ink">{item.value}</dt>
-            <dd class="mt-2 text-sm leading-relaxed text-ink-muted">{item.label}</dd>
-          </div>
-        ))}
-      </dl>
+      <div class="relative mt-12" data-reveal-group>
+        <span class="absolute left-[12.5%] right-[12.5%] top-5 hidden h-px bg-light-line md:block" aria-hidden="true"></span>
+        <ol class="relative grid gap-7 md:grid-cols-4 md:gap-5" role="list">
+          {pr.collaboration.rhythm.map((item, index) => (
+            <li class="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 md:block md:text-center" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+              <span class="grid size-10 place-items-center rounded-full border border-green bg-light-base font-mono text-xs font-black text-green md:mx-auto" aria-hidden="true">
+                0{index + 1}
+              </span>
+              <div class="md:mt-6">
+                <p class="text-2xl font-black text-light-ink">{item.value}</p>
+                <p class="mt-2 max-w-52 text-sm leading-relaxed text-light-muted md:mx-auto">{item.label}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
 
-      <div class="mt-8 grid gap-8 border-t border-line pt-8 lg:grid-cols-[1fr_auto] lg:items-end" data-reveal>
-        <CheckList items={pr.collaboration.principles} class="sm:grid-cols-2" />
-        <p class="font-mono text-xs font-semibold uppercase tracking-wider text-accent lg:text-right">{pr.collaboration.closing}</p>
+      <div class="mt-12 border-t border-light-line pt-8" data-reveal>
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <p class="font-mono text-xs font-semibold uppercase tracking-wider text-green">{pr.collaboration.principlesLabel}</p>
+          <p class="font-mono text-xs font-semibold uppercase tracking-wider text-green lg:text-right">{pr.collaboration.closing}</p>
+        </div>
+        <ul class="mt-5 grid gap-3 md:grid-cols-3" role="list">
+          {pr.collaboration.principles.map((principle, index) => (
+            <li class="flex gap-3 rounded-xl border border-light-line bg-white/35 p-5 text-sm font-semibold leading-relaxed text-light-ink">
+              <span class="font-mono text-xs font-black text-green" aria-hidden="true">0{index + 1}</span>
+              <span>{principle}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
