@@ -50,23 +50,24 @@ const configuratorPaths = p.paths.map((item) => ({
       kodda mevcut değil, CLAUDE.md §7 gereği main site ile aynı "classic"). */}
   <section class="grid-texture">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <div class="grid items-center gap-10 lg:grid-cols-[1.3fr_auto]">
+      <div class="grid items-center gap-10 lg:grid-cols-[1.3fr_auto]" data-reveal-group>
         <div>
-          <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent">{p.hero.eyebrow}</p>
+          <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{p.hero.eyebrow}</p>
           <h1
             class="mt-4 font-extrabold"
             style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+            data-reveal
           >
             {p.hero.title}
           </h1>
-          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{p.hero.subtitle}</p>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted" data-reveal>{p.hero.subtitle}</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center" data-reveal>
             <Button href="/contact/?source=packages-hero" data-cta="packages_hero_audit">{p.hero.primaryCta}</Button>
             <Button href="#scope-builder" variant="ghost" data-cta="packages_hero_brief">{p.hero.secondaryCta}</Button>
           </div>
-          <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted">{p.hero.reassurance}</p>
+          <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{p.hero.reassurance}</p>
         </div>
-        <div class="mx-auto w-[160px] shrink-0 md:w-[200px]">
+        <div class="mx-auto w-[160px] shrink-0 md:w-[200px]" data-reveal>
           <RobotMascot look="classic" />
         </div>
       </div>
@@ -99,8 +100,10 @@ const configuratorPaths = p.paths.map((item) => ({
 
   {/* 5 — FAQ: packages'a özel liste, görünür + FAQPage şeması aynı veriden */}
   <section class="border-t border-line" aria-label={p.faq.title}>
-    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
-      <FaqAccordion title={p.faq.title} items={p.faq.items} level="h2" />
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20" data-reveal-group>
+      <div data-reveal>
+        <FaqAccordion title={p.faq.title} items={p.faq.items} level="h2" />
+      </div>
     </div>
   </section>
 
