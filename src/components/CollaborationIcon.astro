@@ -1,0 +1,38 @@
+---
+type CollaborationIconKind =
+  | "kickoff"
+  | "updates"
+  | "review"
+  | "feedback"
+  | "delivery"
+  | "owner"
+  | "visibility"
+  | "blockers";
+
+interface Props {
+  kind: CollaborationIconKind;
+  class?: string;
+}
+
+const { kind, class: className } = Astro.props;
+---
+
+<svg
+  class:list={["size-5", className]}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {kind === "kickoff" && <><path d="M5 21V4" /><path d="M5 5c5-3 8 3 14 0v10c-6 3-9-3-14 0" /></>}
+  {kind === "updates" && <><path d="M6 3h8l4 4v14H6z" /><path d="M14 3v5h5M9 12h6M9 16h6" /></>}
+  {kind === "review" && <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 5 5" /></>}
+  {kind === "feedback" && <><path d="M4 5h16v11H9l-5 4z" /><path d="M8 10h.01M12 10h.01M16 10h.01" /></>}
+  {kind === "delivery" && <><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="3" /><path d="m14 10 5-5M16 5h3v3" /></>}
+  {kind === "owner" && <><circle cx="9" cy="8" r="3" /><path d="M3 20v-2a5 5 0 0 1 10 0v2M16 6a3 3 0 0 1 0 6M17 15a5 5 0 0 1 4 5" /></>}
+  {kind === "visibility" && <><path d="m12 3 9 5-9 5-9-5z" /><path d="m3 12 9 5 9-5M3 16l9 5 9-5" /></>}
+  {kind === "blockers" && <><path d="M12 3 2.5 20h19z" /><path d="M12 9v5M12 17h.01" /></>}
+</svg>

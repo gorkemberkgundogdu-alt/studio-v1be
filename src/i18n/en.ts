@@ -634,11 +634,33 @@ export const en = {
       intro:
         "You should always know where the project stands without spending every day in a status call. We keep progress visible in writing and use meetings for decisions, not recaps.",
       rhythm: [
-        { value: "60 min", label: "Kickoff to align goals, scope and decision owners" },
-        { value: "2× weekly", label: "Concise written progress updates" },
-        { value: "30–45 min", label: "Focused review to close each approval gate" },
-        { value: "2 business days", label: "Feedback window for clear momentum" },
+        {
+          title: "Kickoff & align",
+          description: "Align goals, scope and decision owners.",
+          cadence: "60 min",
+        },
+        {
+          title: "Async updates",
+          description: "Concise written progress updates shared twice weekly.",
+          cadence: "2× weekly",
+        },
+        {
+          title: "Focused review",
+          description: "A clear review closes each approval gate.",
+          cadence: "30–45 min",
+        },
+        {
+          title: "Feedback loop",
+          description: "Feedback stays actionable, documented and visible.",
+          cadence: "2 business days",
+        },
+        {
+          title: "Delivery alignment",
+          description: "Approved decisions move into delivery without losing momentum.",
+          cadence: "Keep moving",
+        },
       ],
+      loopLabel: "Continuous visibility. Fewer blockers.",
       principles: [
         "One decision owner keeps approvals accountable",
         "Feedback and approved decisions stay visible in one shared place",
