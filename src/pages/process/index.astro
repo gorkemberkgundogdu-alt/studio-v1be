@@ -62,22 +62,21 @@ const crumbs = [
   </section>
 
   <nav class="border-y border-line bg-surface/45" aria-label={pr.overview.label}>
-    <div class="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-center lg:gap-6">
-      <div class="flex items-center gap-4 font-mono text-[0.65rem] font-semibold uppercase tracking-widest text-ink-muted">
-        <span>{pr.overview.label}</span>
-        <span class="text-accent">{pr.overview.summary}</span>
-      </div>
+    <div class="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[11rem_minmax(0,1fr)] lg:items-center lg:gap-6">
+      <p class="font-mono text-sm font-bold uppercase tracking-widest text-ink">{pr.overview.label}</p>
       <ol class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 md:grid-cols-4" role="list">
         {processSteps.map((step, index) => (
           <li class="min-w-0">
-            <a class="group grid grid-cols-[1.25rem_minmax(0,1fr)_1.5rem] items-center gap-1.5 py-1 text-[0.8125rem] motion-safe:transition-colors hover:text-accent" href={`#process-${step.id}`}>
-              <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
+            <a class="group grid grid-cols-[1.5rem_minmax(0,1fr)] items-start gap-2 py-1 text-[0.8125rem] motion-safe:transition-colors hover:text-accent" href={`#process-${step.id}`}>
+              <span class="flex flex-col items-center gap-1.5">
+                <span class="font-mono text-xs font-bold text-accent">{step.number}</span>
+                <span class="grid size-6 place-items-center rounded-md border border-line text-ink-muted group-hover:border-accent/45 group-hover:text-accent">
+                  <ProcessStageIcon kind={step.id} />
+                </span>
+              </span>
               <span class="flex min-w-0 flex-col leading-tight">
                 <strong class="min-[1100px]:whitespace-nowrap">{step.label}</strong>
                 <small class="mt-1 text-[0.65rem] font-normal text-ink-muted">{pr.overview.stageStatus[index]}</small>
-              </span>
-              <span class="grid size-6 place-items-center rounded-md border border-line text-ink-muted group-hover:border-accent/45 group-hover:text-accent">
-                <ProcessStageIcon kind={step.id} />
               </span>
             </a>
           </li>

@@ -327,7 +327,6 @@ export const en = {
     },
     overview: {
       label: "Engagement map",
-      summary: "4 stages · 3 gates",
       stageStatus: ["brief", "2 gates", "preview", "proof"],
     },
     startingPoint: {
