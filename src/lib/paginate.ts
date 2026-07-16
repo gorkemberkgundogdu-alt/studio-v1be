@@ -71,6 +71,11 @@ export function initPaginate(): void {
     }, 650);
   }
 
+  const canScrollRegion = (region: HTMLElement, dir: 1 | -1) =>
+    dir > 0
+      ? region.scrollTop + region.clientHeight < region.scrollHeight - 1
+      : region.scrollTop > 1;
+
   window.addEventListener(
     "wheel",
     (e) => {
@@ -78,6 +83,15 @@ export function initPaginate(): void {
       const goingDown = e.deltaY > 0;
       const goingUp = e.deltaY < 0;
       if (!goingDown && !goingUp) return;
+
+      // FAQ gibi viewport'tan uzun paginated adımlarda wheel önce aktif
+      // section'ın kendi içeriğini kaydırır. İç scroll sınırına gelince aynı
+      // hareket normal section geçişine devam eder.
+      const scrollRegion =
+        e.target instanceof Element ? e.target.closest<HTMLElement>("[data-paginate-scroll]") : null;
+      const direction = goingDown ? 1 : -1;
+      if (scrollRegion === paginated[current] && canScrollRegion(scrollRegion, direction)) return;
+
       // En baştaki/sondaki sınırda no-op — yukarıda/aşağıda başka section yok.
       if ((current === last && goingDown) || (current === 0 && goingUp)) return;
 
@@ -95,6 +109,16 @@ export function initPaginate(): void {
     const down = e.key === "PageDown" || e.key === "ArrowDown";
     const up = e.key === "PageUp" || e.key === "ArrowUp";
     if (!down && !up) return;
+
+    const direction = down ? 1 : -1;
+    const active = paginated[current];
+    if (active.hasAttribute("data-paginate-scroll") && canScrollRegion(active, direction)) {
+      e.preventDefault();
+      const distance = e.key.startsWith("Page") ? active.clientHeight * 0.75 : 80;
+      active.scrollBy({ top: distance * direction, behavior: "smooth" });
+      return;
+    }
+
     if ((current === last && down) || (current === 0 && up)) return;
 
     e.preventDefault();

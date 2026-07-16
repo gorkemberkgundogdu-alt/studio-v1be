@@ -239,12 +239,15 @@ const h = t.home;
 
   {/* S5 — FAQ (dark), its own section between Work and the audit CTA */}
   <section
-    class="grid-texture flex min-h-[100svh] flex-col justify-center border-t border-line"
+    class="grid-texture min-h-[100svh] overflow-y-auto overscroll-contain border-t border-line"
     data-paginate
+    data-paginate-scroll
     aria-label={t.contact.faq.title}
   >
-    <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
-      <FaqAccordion title={t.contact.faq.title} items={t.contact.faq.items} level="h2" />
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20" data-reveal-group>
+      <div data-reveal>
+        <FaqAccordion title={t.contact.faq.title} items={t.contact.faq.items} level="h2" />
+      </div>
     </div>
   </section>
 
