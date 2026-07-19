@@ -706,69 +706,217 @@ export const en = {
   },
   work: {
     meta: {
-      title: "Work — case studies | v1be studio",
+      title: "Work — inspectable case studies | v1be studio",
       description:
-        "Case studies from v1be studio, starting with v1be.io: our own platform site, engineered and validated as case zero. We practice on ourselves first.",
+        "Inspectable web design and development case studies from v1be studio, starting with v1be.io: our own platform site and case zero.",
     },
     hero: {
-      eyebrow: "Work",
-      title: "Proof, starting with ourselves.",
+      eyebrow: "v1be, applied.",
+      title: "Proof you can inspect.",
       subtitle:
-        "We practice the methodology on our own platform before we sell it. Case zero is v1be.io.",
+        "The promise is only useful when the work behind it stays visible. We document the decisions, the delivered system and the evidence for every case.",
+      indexLabel: "Published cases",
+      indexNote: "One owned platform case today. Client work joins only when the evidence is ready to show.",
+    },
+    featured: {
+      eyebrow: "Featured case",
+      title: "The first proof is ours.",
+      note: "Case zero keeps the method honest before it reaches a client project.",
+      servicesLabel: "Work included in this case",
     },
     cases: [
       {
         name: "v1be.io",
-        tag: "Case zero",
+        tag: "Case 01 · Case zero",
+        ownership: "Owned platform",
         description:
           "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first.",
         linkLabel: "Read the case study",
         href: "/work/v1be-io/",
+        services: ["Strategy & UX", "Astro development", "SEO / GEO infrastructure"],
+        proof: [
+          { label: "Schema graph", value: "Structured" },
+          { label: "AI crawler access", value: "Open" },
+          { label: "Launch evidence", value: "Validated" },
+        ],
       },
     ],
+    standard: {
+      eyebrow: "The case standard",
+      title: "Show the work. Show the reason. Show the proof.",
+      description:
+        "A polished screen is not enough. Every v1be studio case is structured so a potential client can understand what changed and why it matters.",
+      items: [
+        {
+          title: "Context",
+          description: "The business problem, audience and constraints that shaped the brief.",
+        },
+        {
+          title: "Decisions",
+          description: "The content, experience and technical choices made during the engagement.",
+        },
+        {
+          title: "Evidence",
+          description: "The working artifact, validation and measurable signals available at handoff.",
+        },
+      ],
+    },
     openSlot: {
+      eyebrow: "Case 02 · Open",
       label: "This slot is reserved for a brand that wants to be cited.",
+      description:
+        "Start with a free audit. If there is a useful problem to solve, we turn the baseline into a clear brief and a case worth showing.",
       cta: "Get a free audit",
     },
     caseStudy: {
       meta: {
-        title: "Case study: v1be.io — our own platform site | v1be studio",
+        title: "v1be.io case study — a platform built to compound | v1be studio",
         description:
-          "How we engineered v1be.io as case zero: a full schema graph, citability-scored content and Rich Results Test validation. The methodology, dogfooded.",
+          "See how v1be.io was designed and built from zero as a visual, technical and measurable home for an AI marketing platform.",
       },
       hero: {
-        eyebrow: "Case study · Case zero",
-        title: "v1be.io — the site we practice on first.",
+        eyebrow: "Case 01 · v1be.io",
+        title: "A platform site built to compound.",
         subtitle:
-          "Before we optimize your web presence, we prove the methodology on our own platform. Here's what that looks like.",
+          "We created v1be.io from zero as the owned home for a connected AI marketing platform—bringing its product story, visual system and GEO infrastructure into one experience people and machines can understand.",
+        primaryCta: "Visit v1be.io",
+        secondaryCta: "See the build evidence",
+        secondaryHref: "#technical-foundation",
+        image: "/images/work/v1be-io/homepage-hero.png",
+        imageAlt: "The live v1be.io homepage showing the brand-trained AI product story and v1ben mascot",
+        liveLabel: "Live",
+        figureCaption: "Live homepage · real production interface",
+        figureProof: "Captured from v1be.io",
       },
       breadcrumbLabel: "v1be.io",
-      sections: [
-        {
-          heading: "The brief",
-          body: "v1be.io is the platform home for v1be, the AI marketing agent. It had to be a live demonstration of GEO done right — a site a technical SEO auditor could open in view-source and find nothing to criticize.",
-        },
-        {
-          heading: "What we built",
-          body: "A static-first Astro build with a full schema graph on every page: Organization and WebSite site-wide, Service on offer pages, FAQPage and BreadcrumbList where they belong — all fed from the same dictionaries as the visible content, so structured data never drifts from what a reader sees.",
-        },
-        {
-          heading: "The GEO infrastructure",
-          body: "robots.txt deliberately allows GPTBot, ClaudeBot, PerplexityBot and Google-Extended. An llms.txt endpoint lists the canonical pages. Self-hosted fonts, preloaded and subset. OG images that always resolve. Every image carries a descriptive alt; every page has exactly one h1.",
-        },
-        {
-          heading: "Citability-scored content",
-          body: "Articles are produced by the v1be pipeline and scored for citability before publishing — answer-first structure, clean headings, structured data — so ChatGPT, Gemini and Perplexity can read, quote and cite them. Content ships as drafts and is human-approved, always.",
-        },
-        {
-          heading: "The proof",
-          body: "The schema graph validates cleanly in Google's Rich Results Test. The site is the reference implementation for everything v1be studio builds for clients — case zero, and the one we keep honest.",
-        },
-      ],
+      summary: {
+        eyebrow: "01 · Project summary",
+        title: "One platform, many capabilities, one understandable story.",
+        description:
+          "The product story, visual language and technical model had to be defined as one system—without allowing any layer to outrun or contradict the others.",
+        cards: [
+          {
+            label: "Challenge",
+            title: "Explain a connected product",
+            description: "Turn a broad AI marketing offer into one coherent platform story without reducing it to generic software language.",
+          },
+          {
+            label: "Our role",
+            title: "Shape the whole experience",
+            description: "Own the strategy, UX writing, visual direction, responsive interface and production build as one system.",
+          },
+          {
+            label: "Outcome",
+            title: "A platform ready to expand",
+            description: "New services, content and languages can join the system without breaking its hierarchy or product story.",
+          },
+        ],
+      },
+      walkthrough: {
+        eyebrow: "02 · Visual walkthrough",
+        title: "The interface explains what a paragraph cannot.",
+        description:
+          "These are real production screens from v1be.io. Each one carries a different part of the product story while staying inside the same visual and interaction system.",
+        items: [
+          {
+            image: "/images/work/v1be-io/services-hero.png",
+            route: "/services/",
+            alt: "The live v1be services page pairing a clear platform proposition with an original futuristic brand visual",
+            title: "A proposition with its own world",
+            description:
+              "The services hero pairs direct product language with original art direction, making the platform feel authored rather than assembled from familiar AI tropes.",
+            proof: "Original imagery and product language create recognition before the visitor reaches the feature list.",
+          },
+          {
+            image: "/images/work/v1be-io/services-system.png",
+            route: "/services/#service-map",
+            alt: "The live v1be service map showing connected products around one shared brand intelligence layer",
+            title: "Complexity made navigable",
+            description:
+              "The service map gives every capability a distinct job while keeping the shared brand intelligence layer visible as the organizing idea.",
+            proof: "Information architecture turns a large offer into a system visitors can scan, understand and enter from multiple points.",
+          },
+        ],
+      },
+      foundation: {
+        eyebrow: "03 · Technical foundation",
+        title: "Meaning is built into the product, not added after it.",
+        description:
+          "The stack stays intentionally compact. The important work is how content, routes, metadata and machine-readable entities remain connected as the platform grows.",
+        items: [
+          {
+            title: "Server-rendered foundation",
+            description: "Core content, meaning and navigation arrive in HTML, keeping every page resilient and directly readable without client-side rendering.",
+          },
+          {
+            title: "Semantic content model",
+            description: "Shared dictionaries and content collections connect visible copy, metadata, routes and structured data.",
+          },
+          {
+            title: "Connected schema graph",
+            description: "Organization, WebSite, Service, FAQ, Article and breadcrumb entities describe what each page visibly supports.",
+            evidence: [{ label: "Open live implementation", path: "/" }],
+          },
+          {
+            title: "Machine discovery",
+            description: "Sitemaps, dynamic llms.txt outputs and explicit AI crawler rules keep discovery surfaces deliberate and current.",
+            evidence: [
+              { label: "robots.txt", path: "/robots.txt" },
+              { label: "llms.txt", path: "/llms.txt" },
+              { label: "sitemap", path: "/sitemap-index.xml" },
+            ],
+          },
+        ],
+      },
+      delivery: {
+        eyebrow: "04 · Deploy and operations",
+        title: "A short path from approved work to production.",
+        description:
+          "The delivery model avoids an opaque hosting layer. Every release has a visible build artifact, a defined production destination and a repeatable validation pass.",
+        steps: [
+          { title: "GitHub", description: "Versioned source and an auditable change history." },
+          { title: "Astro build", description: "A production-ready static dist artifact." },
+          { title: "cPanel", description: "Static output deployed to the production document root." },
+          { title: "Cloudflare", description: "Edge cache and media delivery in front of production." },
+          { title: "Validate", description: "Routes, forms, schema and indexing signals checked after release." },
+        ],
+      },
+      measurement: {
+        eyebrow: "05 · Launch baseline & measurement plan",
+        title: "The launch created the baseline.",
+        description:
+          "Because v1be.io was created from zero, there is no honest legacy-site uplift to manufacture. The useful comparison begins at launch and follows the same signals over time.",
+        note: "No invented before-and-after numbers. The case separates implemented evidence from outcomes that require elapsed production data.",
+        baseline: [
+          {
+            label: "Release point",
+            value: "Day 0",
+            description: "Capture technical health, index coverage, the agreed AI query set and conversion events at launch.",
+          },
+          {
+            label: "First review",
+            value: "Day 30",
+            description: "Check crawl and index coverage, early search movement and the first repeatable AI visibility signals.",
+          },
+          {
+            label: "Trend review",
+            value: "Day 90",
+            description: "Compare performance, search, AI mentions and conversion against the same launch baseline.",
+          },
+        ],
+        trackLabel: "Signals compared at every checkpoint",
+        signals: [
+          { title: "Performance", description: "Core Web Vitals and priority page speed." },
+          { title: "Search", description: "Index coverage, impressions and clicks in Search Console." },
+          { title: "AI visibility", description: "Mentions and citations across an agreed query set." },
+          { title: "Conversion", description: "CTA clicks, form starts and qualified lead events." },
+        ],
+      },
       cta: {
-        title: "Want this for your brand?",
+        eyebrow: "Build from evidence",
+        title: "Your launch can become the baseline.",
         subtitle:
-          "We'll start by showing you how AI engines see you today.",
+          "Start with a clear view of what people, search engines and AI systems can understand today.",
         button: "Get a free audit",
       },
     },
@@ -780,29 +928,89 @@ export const en = {
         "v1be studio is the web design and development arm of v1be. We build fast, structured websites engineered to be cited by AI search engines.",
     },
     hero: {
-      eyebrow: "About",
+      eyebrow: "About v1be studio",
       title: "The studio arm of v1be.",
+      mapLabel: "How v1be and v1be studio work together",
+      platform: {
+        label: "Platform",
+        name: "v1be",
+        role: "Research, intelligence, content systems and AI-assisted marketing operations.",
+      },
+      studio: {
+        label: "Service arm",
+        name: "v1be studio",
+        role: "Strategy, UX, visual design and technical delivery for the web presence those systems rely on.",
+      },
+      outcome: {
+        label: "Shared outcome",
+        value: "An owned website people understand and AI engines can parse.",
+      },
     },
     canonical: CANONICAL_DESCRIPTION,
-    body: [
-      {
-        heading: "Who we are",
-        text: "v1be studio is the productized service arm of v1be. Where the v1be platform is the AI marketing agent, the studio is the team that designs, builds and optimizes the web presence that agent works on — the same methodology and tooling, delivered as a service.",
-      },
-      {
-        heading: "How we relate to v1be",
-        text: "v1be studio is the services arm of v1be, the AI marketing agent platform. The studio builds and optimizes your web presence using the same methodology and tooling. Authority concentrates on the main v1be.io domain; the studio ships the sites and the citable content that feed it.",
-      },
-      {
-        heading: "What we believe",
-        text: "AI search engines now answer the questions your customers used to type into Google. A website should be engineered to be read, understood and cited by those engines — not just indexed by a crawler. That is what GEO is, and it is what every site we ship is built for.",
-      },
-      {
-        heading: "The proof standard",
-        text: "This site is itself a proof of the methodology it sells: a full schema graph, llms.txt, deliberate crawler access, and content that never diverges from its structured data. Every site we ship is validated in Google's Rich Results Test before launch.",
-      },
-    ],
+    relationship: {
+      eyebrow: "One company · Two ways to work",
+      title: "The platform builds the intelligence. The studio builds the place it lands.",
+      description:
+        "Software can find the signal, create the draft and measure the change. It still needs an owned experience with a clear message, useful journeys and a technical foundation that can carry the work.",
+      parts: [
+        {
+          label: "v1be · Platform",
+          title: "The intelligence layer",
+          description:
+            "v1be analyzes how a brand appears across search and AI answers, then supports the content and operating systems needed to improve that presence.",
+          points: [
+            "Visibility and brand analysis",
+            "AI-assisted content and marketing workflows",
+            "Continuous learning across owned channels",
+          ],
+        },
+        {
+          label: "v1be studio · Service",
+          title: "The experience layer",
+          description:
+            "The studio turns the opportunity into a clear brief, a designed experience and a maintainable website with SEO and GEO infrastructure built in.",
+          points: [
+            "Content strategy, UX and visual direction",
+            "Responsive frontend and technical systems",
+            "Launch validation, evidence and handoff",
+          ],
+        },
+      ],
+      shared: "Shared method · Brand clarity → structured experience → visible evidence",
+    },
+    principles: {
+      eyebrow: "How we operate",
+      title: "The way we work is part of the deliverable.",
+      description:
+        "A website project should reduce ambiguity as it moves. These principles keep the work reviewable, the decisions accountable and the final system yours.",
+      items: [
+        {
+          title: "Evidence before opinion",
+          description: "We start from the audience, the current site and the visibility baseline before prescribing a solution.",
+        },
+        {
+          title: "Decisions before decoration",
+          description: "Message, structure and user journeys are approved before visual direction turns them into an interface.",
+        },
+        {
+          title: "AI assists. Humans decide.",
+          description: "Automation can accelerate research and production; consequential content and product choices keep an owner.",
+        },
+        {
+          title: "Ownership at handoff",
+          description: "You receive the repository, production assets and the evidence behind the launch—without platform lock-in.",
+        },
+      ],
+    },
+    proof: {
+      eyebrow: "Our own benchmark",
+      title: "We practice on ourselves first.",
+      description:
+        "v1be.io is case zero, and studio.v1be.io follows the same rule: the methodology should remain visible in the source, the content and the delivered artifact.",
+      cta: "See the work",
+    },
     cta: {
+      eyebrow: "Start with evidence",
       title: "See how AI engines see you.",
       subtitle: "The free audit is where every engagement starts.",
       button: "Get a free audit",
