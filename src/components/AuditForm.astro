@@ -1,12 +1,12 @@
 ---
 /**
  * Ücretsiz audit talep formu (CLAUDE.md §5 S5). Alanlar: name, email, website, message.
- * FORM_ENDPOINT (Formspree-tarzı) varsa native POST eder — JS kapalıyken de çalışır.
- * Endpoint yoksa JS submit'i mailto'ya çevirir; her hâlükârda görünür bir doğrudan
- * email linki fallback olarak durur (graceful degradation, CLAUDE.md §12.3).
+ * Supabase audit Edge Function yapılandırılmışsa JSON POST eder. Yapılandırma
+ * veya JS yoksa form mailto'ya düşer; görünür doğrudan email linki her zaman
+ * fallback olarak durur (graceful degradation, CLAUDE.md §12.3).
  */
 import { useTranslations, type Locale } from "@/i18n";
-import { SITE, FORM_ENDPOINT } from "@/config/site";
+import { SITE, AUDIT_SUBMISSION } from "@/config/site";
 import Button from "@/components/ui/Button.astro";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const f = t.contact.form;
-const hasEndpoint = FORM_ENDPOINT.length > 0;
+const hasEndpoint = AUDIT_SUBMISSION.configured;
 const projectContextMap = {
   paths: Object.fromEntries(t.packages.paths.map((path) => [path.id, path.title])),
   needs: Object.fromEntries(t.packages.configurator.needs.map((need) => [need.id, need.briefLabel])),
@@ -25,12 +25,13 @@ const projectContextMap = {
 <form
   class="audit-form flex flex-col gap-4"
   data-audit-form
-  data-endpoint={hasEndpoint ? FORM_ENDPOINT : undefined}
+  data-endpoint={hasEndpoint ? AUDIT_SUBMISSION.endpoint : undefined}
+  data-anon-key={hasEndpoint ? AUDIT_SUBMISSION.anonKey : undefined}
   data-email={SITE.email}
   data-project-context-map={JSON.stringify(projectContextMap)}
-  action={hasEndpoint ? FORM_ENDPOINT : `mailto:${SITE.email}`}
+  action={`mailto:${SITE.email}`}
   method="POST"
-  enctype={hasEndpoint ? undefined : "text/plain"}
+  enctype="text/plain"
 >
   <div
     class="hidden rounded-xl border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-ink"
@@ -43,6 +44,13 @@ const projectContextMap = {
 
   <input type="hidden" name="project_path" value="" data-project-path />
   <input type="hidden" name="project_needs" value="" data-project-needs />
+
+  <div class="absolute left-[-10000px] top-auto size-px overflow-hidden" aria-hidden="true">
+    <label>
+      Company fax
+      <input type="text" name="company_fax" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
 
   <div class="grid gap-4 sm:grid-cols-2">
     <label class="flex flex-col gap-1.5 text-sm">
@@ -125,12 +133,13 @@ const projectContextMap = {
 <script>
   import { track, trackLead } from "@/lib/analytics";
 
-  // Progressive enhancement (CLAUDE.md §12.3). Endpoint varsa fetch ile inline
-  // success; yoksa mailto oluşturur. JS yoksa: native POST (endpoint) veya
-  // görünür email linki fallback.
+  // Progressive enhancement (CLAUDE.md §12.3). Supabase endpoint'i varsa fetch
+  // ile inline success; yoksa mailto oluşturur. JS yoksa native mailto ve
+  // görünür email linki fallback olarak kalır.
   const form = document.querySelector<HTMLFormElement>("[data-audit-form]");
   if (form) {
     const endpoint = form.dataset.endpoint;
+    const anonKey = form.dataset.anonKey;
     const email = form.dataset.email ?? "";
     const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
     const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]");
@@ -200,13 +209,13 @@ const projectContextMap = {
         message: String(fd.get("message") ?? ""),
         projectPath: String(fd.get("project_path") ?? ""),
         projectNeeds: String(fd.get("project_needs") ?? ""),
-        fd,
+        companyFax: String(fd.get("company_fax") ?? ""),
       };
     };
 
     form.addEventListener("submit", async (e) => {
       clearError();
-      const { name, email: em, website, message, projectPath, projectNeeds, fd } = getData();
+      const { name, email: em, website, message, projectPath, projectNeeds, companyFax } = getData();
 
       if (!name || !em || !website) {
         // Native required zaten yakalar; JS tarafında da nazik kontrol.
@@ -219,7 +228,7 @@ const projectContextMap = {
         return;
       }
 
-      if (!endpoint) {
+      if (!endpoint || !anonKey) {
         // mailto fallback
         e.preventDefault();
         const subject = encodeURIComponent(`Free audit request — ${website}`);
@@ -236,7 +245,8 @@ const projectContextMap = {
         return;
       }
 
-      // Formspree-tarzı: fetch ile gönder, sayfada kal, inline success göster.
+      // Supabase Edge Function: kaydı ve Resend bildirimini tek sunucu işlemi
+      // içinde yönetir; tarayıcı service-role veya Resend anahtarı görmez.
       e.preventDefault();
       if (submitting) return;
       submitting = true;
@@ -246,14 +256,29 @@ const projectContextMap = {
       try {
         const res = await fetch(endpoint, {
           method: "POST",
-          body: fd,
-          headers: { Accept: "application/json" },
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            apikey: anonKey,
+            Authorization: `Bearer ${anonKey}`,
+          },
+          body: JSON.stringify({
+            name,
+            email: em,
+            website,
+            message,
+            project_path: projectPath,
+            project_needs: projectNeeds,
+            source: formSource,
+            page_url: window.location.href,
+            company_fax: companyFax,
+          }),
         });
         if (!res.ok) throw new Error(String(res.status));
         track("audit_form_submit", {
           form_id: "free_audit",
           form_source: formSource,
-          delivery_method: "form_endpoint",
+          delivery_method: "supabase_edge_function",
           brief_attached: selectedPath.length > 0 || selectedNeeds.length > 0,
         });
         trackLead({

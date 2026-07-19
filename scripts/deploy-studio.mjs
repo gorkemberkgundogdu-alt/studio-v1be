@@ -9,9 +9,9 @@
  *   node scripts/deploy-studio.mjs
  *   npm run deploy
  *
- * ÖNEMLİ: PUBLIC_FORM_ENDPOINT build anında bundle'a gömülür.
- * Formspree vb. kullanıyorsan build öncesi .env'de PROD değerinin
- * olduğundan emin ol. Boş bırakılırsa form mailto: fallback'e düşer.
+ * ÖNEMLİ: PUBLIC_SUPABASE_URL ve PUBLIC_SUPABASE_ANON_KEY build anında
+ * bundle'a gömülür. Audit Edge Function aktifse build öncesi .env'de PROD
+ * değerlerinin bulunduğundan emin ol. Boşsa form mailto: fallback'e düşer.
  */
 import { execSync } from "node:child_process";
 import { existsSync, mkdirSync, rmSync } from "node:fs";

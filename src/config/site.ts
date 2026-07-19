@@ -37,8 +37,19 @@ export const SITE = {
 /** Ana sitedeki blog — studio kendi blog'unu tutmaz, otoriteyi ana domaine yığar. */
 export const PARENT_BLOG_URL = "https://v1be.io/blog/";
 
+const SUPABASE_URL = (import.meta.env.PUBLIC_SUPABASE_URL ?? "").replace(/\/$/, "");
+const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+
 /**
- * Contact formunun POST hedefi (Formspree-tarzı). Boşsa form mailto'ya düşer.
- * .env → PUBLIC_FORM_ENDPOINT.
+ * Static site audit taleplerini Supabase Edge Function'a yollar. Anon key
+ * tarayıcıda kullanılmak üzere tasarlanmıştır; veritabanına doğrudan erişim
+ * vermez. Her iki değer de yoksa form hello@v1be.io mailto fallback'ine döner.
  */
-export const FORM_ENDPOINT = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
+export const AUDIT_SUBMISSION = {
+  endpoint:
+    SUPABASE_URL && SUPABASE_ANON_KEY
+      ? `${SUPABASE_URL}/functions/v1/audit-request-submit`
+      : "",
+  anonKey: SUPABASE_ANON_KEY,
+  configured: Boolean(SUPABASE_URL && SUPABASE_ANON_KEY),
+} as const;

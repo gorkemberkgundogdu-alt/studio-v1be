@@ -33,7 +33,7 @@ npm run deploy     # local build + cPanel-ready zip
 - **`src/config/site.ts`** — name, url, email, canonical description, social, parent org. Single source of truth. `SITE.url` must equal `astro.config.mjs` `site`.
 - **`src/config/schemas.ts`** — JSON-LD builders (Service, FAQPage, Breadcrumb, WebPage/AboutPage). Organization + WebSite are auto-injected by `BaseLayout.astro`.
 - **`src/config/routes.ts`** — canonical route table; drives the dynamic `/llms.txt`.
-- **`.env`** — `PUBLIC_FORM_ENDPOINT` (Formspree-style POST URL). Blank ⇒ the contact form degrades to a `mailto:` link. See `.env.example`.
+- **`.env`** — `PUBLIC_SUPABASE_URL` + `PUBLIC_SUPABASE_ANON_KEY`. Together they activate the free-audit Edge Function; when blank, the form degrades to a `mailto:` link. See `.env.example`.
 - **`src/i18n/`** — English only in v1; architecture stays i18n-ready (add a locale in `locales.ts` + `astro.config.mjs` + `index.ts` in one PR).
 
 ## SEO/GEO infrastructure
@@ -55,7 +55,8 @@ Configure these GitHub Actions repository secrets:
 - `FTP_HOST`
 - `FTP_USER`
 - `FTP_PASS`
-- `PUBLIC_FORM_ENDPOINT` (optional; the contact form uses its email fallback when blank)
+- `PUBLIC_SUPABASE_URL` (optional until the audit Edge Function is deployed)
+- `PUBLIC_SUPABASE_ANON_KEY` (optional until the audit Edge Function is deployed)
 
 The default cPanel target is `public_html/studio/`. If the subdomain document root
 is different, set the `STUDIO_FTP_SERVER_DIR` repository variable, including its

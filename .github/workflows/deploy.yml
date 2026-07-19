@@ -34,7 +34,8 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
+          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: FTP deploy dist to studio docroot
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0

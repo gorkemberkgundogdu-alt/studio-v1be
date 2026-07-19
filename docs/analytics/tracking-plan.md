@@ -12,7 +12,7 @@ The site emits events to `window.dataLayer` through `src/lib/analytics.ts`. GTM 
 | `packages_priority_update` | A priority is selected or removed | `priority_id`, `selected`, `selected_count` |
 | `packages_brief_submit` | Brief continues to the audit form | `path_id`, `priority_ids`, `priority_count` |
 | `form_start` | First audit-form input | `form_id`, `form_source`, `brief_attached` |
-| `audit_form_submit` | Valid form is handed to Formspree or the mail client | `form_id`, `form_source`, `delivery_method`, `brief_attached` |
+| `audit_form_submit` | Valid form is handed to the Supabase audit function or the mail client fallback | `form_id`, `form_source`, `delivery_method`, `brief_attached` |
 | `generate_lead` | Form endpoint confirms a successful submission | `lead_type`, `lead_source`, `goal`, `value`, `currency` |
 
 All events also include `v1be.locale` and `v1be.page_path`. Package-selection events contain no personal data. `generate_lead` may include consent-gated enhanced-conversion fields as defined in the tracking layer.

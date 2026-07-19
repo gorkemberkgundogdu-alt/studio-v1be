@@ -65,7 +65,7 @@ Section-end CTA: Get a free audit.
 
 **S4 — Work (dark).** H2: "Work". Case card: **v1be.io** — "Our own platform site is case zero: schema graph, citability-scored content in progress, validated in Google's Rich Results Test. We practice on ourselves first." → link `/work/v1be-io/`. A second slot styled as an open slot: "This slot is reserved for a brand that wants to be cited." + CTA.
 
-**S5 — Contact (dark).** H2: "Get your free audit". One-paragraph promise: "Tell us your domain. We'll show you how AI engines see you today — what they cite, what they miss, and what we'd fix first. No deck, no fluff; a working session." Simple form (name, email, website URL, message) posting to a Netlify/Formspree-style endpoint (leave provider as env/config), plus direct email link. FAQ block (5 items, §10) below the form — visible accordion + FAQPage schema from the same data.
+**S5 — Contact (dark).** H2: "Get your free audit". One-paragraph promise: "Tell us your domain. We'll show you how AI engines see you today — what they cite, what they miss, and what we'd fix first. No deck, no fluff; a working session." Simple form (name, email, website URL, message) posting to the Supabase audit Edge Function when configured, with a direct email fallback. FAQ block (5 items, §10) below the form — visible accordion + FAQPage schema from the same data.
 
 ## 6. PACKAGES PAGE (v1 content)
 
