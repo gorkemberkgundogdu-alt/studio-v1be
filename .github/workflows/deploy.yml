@@ -60,12 +60,18 @@ jobs:
             home_code=$(curl -sS -o /dev/null -w '%{http_code}' \
               -H 'Accept: text/html,application/xhtml+xml' \
               https://studio.v1be.io/ || echo 000)
-            echo "homepage attempt $attempt -> HTTP $home_code"
+            robots_code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              https://studio.v1be.io/robots.txt || echo 000)
+            llms_code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              https://studio.v1be.io/llms.txt || echo 000)
+            sitemap_code=$(curl -sS -o /dev/null -w '%{http_code}' \
+              https://studio.v1be.io/sitemap-index.xml || echo 000)
+            echo "attempt $attempt -> home=$home_code robots=$robots_code llms=$llms_code sitemap=$sitemap_code"
 
             if [ "$home_code" = "200" ] \
-              && curl -fsS -H 'Accept: text/plain' https://studio.v1be.io/robots.txt > /dev/null \
-              && curl -fsS -H 'Accept: text/plain' https://studio.v1be.io/llms.txt > /dev/null \
-              && curl -fsS -H 'Accept: application/xml' https://studio.v1be.io/sitemap-index.xml > /dev/null; then
+              && [ "$robots_code" = "200" ] \
+              && [ "$llms_code" = "200" ] \
+              && [ "$sitemap_code" = "200" ]; then
               echo "smoke ok"
               exit 0
             fi
