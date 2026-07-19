@@ -52,4 +52,28 @@ assert.equal(
   "https://studio.v1be.io",
 );
 
-console.log("[edge-function] source parses, is ASCII-safe, and normalizes allowed origins");
+const normalizeWebsiteSource = source.match(
+  /function normalizeWebsiteInput\(value: string\): string \{[\s\S]*?\n\}/,
+)?.[0];
+if (!normalizeWebsiteSource) {
+  console.error("normalizeWebsiteInput() could not be found in the Edge Function source");
+  process.exit(1);
+}
+
+const runnableNormalizeWebsite = normalizeWebsiteSource.replace(
+  "function normalizeWebsiteInput(value: string): string",
+  "function normalizeWebsiteInput(value)",
+).replace("(label: string)", "(label)");
+const normalizeWebsiteInput = Function(
+  `${runnableNormalizeWebsite}; return normalizeWebsiteInput;`,
+)();
+
+assert.equal(normalizeWebsiteInput("v1be.io"), "https://v1be.io/");
+assert.equal(normalizeWebsiteInput("www.v1be.io"), "https://www.v1be.io/");
+assert.equal(normalizeWebsiteInput("v1be.io/services"), "https://v1be.io/services");
+assert.equal(normalizeWebsiteInput("https://v1be.io"), "https://v1be.io/");
+assert.equal(normalizeWebsiteInput("v1be"), "");
+assert.equal(normalizeWebsiteInput("localhost"), "");
+assert.equal(normalizeWebsiteInput("brand.c"), "");
+
+console.log("[edge-function] source parses, is ASCII-safe, and normalizes origins and domains");

@@ -58,6 +58,22 @@ function sanitizeTextInput(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
+function normalizeWebsiteInput(value: string): string {
+  const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    const url = new URL(candidate);
+    if ((url.protocol !== "http:" && url.protocol !== "https:") || url.username || url.password) return "";
+    const labels = url.hostname.toLowerCase().split(".");
+    const validLabel = (label: string) => /^(?!-)[a-z0-9-]{1,63}(?<!-)$/.test(label);
+    const tld = labels.at(-1) ?? "";
+    const validTld = /^(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})$/.test(tld);
+    if (labels.length < 2 || !labels.every(validLabel) || !validTld) return "";
+    return url.toString();
+  } catch {
+    return "";
+  }
+}
+
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -107,15 +123,10 @@ function normalisePayload(value: unknown): AuditRequestPayload | null {
   };
 
   const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email);
-  let validWebsite = false;
-  try {
-    const url = new URL(payload.website);
-    validWebsite = url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    validWebsite = false;
-  }
+  const normalizedWebsite = normalizeWebsiteInput(payload.website);
 
-  if (payload.name.length < 2 || !validEmail || !validWebsite) return null;
+  if (payload.name.length < 2 || !validEmail || !normalizedWebsite) return null;
+  payload.website = normalizedWebsite;
   return payload;
 }
 

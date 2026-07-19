@@ -28,6 +28,8 @@ const projectContextMap = {
   data-endpoint={hasEndpoint ? AUDIT_SUBMISSION.endpoint : undefined}
   data-anon-key={hasEndpoint ? AUDIT_SUBMISSION.anonKey : undefined}
   data-email={SITE.email}
+  data-invalid-email={f.invalidEmail}
+  data-invalid-website={f.invalidWebsite}
   data-project-context-map={JSON.stringify(projectContextMap)}
   action={hasEndpoint ? undefined : `mailto:${SITE.email}`}
   method="POST"
@@ -80,7 +82,7 @@ const projectContextMap = {
   <label class="flex flex-col gap-1.5 text-sm">
     <span class="font-medium text-ink">{f.websiteLabel}</span>
     <input
-      type="url"
+      type="text"
       name="website"
       required
       inputmode="url"
@@ -147,6 +149,7 @@ const projectContextMap = {
     const successEl = document.querySelector<HTMLElement>("[data-form-success]");
     const labelDefault = submitLabel?.textContent ?? "";
     const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const websiteInput = form.querySelector<HTMLInputElement>('input[name="website"]');
     const projectPathInput = form.querySelector<HTMLInputElement>("[data-project-path]");
     const projectNeedsInput = form.querySelector<HTMLInputElement>("[data-project-needs]");
     const projectContext = form.querySelector<HTMLElement>("[data-project-context]");
@@ -190,6 +193,26 @@ const projectContextMap = {
     const clearError = () => errorEl?.classList.add("hidden");
 
     const isValidEmail = (v: string) => /.+@.+\..+/.test(v);
+    const normaliseWebsite = (value: string) => {
+      const trimmed = value.trim();
+      if (!trimmed) return null;
+      const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed)
+        ? trimmed
+        : `https://${trimmed}`;
+      try {
+        const url = new URL(candidate);
+        if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) return null;
+        const labels = url.hostname.toLowerCase().split('.');
+        const validLabel = (label: string) =>
+          /^(?!-)[a-z0-9-]{1,63}(?<!-)$/.test(label);
+        const tld = labels.at(-1) ?? '';
+        const validTld = /^(?:[a-z]{2,63}|xn--[a-z0-9-]{2,59})$/.test(tld);
+        if (labels.length < 2 || !labels.every(validLabel) || !validTld) return null;
+        return url.toString();
+      } catch {
+        return null;
+      }
+    };
     let submitting = false;
 
     form.addEventListener("input", () => {
@@ -227,13 +250,20 @@ const projectContextMap = {
         showError(form.dataset.invalidEmail ?? "Please enter a valid email address.");
         return;
       }
+      const normalisedWebsite = normaliseWebsite(website);
+      if (!normalisedWebsite) {
+        e.preventDefault();
+        websiteInput?.focus();
+        showError(form.dataset.invalidWebsite ?? "Enter a complete domain such as yourbrand.com.");
+        return;
+      }
 
       if (!endpoint || !anonKey) {
         // mailto fallback
         e.preventDefault();
-        const subject = encodeURIComponent(`Free audit request — ${website}`);
+        const subject = encodeURIComponent(`Free audit request — ${normalisedWebsite}`);
         const body = encodeURIComponent(
-          `Name: ${name}\nEmail: ${em}\nWebsite: ${website}\nPath: ${projectPath || "Not selected"}\nPriorities: ${projectNeeds || "Not selected"}\n\n${message}`,
+          `Name: ${name}\nEmail: ${em}\nWebsite: ${normalisedWebsite}\nPath: ${projectPath || "Not selected"}\nPriorities: ${projectNeeds || "Not selected"}\n\n${message}`,
         );
         track("audit_form_submit", {
           form_id: "free_audit",
@@ -265,7 +295,7 @@ const projectContextMap = {
           body: JSON.stringify({
             name,
             email: em,
-            website,
+            website: normalisedWebsite,
             message,
             project_path: projectPath,
             project_needs: projectNeeds,
@@ -285,7 +315,7 @@ const projectContextMap = {
           lead_type: "contact_form",
           lead_source: isPackagesLead ? "pricing" : "contact",
           goal: "free_audit",
-          user_data: { email: em, name, brand: website },
+          user_data: { email: em, name, brand: normalisedWebsite },
         });
         form.classList.add("hidden");
         successEl?.classList.remove("hidden");
