@@ -29,9 +29,9 @@ const projectContextMap = {
   data-anon-key={hasEndpoint ? AUDIT_SUBMISSION.anonKey : undefined}
   data-email={SITE.email}
   data-project-context-map={JSON.stringify(projectContextMap)}
-  action={`mailto:${SITE.email}`}
+  action={hasEndpoint ? undefined : `mailto:${SITE.email}`}
   method="POST"
-  enctype="text/plain"
+  enctype={hasEndpoint ? undefined : "text/plain"}
 >
   <div
     class="hidden rounded-xl border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-ink"

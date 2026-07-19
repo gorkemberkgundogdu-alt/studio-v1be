@@ -22,9 +22,22 @@ function json(body: Record<string, unknown>, status: number, headers: HeadersIni
 function allowedOrigins(): Set<string> {
   const configured = Deno.env.get("AUDIT_ALLOWED_ORIGINS")
     ?.split(",")
-    .map((origin) => origin.trim())
+    .map(normalizeOrigin)
     .filter(Boolean);
   return new Set(configured ?? []);
+}
+
+function normalizeOrigin(value: string): string {
+  const candidate = value
+    .trim()
+    .replace(/^AUDIT_ALLOWED_ORIGINS=/, "")
+    .replace(/^["']|["']$/g, "");
+  if (!candidate) return "";
+  try {
+    return new URL(candidate).origin;
+  } catch {
+    return candidate.replace(/\/+$/, "");
+  }
 }
 
 function corsHeaders(origin: string | null): HeadersInit {
@@ -114,7 +127,7 @@ Deno.serve(async (req: Request) => {
   if (origins.size === 0) {
     return json({ ok: false, error: "Allowed origins are not configured" }, 500, headers);
   }
-  if (origin && !origins.has(origin)) {
+  if (origin && !origins.has(normalizeOrigin(origin))) {
     return json({ ok: false, error: "Origin not allowed" }, 403, headers);
   }
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
