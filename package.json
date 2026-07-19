@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "node scripts/gen-og.mjs && astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro check && node scripts/check-edge-function-source.mjs",
+    "check:edge-function": "node scripts/check-edge-function-source.mjs",
     "gen:og": "node scripts/gen-og.mjs",
     "deploy": "node scripts/deploy-studio.mjs"
   },

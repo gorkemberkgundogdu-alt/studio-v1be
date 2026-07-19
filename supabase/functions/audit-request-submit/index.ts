@@ -1,7 +1,3 @@
-// Receives the studio.v1be.io free-audit form, persists it in Supabase, then
-// notifies hello@v1be.io through Resend. Only public Supabase credentials reach
-// the browser; the service-role and Resend keys stay inside the function.
-
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 interface AuditRequestPayload {
@@ -188,7 +184,7 @@ Deno.serve(async (req: Request) => {
         from,
         to: [notifyTo],
         reply_to: payload.email,
-        subject: `Free audit request — ${payload.website}`,
+      subject: `Free audit request - ${payload.website}`,
         html: renderEmailHtml(payload),
       }),
     });
