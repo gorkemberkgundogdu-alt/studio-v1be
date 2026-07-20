@@ -31,7 +31,7 @@ export const en = {
     meta: {
       title: "v1be studio — websites engineered to be cited by AI",
       description:
-        "GEO-first web design, development and content for brands and agencies. Websites engineered to be cited by ChatGPT, Gemini and Perplexity — not just indexed.",
+        "GEO-first web design and development for brands and agencies. Websites engineered to be cited by ChatGPT, Gemini and Perplexity—not just indexed.",
     },
     hero: {
       // Her satır: {text, accent}. accent="" ise satırda vurgulanan kelime yok;
@@ -113,7 +113,7 @@ export const en = {
   },
   packages: {
     meta: {
-      title: "Packages — start from zero or fix what's broken | v1be studio",
+      title: "Web Design & Development Packages | v1be studio",
       description:
         "Two ways to get a GEO-first site: build from zero, or fix and rebuild what you already have without losing your SEO equity. Free audit either way.",
     },
@@ -269,7 +269,7 @@ export const en = {
         },
       ],
       cta: "Get your free audit",
-      ctaHref: "/contact/?source=packages-proof",
+      ctaHref: "/contact/",
       secondaryCta: "See our work",
       secondaryHref: "/work/",
     },
@@ -770,7 +770,7 @@ export const en = {
     },
     caseStudy: {
       meta: {
-        title: "v1be.io case study — a platform built to compound | v1be studio",
+        title: "v1be.io Web Design Case Study | v1be studio",
         description:
           "See how v1be.io was designed and built from zero as a visual, technical and measurable home for an AI marketing platform.",
       },
@@ -819,9 +819,9 @@ export const en = {
           "These are real production screens from v1be.io. Each one carries a different part of the product story while staying inside the same visual and interaction system.",
         items: [
           {
-            image: "/images/work/v1be-io/services-hero.png",
+            image: "/images/work/v1be-io/services-hero.webp",
             route: "/services/",
-            alt: "The live v1be services page pairing a clear platform proposition with an original futuristic brand visual",
+            alt: "The live v1be services page with its platform proposition and original futuristic brand visual",
             title: "A proposition with its own world",
             description:
               "The services hero pairs direct product language with original art direction, making the platform feel authored rather than assembled from familiar AI tropes.",

@@ -2,9 +2,25 @@
 User-agent: *
 Allow: /
 
+# OpenAI search discovery and user-requested retrieval
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI training crawler (kept open deliberately)
 User-agent: GPTBot
 Allow: /
 
+# Anthropic search discovery and user-requested retrieval
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Anthropic training crawler (kept open deliberately)
 User-agent: ClaudeBot
 Allow: /
 

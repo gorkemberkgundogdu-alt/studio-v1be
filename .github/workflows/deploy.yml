@@ -37,6 +37,9 @@ jobs:
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
 
+      - name: Check built SEO, GEO and security signals
+        run: npm run check:seo
+
       - name: FTP deploy dist to studio docroot
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -66,12 +69,28 @@ jobs:
               https://studio.v1be.io/llms.txt || echo 000)
             sitemap_code=$(curl -sS -o /dev/null -w '%{http_code}' \
               https://studio.v1be.io/sitemap-index.xml || echo 000)
-            echo "attempt $attempt -> home=$home_code robots=$robots_code llms=$llms_code sitemap=$sitemap_code"
+            response_headers=$(curl -sSI \
+              -H 'Accept: text/html,application/xhtml+xml' \
+              https://studio.v1be.io/ || true)
+            if printf '%s\n' "$response_headers" \
+              | grep -qi '^content-security-policy:.*googletagmanager\.com.*supabase\.co'; then
+              csp_ok=yes
+            else
+              csp_ok=no
+            fi
+            if printf '%s\n' "$response_headers" | grep -qi '^x-frame-options: *SAMEORIGIN'; then
+              frame_ok=yes
+            else
+              frame_ok=no
+            fi
+            echo "attempt $attempt -> home=$home_code robots=$robots_code llms=$llms_code sitemap=$sitemap_code csp=$csp_ok frame=$frame_ok"
 
             if [ "$home_code" = "200" ] \
               && [ "$robots_code" = "200" ] \
               && [ "$llms_code" = "200" ] \
-              && [ "$sitemap_code" = "200" ]; then
+              && [ "$sitemap_code" = "200" ] \
+              && [ "$csp_ok" = "yes" ] \
+              && [ "$frame_ok" = "yes" ]; then
               echo "smoke ok"
               exit 0
             fi
