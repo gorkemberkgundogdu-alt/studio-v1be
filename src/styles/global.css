@@ -141,7 +141,7 @@ body {
    native scroll — SEO-safe, tüm içerik view-source'ta her zaman okunur.
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) and (pointer: fine) and (min-width: 1024px) {
-  [data-paginate] {
+  :root.js-anim [data-paginate] {
     position: fixed;
     inset: 0;
     top: 4rem; /* sticky navbar'ın altı */
@@ -151,27 +151,27 @@ body {
       opacity 650ms ease,
       transform 650ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
-  [data-paginate].is-active {
+  :root.js-anim [data-paginate].is-active {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0) scale(1);
   }
-  [data-paginate].is-incoming.from-below {
+  :root.js-anim [data-paginate].is-incoming.from-below {
     transform: translateY(24px) scale(0.98);
   }
-  [data-paginate].is-incoming.from-above {
+  :root.js-anim [data-paginate].is-incoming.from-above {
     transform: translateY(-24px) scale(0.98);
   }
-  [data-paginate].is-outgoing.to-above {
+  :root.js-anim [data-paginate].is-outgoing.to-above {
     transform: translateY(-24px) scale(0.98);
     opacity: 0;
   }
-  [data-paginate].is-outgoing.to-below {
+  :root.js-anim [data-paginate].is-outgoing.to-below {
     transform: translateY(24px) scale(0.98);
     opacity: 0;
   }
 
-  .paginate-spacer {
+  :root.js-anim .paginate-spacer {
     min-height: 100svh;
   }
 }

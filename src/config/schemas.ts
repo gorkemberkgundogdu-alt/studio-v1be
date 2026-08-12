@@ -1,4 +1,4 @@
-import { SITE } from "./site";
+import { FOUNDER, SITE } from "./site";
 import { localizePath, type Locale } from "../i18n/locales";
 
 /**
@@ -82,4 +82,23 @@ export function aboutPageSchema(opts: {
     "@type": "AboutPage",
     about: { "@id": `${SITE.url}/#organization` },
   };
+}
+
+export function founderSchemas() {
+  return [
+    {
+      "@type": "Person",
+      "@id": FOUNDER.id,
+      name: FOUNDER.name,
+      jobTitle: FOUNDER.jobTitle,
+      description: FOUNDER.description,
+      worksFor: { "@id": `${SITE.url}/#organization` },
+      sameAs: [FOUNDER.linkedin],
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE.url}/#organization`,
+      founder: { "@id": FOUNDER.id },
+    },
+  ];
 }

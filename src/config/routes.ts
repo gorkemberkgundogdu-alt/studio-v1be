@@ -22,7 +22,7 @@ export const ROUTES: readonly RouteEntry[] = [
     path: "/packages/",
     title: "Packages",
     description:
-      "Three productized offers: a one-time Audit, a GEO-first Build, and a monthly Grow content engine. The free audit is the entry to all.",
+      "Two website paths: Start from zero, or Fix what's broken with a rebuild that protects existing SEO equity. A free audit helps choose the path.",
   },
   {
     path: "/process/",

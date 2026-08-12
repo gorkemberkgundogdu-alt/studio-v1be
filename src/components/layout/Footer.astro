@@ -112,12 +112,12 @@ const year = new Date().getFullYear();
     {/* Row 2 — copyright / "A v1be Company" (centered between the two) / legal */}
     <div class="mt-4 grid grid-cols-1 items-center gap-4 border-t border-line pt-4 sm:grid-cols-3 md:pt-6">
       <p class="text-center text-xs text-ink-muted sm:text-left">
-        &copy;{year} <strong class="font-bold text-ink">{SITE.legalName}</strong>. {t.footer.rights}
+        &copy;{year} <strong class="font-bold text-ink">{SITE.name}</strong>. {t.footer.rights}
       </p>
 
       <p class="text-center text-xs text-ink-muted">
         <a href={SITE.parentOrg.url} class="transition-colors hover:text-ink">
-          A <strong class="font-bold text-ink">v1be</strong> Company
+          Part of <strong class="font-bold text-ink">v1be</strong>
         </a>
       </p>
 

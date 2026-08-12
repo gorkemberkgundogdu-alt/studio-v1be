@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { SITE, PARENT_BLOG_URL } from "@/config/site";
+import { FOUNDER, SITE, PARENT_BLOG_URL } from "@/config/site";
 import { ROUTES } from "@/config/routes";
 
 /**
@@ -24,6 +24,9 @@ ${pages}
 ## More
 - [v1be](${SITE.parentOrg.url}): The AI marketing agent platform that v1be studio is the services arm of.
 - [v1be blog](${PARENT_BLOG_URL}): Research on how AI engines read and cite brands — the studio's content authority lives on the main domain.
+
+## Founder
+- ${FOUNDER.name}: ${FOUNDER.jobTitle} at v1be studio.
 
 ## Contact
 - Email: ${SITE.email}

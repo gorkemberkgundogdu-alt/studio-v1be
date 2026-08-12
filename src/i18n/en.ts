@@ -208,9 +208,6 @@ export const en = {
           "Entity home and core schema from day one",
           "Live and citable, not just online",
         ],
-        // Yalnızca Service JSON-LD besler, görünür kopyaya girmez.
-        schemaSummary:
-          "A GEO-first website built from scratch — up to five custom pages with an entity home and core schema in place from day one, live and citable at launch.",
       },
       {
         id: "redesign",
@@ -225,8 +222,6 @@ export const en = {
           "Schema and structure rebuilt for AI search",
           "Same GEO-first foundation, no lost ground",
         ],
-        schemaSummary:
-          "A GEO-first rebuild of an existing site — a redirect map protects SEO equity while schema and structure are rebuilt for AI search, same foundation, no lost ground.",
       },
     ],
     proof: {
@@ -912,6 +907,29 @@ export const en = {
           { title: "Conversion", description: "CTA clicks, form starts and qualified lead events." },
         ],
       },
+      auditEvidence: {
+        eyebrow: "Studio audit evidence",
+        title: "What we tested on the studio site.",
+        description:
+          "Alongside the v1be.io case-zero build, we audited the production studio site. These results document accessibility and readiness checks, not evidence that a named crawler visited.",
+        items: [
+          {
+            title: "AI crawler access",
+            description:
+              "robots.txt explicitly allows GPTBot, ClaudeBot, PerplexityBot and Google-Extended; the sitemap and llms.txt are linked for discovery.",
+          },
+          {
+            title: "JavaScript-off readability",
+            description:
+              "Critical page sections remain visible in raw HTML and default CSS. Pagination concealment only activates after JavaScript marks animation as ready.",
+          },
+          {
+            title: "Structured content",
+            description:
+              "Organization, WebSite, Service, FAQ and breadcrumb data are generated from the same visible page content they describe.",
+          },
+        ],
+      },
       cta: {
         eyebrow: "Build from evidence",
         title: "Your launch can become the baseline.",
@@ -1008,6 +1026,12 @@ export const en = {
       description:
         "v1be.io is case zero, and studio.v1be.io follows the same rule: the methodology should remain visible in the source, the content and the delivered artifact.",
       cta: "See the work",
+    },
+    founder: {
+      eyebrow: "Founder",
+      description:
+        "Görkem Berk Gündoğdu co-founded v1be studio and leads its UI/UX and product direction. The studio works remotely with teams worldwide.",
+      linkedinLabel: "Connect on LinkedIn",
     },
     cta: {
       eyebrow: "Start with evidence",

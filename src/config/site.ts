@@ -2,13 +2,20 @@
  * Site-geneli sabitler. Tek doğruluk kaynağı (CLAUDE.md §2).
  * URL değişirse yalnızca burası ve astro.config.mjs `site` güncellenir.
  */
+export const FOUNDER = {
+  id: "https://studio.v1be.io/#gorkemberkgundogdu",
+  name: "Görkem Berk Gündoğdu",
+  jobTitle: "UI/UX Designer & Co-Founder",
+  description: "Co-Founder of v1be studio.",
+  linkedin: "https://www.linkedin.com/in/gorkemberkgundogdu/",
+} as const;
+
 export const SITE = {
   name: "v1be studio",
   tagline: "GEO-first web design & development",
   /** astro.config.mjs `site` ile aynı olmak zorunda. */
   url: "https://studio.v1be.io",
   /** Organization JSON-LD + footer için. */
-  legalName: "v1be studio",
   foundingYear: 2026,
   email: "hello@v1be.io",
   phone: "+90 505 502 97 63",

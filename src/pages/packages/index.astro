@@ -22,7 +22,7 @@ const crumbs = [
 // Her yol için Service JSON-LD — görünür kopyayla aynı kaynaktan (schemaSummary
 // yalnızca şemaya girer, kartta ayrıca render edilmez).
 const services = p.paths.map((item) =>
-  serviceSchema({ name: item.title, description: item.schemaSummary, locale, path }),
+  serviceSchema({ name: item.title, description: item.bullets.join(". "), locale, path }),
 );
 
 const configuratorPaths = p.paths.map((item) => ({

@@ -16,7 +16,8 @@
  *  - prefers-reduced-motion: reduce  → init edilmez.
  *  - pointer kaba (touch)            → init edilmez.
  *  - viewport < 1024px               → init edilmez.
- * Bu durumların herhangi birinde [data-paginate] elemanlar CSS'te zaten
+ * Bu durumların herhangi birinde veya head bootstrap `.js-anim` eklemediyse
+ * [data-paginate] elemanlar CSS'te zaten
  * position:static'e döner (global.css'teki media query hiç eşleşmez) — bu
  * dosya çalışmasa da sayfa tamamen normal, native scroll ile okunur kalır.
  *
