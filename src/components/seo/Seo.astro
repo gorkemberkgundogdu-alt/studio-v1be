@@ -4,6 +4,7 @@
  * v1 tek dil (en); mimari çok-dile hazır kalır (LOCALES üzerinden hreflang üretir).
  */
 import { SITE } from "@/config/site";
+import { hasLocalizedCounterpart } from "@/config/routes";
 import {
   LOCALES,
   LOCALE_TAGS,
@@ -39,6 +40,7 @@ const {
 const canonicalUrl = new URL(localizePath(locale, path), SITE.url).href;
 const ogImageUrl = new URL(ogImage ?? SITE.defaultOgImage, SITE.url).href;
 
+const hasAlternates = alternates && hasLocalizedCounterpart(path);
 const altEntries = LOCALES.map((l) => ({
   hreflang: LOCALE_TAGS[l],
   href: new URL(localizePath(l, path), SITE.url).href,
@@ -51,8 +53,8 @@ const xDefaultHref = new URL(localizePath(DEFAULT_LOCALE, path), SITE.url).href;
 <link rel="canonical" href={canonicalUrl} />
 {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-{alternates && altEntries.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
-{alternates && <link rel="alternate" hreflang="x-default" href={xDefaultHref} />}
+{hasAlternates && altEntries.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+{hasAlternates && <link rel="alternate" hreflang="x-default" href={xDefaultHref} />}
 
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={SITE.name} />

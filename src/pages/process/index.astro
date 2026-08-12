@@ -12,7 +12,7 @@ import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
 import { isCollaborationAgreementId, isCollaborationRhythmId } from "@/types/collaboration";
 import { isProcessStageId } from "@/types/process";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/process/";
 const t = useTranslations(locale);
 const pr = t.process;

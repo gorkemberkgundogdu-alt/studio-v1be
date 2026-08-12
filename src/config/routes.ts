@@ -71,3 +71,20 @@ export const ROUTES: readonly RouteEntry[] = [
       "Tell us your domain. We'll show you how AI engines see you today — what they cite, what they miss, and what we'd fix first.",
   },
 ] as const;
+
+/** Routes with real English and Turkish documents. Legal pages and 404 stay English-only. */
+export const BILINGUAL_PATHS = new Set([
+  "/",
+  "/packages/",
+  "/process/",
+  "/work/",
+  "/work/v1be-io/",
+  "/work/studio-v1be/",
+  "/about/",
+  "/contact/",
+]);
+
+export function hasLocalizedCounterpart(path: string): boolean {
+  const normalized = path.endsWith("/") ? path : `${path}/`;
+  return BILINGUAL_PATHS.has(normalized);
+}

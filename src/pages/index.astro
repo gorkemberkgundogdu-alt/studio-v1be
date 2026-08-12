@@ -9,7 +9,7 @@ import { useTranslations } from "@/i18n";
 import { faqSchema } from "@/config/schemas";
 import { splitAccent, highlightWords } from "@/lib/text-highlight";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/";
 const t = useTranslations(locale);
 const h = t.home;
@@ -304,5 +304,5 @@ const homeFaqItems = t.contact.faq.items
     <div class="paginate-spacer"></div>
     <div class="paginate-spacer"></div>
   </div>
-  <V1bePromo />
+  <V1bePromo {locale} />
 </BaseLayout>

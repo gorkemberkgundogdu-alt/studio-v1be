@@ -24,9 +24,10 @@ export function serviceSchema(opts: {
   };
 }
 
-export function faqSchema(items: readonly { question: string; answer: string }[]) {
+export function faqSchema(items: readonly { question: string; answer: string }[], locale?: Locale) {
   return {
     "@type": "FAQPage",
+    ...(locale ? { inLanguage: locale } : {}),
     mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,

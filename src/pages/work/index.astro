@@ -6,7 +6,7 @@ import WorkProofPreview from "@/components/work/WorkProofPreview.astro";
 import { useTranslations } from "@/i18n";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/work/";
 const t = useTranslations(locale);
 const w = t.work;

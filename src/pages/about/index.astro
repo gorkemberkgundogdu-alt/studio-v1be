@@ -6,7 +6,7 @@ import { useTranslations } from "@/i18n";
 import { FOUNDER } from "@/config/site";
 import { aboutPageSchema, breadcrumbSchema, founderSchemas } from "@/config/schemas";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/about/";
 const t = useTranslations(locale);
 const a = t.about;

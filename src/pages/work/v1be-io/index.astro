@@ -7,7 +7,7 @@ import { useTranslations } from "@/i18n";
 import { SITE } from "@/config/site";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/work/v1be-io/";
 const t = useTranslations(locale);
 const cs = t.work.caseStudy;

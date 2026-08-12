@@ -9,7 +9,7 @@ import DeliverableProofRail from "@/components/packages/DeliverableProofRail.ast
 import { useTranslations } from "@/i18n";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@/config/schemas";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/packages/";
 const t = useTranslations(locale);
 const p = t.packages;
