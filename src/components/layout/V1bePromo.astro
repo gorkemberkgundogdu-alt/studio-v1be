@@ -1,4 +1,7 @@
 ---
+import { useTranslations, type Locale } from "@/i18n";
+const { locale } = Astro.props as { locale: Locale };
+const p = useTranslations(locale).promo;
 /**
  * Home-page cross-brand CTA for v1be.
  * Closing the panel leaves a compact tab in place so it can always be reopened.
@@ -11,18 +14,16 @@
       class="v1be-promo__close"
       type="button"
       data-v1be-promo-close
-      aria-label="Minimize v1be"
+      aria-label={p.minimize}
     >
       <span aria-hidden="true">×</span>
     </button>
 
-    <p class="v1be-promo__eyebrow">from <span>v1be</span></p>
-    <h2>Turn visibility into a growth system.</h2>
-    <p>
-      v1be connects content, brand intelligence and AI automation in one human-approved platform.
-    </p>
+    <p class="v1be-promo__eyebrow">{p.eyebrow} <span>v1be</span></p>
+    <h2>{p.title}</h2>
+    <p>{p.text}</p>
     <a class="v1be-promo__cta" href="https://v1be.io">
-      Explore v1be <span aria-hidden="true">→</span>
+      {p.cta} <span aria-hidden="true">→</span>
     </a>
   </div>
 

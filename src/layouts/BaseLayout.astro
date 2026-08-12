@@ -30,6 +30,7 @@ interface Props {
   ogImage?: string;
   ogType?: "website" | "article";
   noindex?: boolean;
+  alternates?: boolean;
   /** Sayfaya özel JSON-LD objeleri; Organization + WebSite otomatik eklenir. */
   schemas?: Record<string, unknown>[];
   /** Home'da true: Footer paginate zincirinin son üyesi olur (bkz Footer.astro). */
@@ -44,6 +45,7 @@ const {
   ogImage,
   ogType,
   noindex,
+  alternates,
   schemas = [],
   paginateFooter = false,
 } = Astro.props;
@@ -73,7 +75,6 @@ const baseSchemas: Record<string, unknown>[] = [
     name: `${SITE.name} — ${SITE.tagline}`,
     url: SITE.url,
     publisher: { "@id": `${SITE.url}/#organization` },
-    inLanguage: locale,
   },
 ];
 ---
@@ -124,7 +125,7 @@ const baseSchemas: Record<string, unknown>[] = [
       type="font/woff2"
       crossorigin
     />
-    <Seo {title} {description} {locale} {path} {ogImage} {ogType} {noindex} />
+    <Seo {title} {description} {locale} {path} {ogImage} {ogType} {noindex} {alternates} />
     <JsonLd schema={[...baseSchemas, ...schemas]} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {/* SEO-safe animasyon bootstrap: JS varsa .js-anim ekler; yoksa her şey görünür (CLAUDE.md §11) */}
@@ -144,7 +145,7 @@ const baseSchemas: Record<string, unknown>[] = [
       <slot />
     </main>
     <Footer {locale} paginate={paginateFooter} />
-    <ConsentBanner />
+    <ConsentBanner {locale} />
     <script>
       import { initScrollFx } from "@/lib/scroll-fx";
       import { initPaginate } from "@/lib/paginate";

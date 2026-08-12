@@ -43,6 +43,22 @@ export const ROUTES: readonly RouteEntry[] = [
       "How we engineered v1be.io as case zero: a full schema graph, citability-scored content and Rich Results Test validation.",
   },
   {
+    path: "/work/studio-v1be/",
+    title: "Case study: studio.v1be.io",
+    description:
+      "How v1be studio applies its GEO-first system to its own bilingual service site: localized content, schema and crawlable routes.",
+  },
+  {
+    path: "/privacy/",
+    title: "Privacy Policy",
+    description: "How v1be studio collects, uses and protects information submitted through this site.",
+  },
+  {
+    path: "/terms/",
+    title: "Terms & Conditions",
+    description: "The terms that govern use of the v1be studio website and its services.",
+  },
+  {
     path: "/about/",
     title: "About",
     description:

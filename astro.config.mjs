@@ -4,14 +4,14 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 // Tek doğruluk kaynağı: locale listesi src/i18n/locales.ts + SITE.url ile senkron.
-// English-only in v1 (CLAUDE.md §8): boş locale route'ları üretilmez.
+// Locale listesi src/i18n/locales.ts ile senkron tutulur.
 export default defineConfig({
   site: "https://studio.v1be.io",
   output: "static",
   trailingSlash: "always",
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "tr"],
     routing: {
       prefixDefaultLocale: false,
     },
@@ -20,7 +20,7 @@ export default defineConfig({
     sitemap({
       i18n: {
         defaultLocale: "en",
-        locales: { en: "en" },
+        locales: { en: "en", tr: "tr" },
       },
     }),
   ],

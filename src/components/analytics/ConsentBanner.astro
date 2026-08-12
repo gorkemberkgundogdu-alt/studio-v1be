@@ -11,20 +11,16 @@
  * directly rather than routing through a per-locale dictionary.
  */
 
-const c = {
-  title: "Your data, your call.",
-  text: "A few cookies help us see which pages genuinely help visitors and whether our ads pay their way. We never sell your data, and the site works exactly the same if you decline.",
-  accept: "Allow cookies",
-  decline: "No thanks",
-  privacy: "Privacy",
-};
+import { useTranslations, type Locale } from "@/i18n";
+const { locale } = Astro.props as { locale: Locale };
+const c = useTranslations(locale).consent;
 ---
 
 <div
   id="v1be-consent"
   data-hidden
   role="dialog"
-  aria-label="Cookie consent"
+  aria-label={c.label}
   class="fixed inset-x-3 bottom-3 z-[60] mx-auto hidden max-w-3xl rounded-2xl border border-line bg-surface/95 p-4 shadow-lg backdrop-blur sm:inset-x-auto sm:right-4 sm:left-4 data-[hidden]:hidden"
 >
   <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

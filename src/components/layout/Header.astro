@@ -18,7 +18,7 @@ interface Props {
   path: string;
 }
 
-const { locale } = Astro.props;
+const { locale, path } = Astro.props;
 const t = useTranslations(locale);
 
 const navItems = [
@@ -34,13 +34,21 @@ const navItems = [
     <a
       href={localizePath(locale, "/")}
       class="min-w-0 shrink text-lg font-bold tracking-tight"
-      aria-label="v1be studio — home"
+      aria-label={locale === "tr" ? "v1be studio — ana sayfa" : "v1be studio — home"}
     >
-      v1be<span class="text-accent"> studio</span><span class="hidden font-medium text-ink-muted md:inline"> | web design &amp; development</span>
+      v1be<span class="text-accent"> studio</span><span class="hidden font-medium text-ink-muted md:inline"> | {locale === "tr" ? "web tasarım ve geliştirme" : "web design & development"}</span>
     </a>
 
     <div class="flex shrink-0 items-center gap-4">
       <Button href={localizePath(locale, "/contact/")} size="sm">{t.nav.cta}</Button>
+
+      <a
+        href={localizePath(locale === "en" ? "tr" : "en", path)}
+        class="text-xs font-bold text-ink-muted transition-colors hover:text-accent"
+        lang={locale === "en" ? "tr" : "en"}
+      >
+        {locale === "en" ? "TR" : "EN"}
+      </a>
 
       <button
         type="button"

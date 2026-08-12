@@ -6,7 +6,7 @@ import FaqAccordion from "@/components/FaqAccordion.astro";
 import { useTranslations } from "@/i18n";
 import { faqSchema, breadcrumbSchema, webPageSchema } from "@/config/schemas";
 
-const locale = "en" as const;
+const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/contact/";
 const t = useTranslations(locale);
 const c = t.contact;
@@ -24,7 +24,7 @@ const crumbs = [
   {path}
   schemas={[
     webPageSchema({ name: c.hero.title, description: c.meta.description, locale, path }),
-    faqSchema(c.faq.items),
+    faqSchema(c.faq.items, locale),
     breadcrumbSchema(crumbs, locale),
   ]}
 >

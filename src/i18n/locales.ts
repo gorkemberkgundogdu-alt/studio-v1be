@@ -4,7 +4,7 @@
  * TR içeriği hazır olduğunda LOCALES + astro.config + sitemap + dictionaries
  * tek PR'da güncellenir (bu dosyalar sync noktalarıdır).
  */
-export const LOCALES = ["en"] as const;
+export const LOCALES = ["en", "tr"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "en";
@@ -12,20 +12,24 @@ export const DEFAULT_LOCALE: Locale = "en";
 /** hreflang/og:locale için BCP-47 karşılıkları. */
 export const LOCALE_TAGS: Record<Locale, string> = {
   en: "en",
+  tr: "tr",
 };
 
 export const OG_LOCALES: Record<Locale, string> = {
   en: "en_US",
+  tr: "tr_TR",
 };
 
 /** Dil değiştiricide görünen yerel adlar (v1'de tek dil, ileri kullanım için). */
 export const LOCALE_LABELS: Record<Locale, string> = {
   en: "English",
+  tr: "Türkçe",
 };
 
 /** Intl API'leri için BCP-47 etiketi (tarih formatı vb.). */
 export const INTL_LOCALES: Record<Locale, string> = {
   en: "en-US",
+  tr: "tr-TR",
 };
 
 /** Locale'e göre path üretir. Varsayılan dil prefix'sizdir. */

@@ -19,6 +19,7 @@ export const en = {
     footerNav: "Footer navigation",
     menuToggle: "Menu",
     menuClose: "Close",
+    breadcrumb: "Breadcrumb",
   },
   nav: {
     packages: "Packages",
@@ -735,6 +736,14 @@ export const en = {
           { label: "Launch evidence", value: "Validated" },
         ],
       },
+      {
+        name: "studio.v1be.io",
+        tag: "Case 002",
+        description:
+          "Our own service site applies the GEO-first system to bilingual routes, localized schema and a single path to contact.",
+        linkLabel: "Read the case study",
+        href: "/work/studio-v1be/",
+      },
     ],
     standard: {
       eyebrow: "The case standard",
@@ -938,6 +947,12 @@ export const en = {
         button: "Get a free audit",
       },
     },
+    studioCase: {
+      meta: { title: "Case study: studio.v1be.io — v1be studio", description: "How v1be studio applies its GEO-first system to its own bilingual service site: localized content, schema and crawlable routes." },
+      eyebrow: "Case study · Case 002", title: "studio.v1be.io — the service site as proof.", subtitle: "Our own service site is the live reference for the method we deliver.", breadcrumbLabel: "studio.v1be.io",
+      sections: [{ heading: "The brief", body: "studio.v1be.io is the productized service face of v1be. It needed one direct path to contact while proving that a fast, structured service site can also be readable and citable by AI systems." }, { heading: "What changed", body: "The site now keeps English as its unprefixed default and serves Turkish through explicit /tr/ routes. Shared navigation, breadcrumbs, canonical URLs and structured data all resolve in the visitor's active locale." }, { heading: "The proof", body: "Each localized route is static, indexable and linked with hreflang alternates. Page copy, titles, descriptions, schema language and breadcrumb URLs remain aligned instead of being translated only in the browser." }],
+      cta: "Get a free audit",
+    },
   },
   about: {
     meta: {
@@ -1070,6 +1085,10 @@ export const en = {
       invalidWebsite: "Enter a complete domain such as yourbrand.com.",
       mailtoIntro: "Prefer email? Reach us directly at",
       reassurance: "A human reads every message. We never share your details.",
+      mailtoSubject: "Free audit request",
+      mailtoName: "Name",
+      mailtoEmail: "Email",
+      mailtoWebsite: "Website",
     },
     faq: {
       title: "Frequently asked questions",
@@ -1157,6 +1176,8 @@ export const en = {
     privacy: "Privacy Policy",
     terms: "Terms & Conditions",
   },
+  consent: { title: "Your data, your call.", text: "A few cookies help us see which pages genuinely help visitors and whether our ads pay their way. We never sell your data, and the site works exactly the same if you decline.", accept: "Allow cookies", decline: "No thanks", label: "Cookie consent", privacy: "Privacy" },
+  promo: { minimize: "Minimize v1be", eyebrow: "from", title: "Turn visibility into a growth system.", text: "v1be connects content, brand intelligence and AI automation in one human-approved platform.", cta: "Explore v1be" },
 } as const;
 
 /** Şemayı korur ama değerleri `string`e genişletir — diğer diller buna uyar. */
