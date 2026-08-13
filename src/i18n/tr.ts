@@ -7,7 +7,7 @@ export const tr = {
     siteTitle: "v1be studio — GEO odaklı web tasarım ve geliştirme",
     siteDescription: "v1be studio, ChatGPT, Gemini ve Perplexity gibi yapay zekâ arama motorlarınca alıntılanmak üzere tasarlanmış hızlı ve yapılandırılmış web siteleri üretir.",
   },
-  a11y: { skipToContent: "İçeriğe geç", mainNav: "Ana navigasyon", footerNav: "Alt bilgi navigasyonu", menuToggle: "Menü", menuClose: "Kapat", breadcrumb: "İçerik yolu" },
+  a11y: { skipToContent: "İçeriğe geç", mainNav: "Ana navigasyon", footerNav: "Alt bilgi navigasyonu", menuToggle: "Menü", menuClose: "Kapat", breadcrumb: "İçerik yolu", keepScrolling: "Kaydırmaya devam edin", processStages: "Süreç aşamaları", websiteSystemLayers: "Web sitesi sistem katmanları" },
   nav: { packages: "Paketler", process: "Süreç", work: "İşler", about: "Hakkımızda", cta: "Ücretsiz denetim alın" },
   home: {
     ...en.home,
@@ -27,6 +27,18 @@ export const tr = {
   },
   packages: {
     ...en.packages,
+    paths: [
+      { ...en.packages.paths[0], microLabel: "Henüz web siteniz yok", title: "Sıfırdan başlayın", selectorDescription: "Mesajı, deneyimi ve teknik temeli ilk günden birlikte kurun.", briefCta: "Ücretsiz denetim alın", bullets: ["Özel geliştirilmiş, en fazla 5 sayfa", "İlk günden varlık ana sayfası ve temel şema", "Yalnızca yayında değil, alıntılanabilir"] },
+      { ...en.packages.paths[1], microLabel: "Sitenizden memnun değilsiniz", title: "Bozuk olanı düzeltin", selectorDescription: "Değer taşıyanı koruyun, sürtünme yaratanı onarın ve mevcut arama otoritesini koruyun.", briefCta: "Ücretsiz denetim alın", bullets: ["Yönlendirme haritası SEO otoritenizi korur", "Yapay zekâ araması için şema ve yapı yeniden kurulur", "Aynı GEO odaklı temel, kayıp zemin yok"] },
+    ],
+    faq: { title: "Sık sorulan sorular", items: [
+      { question: "Lansmandan sonra kodun sahibi olur muyuz?", answer: "Evet. Depoyu ve tam mülkiyeti alırsınız. Kendi sitenizi çalıştırmak için kilitlenme ya da yinelenen lisans ücreti yoktur." },
+      { question: "Hangi yolun bana uygun olduğunu nasıl anlarım?", answer: "Yayında bir siteniz yoksa sıfırdan başlayın. Siteniz var ama dönüşüm, sıralama ya da yapay zekâ yanıtlarında görünürlük sağlamıyorsa, bozuk olanı düzeltin." },
+      { question: "Projem iki yoldan birine uymuyorsa ne olur?", answer: "Çoğu proje bu iki yoldan birine uyar. Daha fazla sayfa, web uygulaması veya e-ticaret gerekiyorsa bunu özel proje olarak kapsamlandırırız." },
+      { question: "Fiyatlara lansman sonrası içerik veya SEO çalışması dahil mi?", answer: "Hayır. Bunlar tek seferlik geliştirmeyi kapsar. Sürekli GEO içerik üretimi için v1be'nin Vibe planı ayrı bir aboneliktir." },
+      { question: "Ücretsiz denetim paketin bir parçası mı?", answer: "Hayır. Seçtiğiniz yoldan ya da hiç yol seçmemenizden bağımsız olarak ücretsizdir." },
+      { question: "Proje ortasında kapsam büyürse ne olur?", answer: "Başlamadan önce kapsam üzerinde anlaşırız. Bir şey değişirse faturayı değil, sizi önce haberdar ederiz." },
+    ] },
     meta: { title: "Paketler — Denetim, Geliştirme ve Büyüme | v1be studio", description: "Üç ürünleştirilmiş GEO teklifi: tek seferlik yapay zekâ görünürlük denetimi, GEO odaklı site geliştirme ve aylık içerik motoru." },
     hero: { eyebrow: "Paketler", title: "Alıntılanmanın üç yolu.", subtitle: "Her iş, üç paketin de giriş noktası olan ücretsiz denetimle başlar." },
     tiers: [

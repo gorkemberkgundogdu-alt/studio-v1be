@@ -23,6 +23,7 @@ interface Layer {
 }
 
 interface Props {
+  contactHref: string;
   eyebrow: string;
   title: string;
   intro: string;
@@ -38,10 +39,12 @@ interface Props {
     layersLabel: string;
     ctaSuffix: string;
     limitMessage: string;
+    layersAriaLabel: string;
   };
 }
 
 const {
+  contactHref,
   eyebrow,
   title,
   intro,
@@ -72,7 +75,7 @@ const defaultPath = pathOptions[0];
       <p class="mt-5 text-lg leading-relaxed text-light-muted" data-reveal>{intro}</p>
     </div>
 
-    <form action="/contact/" method="get" class="mt-12 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+    <form action={contactHref} method="get" class="mt-12 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       <div class="space-y-10">
         <fieldset>
           <legend class="text-lg font-bold text-light-ink">
@@ -175,7 +178,7 @@ const defaultPath = pathOptions[0];
             <span class="text-sm text-ink-muted" data-empty-selection>{summary.empty}</span>
           </div>
 
-          <ol class="mt-7 space-y-2" aria-label="Website system layers">
+          <ol class="mt-7 space-y-2" aria-label={summary.layersAriaLabel}>
             {layers.map((layer, index) => (
               <li
                 class="system-layer grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-xl border border-line bg-surface/65 px-3 py-3 motion-safe:transition-colors"

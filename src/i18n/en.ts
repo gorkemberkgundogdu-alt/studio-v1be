@@ -20,6 +20,9 @@ export const en = {
     menuToggle: "Menu",
     menuClose: "Close",
     breadcrumb: "Breadcrumb",
+    keepScrolling: "Keep scrolling",
+    processStages: "Process stages",
+    websiteSystemLayers: "Website system layers",
   },
   nav: {
     packages: "Packages",

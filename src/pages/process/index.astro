@@ -7,7 +7,7 @@ import CollaborationIcon from "@/components/CollaborationIcon.astro";
 import ProcessArtifact from "@/components/ProcessArtifact.astro";
 import ProcessStageIcon from "@/components/ProcessStageIcon.astro";
 import RobotMascot from "@/components/sections/RobotMascot.astro";
-import { useTranslations } from "@/i18n";
+import { localizePath, useTranslations } from "@/i18n";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
 import { isCollaborationAgreementId, isCollaborationRhythmId } from "@/types/collaboration";
 import { isProcessStageId } from "@/types/process";
@@ -34,7 +34,7 @@ const collaborationPrinciples = pr.collaboration.principles.map((item) => {
 });
 
 const crumbs = [
-  { name: "Home", path: "/" },
+  { name: t.footer.nav.home, path: "/" },
   { name: t.nav.process, path },
 ];
 ---
@@ -64,7 +64,7 @@ const crumbs = [
         </h1>
         <p class="mt-5 max-w-3xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.hero.subtitle}</p>
         <div class="mt-8 flex flex-wrap gap-3" data-reveal>
-          <Button href="/contact/" data-cta="process_hero_audit">{pr.hero.primaryCta}</Button>
+          <Button href={localizePath(locale, "/contact/")} data-cta="process_hero_audit">{pr.hero.primaryCta}</Button>
           <Button href="#process-stages" variant="surface">{pr.hero.secondaryCta}</Button>
         </div>
       </div>
@@ -75,7 +75,7 @@ const crumbs = [
     </div>
   </section>
 
-  <nav class="border-y border-line bg-surface/45" aria-label={pr.overview.label}>
+  <nav class="border-y border-line bg-surface/45" aria-label={t.a11y.processStages}>
     <div class="mx-auto grid max-w-6xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[11rem_minmax(0,1fr)] lg:items-center lg:gap-6">
       <p class="font-mono text-sm font-bold uppercase tracking-widest text-ink">{pr.overview.label}</p>
       <ol class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 md:grid-cols-4" role="list">
@@ -189,7 +189,7 @@ const crumbs = [
       style={`--process-stage-count: ${processSteps.length};`}
     >
     <div class="process-stage-viewport mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:py-28 lg:grid-cols-[11rem_minmax(0,1fr)]" data-process-viewport>
-      <nav class="process-stage-nav relative grid grid-cols-2 gap-2 self-start lg:sticky lg:top-24 lg:grid-cols-1" aria-label="Process stages" data-process-nav>
+      <nav class="process-stage-nav relative grid grid-cols-2 gap-2 self-start lg:sticky lg:top-24 lg:grid-cols-1" aria-label={t.a11y.processStages} data-process-nav>
         <span class="absolute -left-3 top-3 bottom-3 hidden w-px bg-line lg:block" aria-hidden="true"></span>
         <span class="absolute -left-3 bottom-3 top-3 hidden w-px origin-top scale-y-0 bg-accent motion-safe:transition-transform motion-safe:duration-300 lg:block" aria-hidden="true" data-process-progress></span>
         {processSteps.map((step, index) => (
@@ -373,7 +373,7 @@ const crumbs = [
       <h2 id="process-cta-title" class="mt-5 text-h2 font-black" data-reveal>{pr.cta.title}</h2>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.cta.subtitle}</p>
       <div class="mt-8 flex justify-center" data-reveal>
-        <Button href="/contact/" data-cta="process_final_audit">{pr.cta.button}</Button>
+        <Button href={localizePath(locale, "/contact/")} data-cta="process_final_audit">{pr.cta.button}</Button>
       </div>
       <p class="mt-5 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{pr.cta.note}</p>
     </div>

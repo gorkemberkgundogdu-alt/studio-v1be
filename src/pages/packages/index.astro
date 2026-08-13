@@ -6,7 +6,7 @@ import FaqAccordion from "@/components/FaqAccordion.astro";
 import RobotMascot from "@/components/sections/RobotMascot.astro";
 import ServiceNeedsConfigurator from "@/components/packages/ServiceNeedsConfigurator.astro";
 import DeliverableProofRail from "@/components/packages/DeliverableProofRail.astro";
-import { useTranslations } from "@/i18n";
+import { localizePath, useTranslations } from "@/i18n";
 import { serviceSchema, faqSchema, breadcrumbSchema } from "@/config/schemas";
 
 const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
@@ -15,7 +15,7 @@ const t = useTranslations(locale);
 const p = t.packages;
 
 const crumbs = [
-  { name: "Home", path: "/" },
+  { name: t.footer.nav.home, path: "/" },
   { name: t.nav.packages, path },
 ];
 
@@ -41,7 +41,7 @@ const configuratorPaths = p.paths.map((item) => ({
   description={p.meta.description}
   {locale}
   {path}
-  schemas={[...services, faqSchema(p.faq.items), breadcrumbSchema(crumbs, locale)]}
+  schemas={[...services, faqSchema(p.faq.items, locale), breadcrumbSchema(crumbs, locale)]}
 >
   <Breadcrumb {locale} items={crumbs} />
 
@@ -62,7 +62,7 @@ const configuratorPaths = p.paths.map((item) => ({
           </h1>
           <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted" data-reveal>{p.hero.subtitle}</p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center" data-reveal>
-            <Button href="/contact/" data-cta="packages_hero_audit">{p.hero.primaryCta}</Button>
+            <Button href={localizePath(locale, "/contact/")} data-cta="packages_hero_audit">{p.hero.primaryCta}</Button>
             <Button href="#scope-builder" variant="ghost" data-cta="packages_hero_brief">{p.hero.secondaryCta}</Button>
           </div>
           <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{p.hero.reassurance}</p>
@@ -75,6 +75,7 @@ const configuratorPaths = p.paths.map((item) => ({
   </section>
 
   <ServiceNeedsConfigurator
+    contactHref={localizePath(locale, "/contact/")}
     eyebrow={p.configurator.eyebrow}
     title={p.configurator.title}
     intro={p.configurator.intro}
@@ -84,7 +85,7 @@ const configuratorPaths = p.paths.map((item) => ({
     needsNote={p.configurator.needsNote}
     needOptions={p.configurator.needs}
     layers={p.configurator.layers}
-    summary={p.configurator.summary}
+    summary={{ ...p.configurator.summary, layersAriaLabel: t.a11y.websiteSystemLayers }}
   />
 
   <DeliverableProofRail
@@ -93,9 +94,9 @@ const configuratorPaths = p.paths.map((item) => ({
     intro={p.proof.intro}
     items={p.proof.items}
     cta={p.proof.cta}
-    ctaHref={p.proof.ctaHref}
+    ctaHref={localizePath(locale, p.proof.ctaHref)}
     secondaryCta={p.proof.secondaryCta}
-    secondaryHref={p.proof.secondaryHref}
+    secondaryHref={localizePath(locale, p.proof.secondaryHref)}
   />
 
   {/* 5 — FAQ: packages'a özel liste, görünür + FAQPage şeması aynı veriden */}

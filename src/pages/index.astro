@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button.astro";
 import RobotMascot from "@/components/sections/RobotMascot.astro";
 import AuditForm from "@/components/AuditForm.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
-import { useTranslations } from "@/i18n";
+import { localizePath, useTranslations } from "@/i18n";
 import { faqSchema } from "@/config/schemas";
 import { splitAccent, highlightWords } from "@/lib/text-highlight";
 
@@ -23,7 +23,7 @@ const homeFaqItems = t.contact.faq.items
   description={h.meta.description}
   {locale}
   {path}
-  schemas={[faqSchema(homeFaqItems)]}
+  schemas={[faqSchema(homeFaqItems, locale)]}
   paginateFooter
 >
   {/*
@@ -101,7 +101,7 @@ const homeFaqItems = t.contact.faq.items
             stroke-linejoin="round"
           />
         </svg>
-        <span>Scroll down</span>
+        <span>{t.a11y.keepScrolling}</span>
       </div>
     </div>
   </section>
@@ -146,8 +146,8 @@ const homeFaqItems = t.contact.faq.items
         ))}
       </h2>
       <div class="mt-12 flex flex-wrap items-center justify-center gap-4" data-reveal style="--reveal-delay: 80ms">
-        <Button href="/contact/" class="min-w-48">{h.what.cta}</Button>
-        <Button href="/work/" variant="surface" class="min-w-48">
+        <Button href={localizePath(locale, "/contact/")} class="min-w-48">{h.what.cta}</Button>
+        <Button href={localizePath(locale, "/work/")} variant="surface" class="min-w-48">
           {h.what.ctaSecondary}
         </Button>
       </div>
@@ -170,7 +170,7 @@ const homeFaqItems = t.contact.faq.items
               stroke-linejoin="round"
             />
           </svg>
-          <span>Keep scrolling</span>
+          <span>{t.a11y.keepScrolling}</span>
         </div>
       </div>
     </div>
@@ -196,8 +196,8 @@ const homeFaqItems = t.contact.faq.items
         ))}
       </ol>
       <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal>
-        <Button href="/contact/">{h.how.cta}</Button>
-        <Button href="/process/" variant="surface">
+        <Button href={localizePath(locale, "/contact/")}>{h.how.cta}</Button>
+        <Button href={localizePath(locale, "/process/")} variant="surface">
           {h.how.ctaSecondary}
         </Button>
       </div>
@@ -214,7 +214,7 @@ const homeFaqItems = t.contact.faq.items
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
       <h2 id="work-title" class="text-h2 font-bold" data-reveal>{h.work.title}</h2>
       <a
-        href={h.work.caseCard.href}
+        href={localizePath(locale, h.work.caseCard.href)}
         class="group mt-12 block rounded-[2rem] bg-accent p-8 text-(--color-base) transition-transform duration-200 motion-safe:hover:-translate-y-1 sm:p-10 md:p-12"
         data-reveal
       >
@@ -243,7 +243,7 @@ const homeFaqItems = t.contact.faq.items
         <p class="max-w-2xl text-base font-semibold leading-relaxed text-ink-muted sm:text-lg">
           {h.work.openSlot.label}
         </p>
-        <Button href="/contact/" variant="ghost" class="shrink-0">{h.work.openSlot.cta}</Button>
+        <Button href={localizePath(locale, "/contact/")} variant="ghost" class="shrink-0">{h.work.openSlot.cta}</Button>
       </div>
     </div>
   </section>

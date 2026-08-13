@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Button from "@/components/ui/Button.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
-import { useTranslations } from "@/i18n";
+import { localizePath, useTranslations } from "@/i18n";
 import { FOUNDER } from "@/config/site";
 import { aboutPageSchema, breadcrumbSchema, founderSchemas } from "@/config/schemas";
 
@@ -12,7 +12,7 @@ const t = useTranslations(locale);
 const a = t.about;
 
 const crumbs = [
-  { name: "Home", path: "/" },
+  { name: t.footer.nav.home, path: "/" },
   { name: t.nav.about, path },
 ];
 ---
@@ -159,7 +159,7 @@ const crumbs = [
             <p class="mt-4 max-w-2xl font-semibold leading-relaxed opacity-75">{a.proof.description}</p>
           </div>
           <a
-            href="/work/"
+            href={localizePath(locale, "/work/")}
             class="cta-lift inline-flex h-12 w-fit shrink-0 items-center justify-center rounded-full bg-base px-7 text-base font-bold text-accent"
             style="color: var(--color-accent)"
           >
@@ -176,7 +176,7 @@ const crumbs = [
       <h2 id="about-cta-title" class="mt-3 text-h2 font-bold">{a.cta.title}</h2>
       <p class="mx-auto mt-4 max-w-2xl text-lg font-medium leading-relaxed text-ink-muted">{a.cta.subtitle}</p>
       <div class="mt-8 flex justify-center">
-        <Button href="/contact/">{a.cta.button}</Button>
+        <Button href={localizePath(locale, "/contact/")}>{a.cta.button}</Button>
       </div>
     </div>
   </section>

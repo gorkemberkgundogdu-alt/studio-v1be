@@ -20,6 +20,7 @@ interface Props {
 
 const { locale, paginate = false } = Astro.props;
 const t = useTranslations(locale);
+const legalLocale = locale === "tr" ? "en" : locale;
 const year = new Date().getFullYear();
 ---
 
@@ -123,12 +124,12 @@ const year = new Date().getFullYear();
 
       <div class="flex justify-center gap-4 sm:justify-self-end">
         <a
-          href={localizePath(locale, "/privacy/")}
+          href={localizePath(legalLocale, "/privacy/")}
           class="text-xs text-ink-muted transition-colors hover:text-ink"
         >
           {t.footer.privacy}
         </a>
-        <a href={localizePath(locale, "/terms/")} class="text-xs text-ink-muted transition-colors hover:text-ink">
+        <a href={localizePath(legalLocale, "/terms/")} class="text-xs text-ink-muted transition-colors hover:text-ink">
           {t.footer.terms}
         </a>
       </div>
