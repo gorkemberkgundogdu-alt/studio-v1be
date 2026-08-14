@@ -49,6 +49,12 @@ export const ROUTES: readonly RouteEntry[] = [
       "How v1be studio applies its GEO-first system to its own bilingual service site: localized content, schema and crawlable routes.",
   },
   {
+    path: "/work/ai-crawlability/",
+    title: "LAB 001: AI Crawlability Experiment",
+    description:
+      "A request-level experiment testing crawler user-agent access, raw HTML and JavaScript-off behavior on Studio v1be.",
+  },
+  {
     path: "/privacy/",
     title: "Privacy Policy",
     description: "How v1be studio collects, uses and protects information submitted through this site.",
@@ -80,6 +86,7 @@ export const BILINGUAL_PATHS = new Set([
   "/work/",
   "/work/v1be-io/",
   "/work/studio-v1be/",
+  "/work/ai-crawlability/",
   "/about/",
   "/contact/",
 ]);

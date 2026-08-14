@@ -4,6 +4,7 @@
  * Tüm v1 copy'si CLAUDE.md'den birebir (tipografiyi rafine et, anlamı değiştirme).
  */
 import { SITE } from "../config/site";
+import { labEn } from "./lab";
 
 const CANONICAL_DESCRIPTION = SITE.description;
 
@@ -703,6 +704,7 @@ export const en = {
       note: "Evidence, not a proposal deck. One working session, a visible baseline and a prioritized first move.",
     },
   },
+  lab: labEn,
   work: {
     meta: {
       title: "Work — inspectable case studies | v1be studio",

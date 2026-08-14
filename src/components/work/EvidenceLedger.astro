@@ -1,0 +1,13 @@
+---
+interface Props { items: readonly (readonly [string, string, string, string])[]; observedLabel: string; interpretationLabel: string; }
+const { items, observedLabel, interpretationLabel } = Astro.props;
+---
+<ol class="mt-10 divide-y divide-line overflow-hidden rounded-3xl border border-line" data-reveal-group>
+  {items.map((item, index) => (
+    <li class="grid gap-5 bg-surface/35 p-6 md:grid-cols-[10rem_minmax(0,1fr)_minmax(0,1fr)]" data-reveal style={`--reveal-delay: ${index * 60}ms`}>
+      <div><p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">{item[0]}</p><span class="mt-3 inline-block rounded-full border border-line px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-ink">{item[1]}</span></div>
+      <div><p class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{observedLabel}</p><p class="mt-2 text-sm font-medium leading-relaxed text-ink">{item[2]}</p></div>
+      <div><p class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{interpretationLabel}</p><p class="mt-2 text-sm leading-relaxed text-ink-muted">{item[3]}</p></div>
+    </li>
+  ))}
+</ol>

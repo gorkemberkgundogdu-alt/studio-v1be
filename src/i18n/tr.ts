@@ -1,8 +1,10 @@
 import { en, type Dictionary } from "./en";
+import { labTr } from "./lab";
 
 /** Turkish content mirrors the English dictionary so visible copy and schema stay aligned. */
 export const tr = {
   ...en,
+  lab: labTr,
   meta: {
     siteTitle: "v1be studio — GEO odaklı web tasarım ve geliştirme",
     siteDescription: "v1be studio, ChatGPT, Gemini ve Perplexity gibi yapay zekâ arama motorlarınca alıntılanmak üzere tasarlanmış hızlı ve yapılandırılmış web siteleri üretir.",
