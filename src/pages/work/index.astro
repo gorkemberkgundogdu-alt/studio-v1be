@@ -10,143 +10,21 @@ const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/work/";
 const t = useTranslations(locale);
 const w = t.work;
-
-const crumbs = [
-  { name: t.footer.nav.home, path: "/" },
-  { name: t.nav.work, path },
-];
-
-const featuredCase = w.cases[0];
+const lab = t.lab;
+const [featuredCase, secondCase] = w.cases;
+const crumbs = [{ name: t.footer.nav.home, path: "/" }, { name: t.nav.work, path }];
 ---
-
-<BaseLayout
-  title={w.meta.title}
-  description={w.meta.description}
-  {locale}
-  {path}
-  schemas={[
-    webPageSchema({ name: w.hero.title, description: w.meta.description, locale, path }),
-    breadcrumbSchema(crumbs, locale),
-  ]}
->
+<BaseLayout title={w.meta.title} description={w.meta.description} {locale} {path} schemas={[webPageSchema({ name: w.hero.title, description: w.meta.description, locale, path }), breadcrumbSchema(crumbs, locale)]}>
   <Breadcrumb {locale} items={crumbs} />
+  <section class="grid-texture border-b border-line"><div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:py-20 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end"><div data-reveal><p class="font-mono text-sm font-bold uppercase tracking-widest text-accent">{w.hero.eyebrow}</p><h1 class="mt-4 max-w-4xl font-extrabold" style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;">{w.hero.title}</h1><p class="mt-5 max-w-2xl text-lg font-medium leading-relaxed text-ink-muted">{w.hero.subtitle}</p></div><aside class="rounded-2xl border border-line bg-surface/70 p-5" data-reveal><p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">{w.hero.indexLabel}</p><p class="mt-3 text-4xl font-black text-ink">01 → 02</p><p class="mt-2 text-sm font-semibold leading-relaxed text-ink-muted">{w.hero.indexNote}</p></aside></div></section>
 
-  <section class="grid-texture border-b border-line">
-    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:py-20 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
-      <div data-reveal>
-        <p class="font-mono text-sm font-bold uppercase tracking-widest text-accent">{w.hero.eyebrow}</p>
-        <h1
-          class="mt-4 max-w-4xl font-extrabold"
-          style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
-        >
-          {w.hero.title}
-        </h1>
-        <p class="mt-5 max-w-2xl text-lg font-medium leading-relaxed text-ink-muted">{w.hero.subtitle}</p>
-      </div>
+  <section class="border-b border-line" aria-labelledby="featured-case-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-reveal><div><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{w.featured.eyebrow}</p><h2 id="featured-case-title" class="mt-3 text-h2 font-bold">{w.featured.title}</h2></div><p class="max-w-sm text-sm font-medium leading-relaxed text-ink-muted">{w.featured.note}</p></div><article class="overflow-hidden rounded-[2rem] bg-accent text-(--color-base)" data-reveal><div class="grid gap-10 p-6 sm:p-8 md:p-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:p-12"><div><p class="font-mono text-[0.68rem] font-bold uppercase tracking-[0.16em]">{featuredCase.tag}</p><h3 class="mt-6 text-[clamp(3.5rem,2.25rem+5vw,7rem)] font-black leading-[0.86] tracking-[-0.06em]">{featuredCase.name}</h3><p class="mt-7 max-w-xl text-base font-semibold leading-relaxed opacity-75 sm:text-lg">{featuredCase.description}</p><ul class="mt-7 flex flex-wrap gap-2" aria-label={w.featured.servicesLabel}>{featuredCase.services.map((service) => <li class="rounded-full border border-base/20 px-3 py-1.5 text-xs font-bold">{service}</li>)}</ul><a href={localizePath(locale, featuredCase.href)} class="cta-lift mt-8 inline-flex h-12 items-center justify-center rounded-full bg-base px-7 text-base font-bold text-accent">{featuredCase.linkLabel} <span class="ml-2" aria-hidden="true">→</span></a></div><WorkProofPreview proof={featuredCase.proof} /></div></article></div></section>
 
-      <aside class="rounded-2xl border border-line bg-surface/70 p-5" data-reveal style="--reveal-delay: 80ms">
-        <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">{w.hero.indexLabel}</p>
-        <p class="mt-3 text-4xl font-black text-ink">01</p>
-        <p class="mt-2 text-sm font-semibold leading-relaxed text-ink-muted">{w.hero.indexNote}</p>
-      </aside>
-    </div>
-  </section>
+  <section class="grid-texture border-b border-line" aria-labelledby="case-002-title"><div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20"><article class="grid gap-8 rounded-3xl border border-line bg-surface/45 p-7 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-end" data-reveal><div><div class="flex flex-wrap items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em]"><span class="text-accent">{lab.hub.caseLabel}</span><span class="text-line" aria-hidden="true">/</span><span>{lab.hub.relationship}</span></div><h2 id="case-002-title" class="mt-5 text-h2 font-bold">{secondCase.name}</h2><p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-muted">{secondCase.description}</p></div><a href={localizePath(locale, secondCase.href)} class="cta-lift inline-flex h-12 items-center justify-center rounded-full border border-line px-6 font-bold text-ink hover:border-accent hover:text-accent">{secondCase.linkLabel} <span class="ml-2" aria-hidden="true">→</span></a></article></div></section>
 
-  <section class="border-b border-line" aria-labelledby="featured-case-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-reveal>
-        <div>
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{w.featured.eyebrow}</p>
-          <h2 id="featured-case-title" class="mt-3 text-h2 font-bold">{w.featured.title}</h2>
-        </div>
-        <p class="max-w-sm text-sm font-medium leading-relaxed text-ink-muted">{w.featured.note}</p>
-      </div>
+  <section class="border-b border-line" aria-labelledby="labs-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="mb-8" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.hub.section}</p><h2 id="labs-title" class="mt-3 text-h2 font-bold">{lab.hub.intro}</h2></div><article class="overflow-hidden rounded-3xl border border-line bg-surface/55 p-6 sm:p-8 md:p-10" data-reveal><div class="flex flex-wrap items-center justify-between gap-4 font-mono text-xs font-bold uppercase tracking-[0.16em]"><span class="text-accent">{lab.hub.label}</span><span class="text-ink-muted">Experiment</span></div><div class="mt-8 grid gap-8 lg:grid-cols-[1fr_0.85fr]"><div><h3 class="text-[clamp(2.25rem,1.7rem+3vw,4rem)] font-black leading-[0.95] tracking-[-0.045em]">{lab.hub.title}</h3><p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-muted">{lab.hub.description}</p><div class="mt-8 border-y border-line py-4"><p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-ink-muted">Test pipeline</p><p class="mt-3 font-mono text-sm font-bold text-ink">{lab.hub.pipeline}</p></div></div><div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">{lab.hub.evidence.map((item) => <div class="rounded-2xl border border-line bg-base/70 p-4"><p class="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-ink-muted">{item[0]}</p><p class="mt-3 text-lg font-extrabold text-accent">{item[1]}</p></div>)}<div class="rounded-2xl border border-accent/40 bg-accent/[0.07] p-4 sm:col-span-2"><p class="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-accent">{lab.hub.limitLabel}</p><p class="mt-3 text-sm leading-relaxed text-ink">{lab.hub.limit}</p></div></div></div><a href={localizePath(locale, "/work/ai-crawlability/")} class="cta-lift mt-10 inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 font-bold text-(--color-base)">{lab.hub.link}</a></article></div></section>
 
-      <article class="overflow-hidden rounded-[2rem] bg-accent text-(--color-base)" data-reveal>
-        <div class="grid gap-10 p-6 sm:p-8 md:p-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:p-12">
-          <div>
-            <div class="flex flex-wrap items-center gap-2 font-mono text-[0.68rem] font-bold uppercase tracking-[0.16em]">
-              <span>{featuredCase.tag}</span>
-              <span aria-hidden="true">·</span>
-              <span>{featuredCase.ownership}</span>
-            </div>
-            <h3 class="mt-6 text-[clamp(3.5rem,2.25rem+5vw,7rem)] font-black leading-[0.86] tracking-[-0.06em]">
-              {featuredCase.name}
-            </h3>
-            <p class="mt-7 max-w-xl text-base font-semibold leading-relaxed opacity-75 sm:text-lg">
-              {featuredCase.description}
-            </p>
+  <section class="bg-light-base text-light-ink" aria-labelledby="case-standard-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16"><div data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{w.standard.eyebrow}</p><h2 id="case-standard-title" class="mt-3 text-h2 font-bold">{w.standard.title}</h2><p class="mt-5 max-w-lg font-medium leading-relaxed text-light-muted">{w.standard.description}</p></div><ol class="grid gap-px overflow-hidden rounded-2xl border border-light-line bg-light-line sm:grid-cols-3" data-reveal-group>{w.standard.items.map((item, index) => <li class="bg-light-base p-6" data-reveal style={`--reveal-delay: ${index * 70}ms`}><span class="font-mono text-xs font-bold text-green">0{index + 1}</span><h3 class="mt-8 text-lg font-extrabold">{item.title}</h3><p class="mt-3 text-sm font-medium leading-relaxed text-light-muted">{item.description}</p></li>)}</ol></div></div></section>
 
-            <ul class="mt-7 flex flex-wrap gap-2" aria-label={w.featured.servicesLabel}>
-              {featuredCase.services.map((service) => (
-                <li class="rounded-full border border-base/20 px-3 py-1.5 text-xs font-bold">{service}</li>
-              ))}
-            </ul>
-
-            <a
-              href={localizePath(locale, featuredCase.href)}
-              class="cta-lift mt-8 inline-flex h-12 items-center justify-center rounded-full bg-base px-7 text-base font-bold text-accent"
-              style="color: var(--color-accent)"
-            >
-              {featuredCase.linkLabel} <span aria-hidden="true" class="ml-2">→</span>
-            </a>
-          </div>
-
-          <WorkProofPreview proof={featuredCase.proof} />
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="grid-texture border-b border-line" aria-labelledby="lab-001-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <article class="grid gap-8 rounded-3xl border border-line bg-surface/45 p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-end" data-reveal>
-        <div>
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{t.lab.hub.label}</p>
-          <h2 id="lab-001-title" class="mt-4 text-h2 font-bold">{t.lab.hub.title}</h2>
-          <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-muted">{t.lab.hub.description}</p>
-        </div>
-        <a href={localizePath(locale, "/work/ai-crawlability/")} class="cta-lift inline-flex h-12 items-center justify-center rounded-full border border-line px-6 font-bold text-ink hover:border-accent hover:text-accent">{t.lab.hub.link}</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="bg-light-base text-light-ink" aria-labelledby="case-standard-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <div data-reveal>
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{w.standard.eyebrow}</p>
-          <h2 id="case-standard-title" class="mt-3 text-h2 font-bold">{w.standard.title}</h2>
-          <p class="mt-5 max-w-lg font-medium leading-relaxed text-light-muted">{w.standard.description}</p>
-        </div>
-
-        <ol class="grid gap-px overflow-hidden rounded-2xl border border-light-line bg-light-line sm:grid-cols-3" data-reveal-group>
-          {w.standard.items.map((item, index) => (
-            <li class="bg-light-base p-6" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
-              <span class="font-mono text-xs font-bold text-green">0{index + 1}</span>
-              <h3 class="mt-8 text-lg font-extrabold">{item.title}</h3>
-              <p class="mt-3 text-sm font-medium leading-relaxed text-light-muted">{item.description}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <section class="grid-texture border-t border-line" aria-labelledby="open-case-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <article class="rounded-[2rem] border border-dashed border-line bg-surface/50 p-7 sm:p-10 md:p-12" data-reveal>
-        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div class="max-w-3xl">
-            <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{w.openSlot.eyebrow}</p>
-            <h2 id="open-case-title" class="mt-4 text-h2 font-bold">{w.openSlot.label}</h2>
-            <p class="mt-4 max-w-2xl font-medium leading-relaxed text-ink-muted">{w.openSlot.description}</p>
-          </div>
-          <div class="shrink-0">
-            <Button href={localizePath(locale, "/contact/")}>{w.openSlot.cta}</Button>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
+  <section class="grid-texture border-t border-line" aria-labelledby="open-case-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><article class="rounded-[2rem] border border-dashed border-line bg-surface/50 p-7 sm:p-10 md:p-12" data-reveal><div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"><div class="max-w-3xl"><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.hub.openLabel}</p><h2 id="open-case-title" class="mt-4 text-h2 font-bold">{w.openSlot.label}</h2><p class="mt-4 max-w-2xl font-medium leading-relaxed text-ink-muted">{w.openSlot.description}</p></div><div class="shrink-0"><Button href={localizePath(locale, "/contact/")}>{w.openSlot.cta}</Button></div></div></article></div></section>
 </BaseLayout>
