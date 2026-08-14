@@ -71,7 +71,7 @@ const crumbs = [{ name: t.footer.nav.home, path: "/" }, { name: t.nav.work, path
           <h2 id="case-002-title" class="mt-5 text-h2 font-bold">{secondCase.name}</h2>
           <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-muted">{secondCase.description}</p>
         </div>
-        <a href={localizePath(locale, secondCase.href)} class="cta-lift inline-flex h-12 items-center justify-center rounded-full border border-line px-6 font-bold text-ink hover:border-accent hover:text-accent">
+        <a href={localizePath(locale, secondCase.href)} class="cta-lift inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 font-bold text-(--color-base)">
           {secondCase.linkLabel} <span class="ml-2" aria-hidden="true">→</span>
         </a>
       </article>
