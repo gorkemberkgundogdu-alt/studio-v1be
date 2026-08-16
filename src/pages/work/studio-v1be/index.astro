@@ -16,7 +16,10 @@ const path = "/work/studio-v1be/";
 const t = useTranslations(locale);
 // Case 002 is being redesigned from the English source. Keep the existing
 // Turkish document routable until its localized content is supplied.
-const c = locale === "en" ? t.work.studioCase : useTranslations("en").work.studioCase;
+const englishCase = useTranslations("en").work.studioCase;
+const c = locale === "en"
+  ? t.work.studioCase
+  : { ...englishCase, meta: t.work.studioCase.meta, breadcrumbLabel: t.work.studioCase.breadcrumbLabel };
 const readingTime = estimateReadingMinutes([
   ...c.hero.narrative, ...c.origin.narrative, ...c.design.narrative, ...c.discovery.narrative,
   ...c.conversion.narrative, ...c.development.narrative, c.afterDeploy.lead, ...c.afterDeploy.narrative,
