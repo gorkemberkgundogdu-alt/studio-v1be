@@ -52,7 +52,7 @@ export const ROUTES: readonly RouteEntry[] = [
     path: "/work/ai-crawlability/",
     title: "LAB 001: AI Crawlability Experiment",
     description:
-      "A request-level experiment testing crawler user-agent access, raw HTML and JavaScript-off behavior on Studio v1be.",
+      "A request-level experiment testing crawler user-agent access, raw HTML and JavaScript-off behavior on v1be studio.",
   },
   {
     path: "/privacy/",
