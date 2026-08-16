@@ -70,7 +70,7 @@ const crumbs = [{ name: t.footer.nav.home, path: "/" }, { name: t.nav.work, path
         <article class="grid gap-7 rounded-3xl border border-line bg-surface/45 p-7 sm:p-8 lg:grid-cols-[minmax(0,1fr)_15rem] lg:items-stretch" data-reveal>
           <div class="flex flex-col">
             <div class="flex flex-wrap items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.16em]">
-              <span class="text-accent">{lab.hub.caseLabel}</span><span class="text-line" aria-hidden="true">/</span><span>{lab.hub.relationship}</span>
+              <span class="text-accent">{lab.hub.caseLabel}</span><span class="text-line" aria-hidden="true">/</span><span>{lab.hub.relationshipLabel}</span><a href={localizePath(locale, "/work/ai-crawlability/")} class="text-ink transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none">{lab.hub.relationshipLink}</a>
             </div>
             <h2 id="case-002-title" class="mt-5 text-h2 font-bold">{secondCase.name}</h2>
             <p class="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">{secondCase.description}</p>
