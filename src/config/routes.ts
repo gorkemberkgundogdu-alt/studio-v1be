@@ -46,7 +46,7 @@ export const ROUTES: readonly RouteEntry[] = [
     path: "/work/studio-v1be/",
     title: "Case study: studio.v1be.io",
     description:
-      "How v1be studio applies its GEO-first system to its own bilingual service site: localized content, schema and crawlable routes.",
+      "How v1be studio designed, built, tested and continues to improve its own service website for discovery and action.",
   },
   {
     path: "/work/ai-crawlability/",

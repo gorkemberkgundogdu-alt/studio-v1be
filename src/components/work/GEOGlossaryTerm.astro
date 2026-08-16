@@ -1,0 +1,21 @@
+---
+interface Props { term: string; abbreviation: string; definition: string; }
+const { term, abbreviation, definition } = Astro.props;
+---
+
+<details class="geo-glossary inline-block align-baseline">
+  <summary class="cursor-pointer font-inherit text-inherit underline decoration-accent/65 decoration-dotted underline-offset-4">
+    <dfn>{term} (<abbr title={term}>{abbreviation}</abbr>)</dfn>
+  </summary>
+  <span class="geo-glossary-definition mt-3 block max-w-xs rounded-xl border border-accent/40 bg-base p-4 text-sm font-normal leading-relaxed text-ink shadow-xl sm:absolute sm:z-10">{definition}</span>
+</details>
+
+<style>
+  .geo-glossary { position: relative; }
+  .geo-glossary summary::-webkit-details-marker { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .geo-glossary:not([open]):hover .geo-glossary-definition,
+    .geo-glossary:not([open]):focus-within .geo-glossary-definition { display: block; }
+    .geo-glossary:not([open]) .geo-glossary-definition { display: none; }
+  }
+</style>
