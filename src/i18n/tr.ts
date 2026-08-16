@@ -9,7 +9,7 @@ export const tr = {
     siteTitle: "v1be studio — GEO odaklı web tasarım ve geliştirme",
     siteDescription: "v1be studio, ChatGPT, Gemini ve Perplexity gibi yapay zekâ arama motorlarınca alıntılanmak üzere tasarlanmış hızlı ve yapılandırılmış web siteleri üretir.",
   },
-  a11y: { skipToContent: "İçeriğe geç", mainNav: "Ana navigasyon", footerNav: "Alt bilgi navigasyonu", menuToggle: "Menü", menuClose: "Kapat", breadcrumb: "İçerik yolu", keepScrolling: "Kaydırmaya devam edin", processStages: "Süreç aşamaları", websiteSystemLayers: "Web sitesi sistem katmanları" },
+  a11y: { skipToContent: "İçeriğe geç", mainNav: "Ana navigasyon", footerNav: "Alt bilgi navigasyonu", menuToggle: "Menü", menuClose: "Kapat", languageMenu: "Dil seçimi", breadcrumb: "İçerik yolu", keepScrolling: "Kaydırmaya devam edin", processStages: "Süreç aşamaları", websiteSystemLayers: "Web sitesi sistem katmanları" },
   nav: { packages: "Paketler", process: "Süreç", work: "İşler", about: "Hakkımızda", cta: "Ücretsiz denetim alın" },
   home: {
     ...en.home,

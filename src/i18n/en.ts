@@ -20,6 +20,7 @@ export const en = {
     footerNav: "Footer navigation",
     menuToggle: "Menu",
     menuClose: "Close",
+    languageMenu: "Language",
     breadcrumb: "Breadcrumb",
     keepScrolling: "Keep scrolling",
     processStages: "Process stages",

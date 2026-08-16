@@ -9,7 +9,7 @@
  * (GEO/SEO gereksinimi), JS kapalıyken görsel olarak açılamaz ama içerik
  * crawler'lar için her zaman erişilebilir kalır.
  */
-import { useTranslations, localizePath, type Locale } from "@/i18n";
+import { useTranslations, localizePath, LOCALE_LABELS, type Locale } from "@/i18n";
 import Button from "@/components/ui/Button.astro";
 import { SITE } from "@/config/site";
 import { hasLocalizedCounterpart } from "@/config/routes";
@@ -41,16 +41,31 @@ const navItems = [
       v1be<span class="text-accent"> studio</span><span class="hidden font-medium text-ink-muted md:inline"> | {locale === "tr" ? "web tasarım ve geliştirme" : "web design & development"}</span>
     </a>
 
-    <div class="flex shrink-0 items-center gap-4">
-      <Button href={localizePath(locale, "/contact/")} size="sm">{t.nav.cta}</Button>
+    <div class="flex shrink-0 items-center gap-3 sm:gap-4">
+      {canSwitchLocale && <details class="language-switcher relative">
+        <summary class="flex h-9 cursor-pointer list-none items-center gap-1.5 rounded-full border border-line px-3 text-xs font-bold text-ink transition-colors hover:border-accent hover:text-accent" aria-label={t.a11y.languageMenu}>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+          </svg>
+          <span>{locale.toUpperCase()}</span>
+          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <div class="absolute right-0 top-full z-10 mt-2 min-w-32 rounded-xl border border-line bg-surface p-1 shadow-xl" role="menu" aria-label={t.a11y.languageMenu}>
+          <a
+            href={localizePath(locale === "en" ? "tr" : "en", path)}
+            class="block rounded-lg px-3 py-2 text-xs font-bold text-ink transition-colors hover:bg-accent hover:text-(--color-base)"
+            lang={locale === "en" ? "tr" : "en"}
+            role="menuitem"
+          >
+            {LOCALE_LABELS[locale === "en" ? "tr" : "en"]}
+          </a>
+        </div>
+      </details>}
 
-      {canSwitchLocale && <a
-        href={localizePath(locale === "en" ? "tr" : "en", path)}
-        class="text-xs font-bold text-ink-muted transition-colors hover:text-accent"
-        lang={locale === "en" ? "tr" : "en"}
-      >
-        {locale === "en" ? "TR" : "EN"}
-      </a>}
+      <Button href={localizePath(locale, "/contact/")} size="sm">{t.nav.cta}</Button>
 
       <button
         type="button"
@@ -128,6 +143,10 @@ const navItems = [
 </div>
 
 <style>
+  .language-switcher summary::-webkit-details-marker {
+    display: none;
+  }
+
   /*
     SEO-safe: içerik her zaman DOM'da; yalnızca opacity/transform/pointer-events
     toggle edilir, display:none YOK. Reduced-motion: transition tanımlanmaz,
