@@ -1,5 +1,7 @@
 export const labEn = {
-  workHub: { experiment: "Experiment", testPipeline: "Test pipeline" },
+  workProof: { stackLabel: "v1be.io / proof stack", caseLabel: "case zero", schemaGraph: "schema graph", organization: "Organization", website: "WebSite", validation: "validation", validationText: "Readable by people, search and AI." },
+  workHub: { experiment: "Experiment", testPipeline: "Test pipeline", processCta: "See our process →", studioPreview: { label: "Bilingual route system", english: "English", turkish: "Türkçe", schema: "Localized schema", crawler: "Crawler access" } },
+  workProcess: { eyebrow: "Behind the work", title: "Want to see how our Cases and Labs come together?", body: "See the process behind the planning, decisions and validation that make every result inspectable." },
   ui: { checks: "Checks", before: "Before", fix: "Fix", notProven: "Not proven", supported: "Supported", notEstablished: "Not established" },
   meta: { title: "LAB 001: AI Crawlability Experiment | v1be studio", description: "Studio v1be tested AI crawler access, robots.txt, raw HTML, HTTP responses and JavaScript behavior on its own website." },
   hub: { section: "Labs / experiments", intro: "Experiments behind the work.", caseLabel: "Case · 002", relationship: "Related experiment · LAB 001", standardLabel: "Our case standard", standardFlow: "Context → Decisions → Evidence.", standardBody: "Every case shows what shaped the work, what changed, and what proves it.", label: "LAB · 001", title: "AI Crawlability Experiment", description: "A request-level experiment on what tested crawler user-agent strings can access.", evidence: [["Tested", "10 UA strings"], ["Response", "HTTP 200"], ["HTML", "~42 KB"], ["JS-off", "Core content readable"]], pipeline: "Request → Response → HTML → JS-off", limitLabel: "Limit", limit: "UA simulation ≠ genuine crawler identity", link: "Inspect the experiment →", openLabel: "Next case · Open" },
@@ -20,7 +22,9 @@ export const labEn = {
 } as const;
 
 export const labTr = {
-  workHub: { experiment: "Deney", testPipeline: "Test akışı" },
+  workProof: { stackLabel: "v1be.io / kanıt sistemi", caseLabel: "ilk çalışma", schemaGraph: "şema grafiği", organization: "Organizasyon", website: "Web sitesi", validation: "doğrulama", validationText: "İnsanlar, arama motorları ve yapay zekâ için okunabilir." },
+  workHub: { experiment: "Deney", testPipeline: "Test akışı", processCta: "Sürecimizi inceleyin →", studioPreview: { label: "İki dilli rota sistemi", english: "İngilizce", turkish: "Türkçe", schema: "Yerelleştirilmiş şema", crawler: "Crawler erişimi" } },
+  workProcess: { eyebrow: "İşin temelinde", title: "Case ve Lab çalışmalarımızın nasıl şekillendiğini görmek ister misiniz?", body: "Her sonucu incelemeye açık hâle getiren planlama, karar ve doğrulama sürecini görün." },
   ui: { checks: "Kontroller", before: "Önce", fix: "Düzeltme", notProven: "Kanıtlanmadı", supported: "Desteklenen", notEstablished: "Ortaya konmadı" },
   meta: { title: "LAB 001: AI Tarama Erişilebilirliği Deneyi | v1be studio", description: "Studio v1be, kendi sitesinde AI crawler erişimini, robots.txt'yi, ham HTML'i, HTTP yanıtlarını ve JavaScript davranışını test etti." },
   hub: { section: "Lablar / deneyler", intro: "İşin arkasındaki deneyler.", caseLabel: "Case · 002", relationship: "İlgili deney · LAB 001", standardLabel: "Case standardımız", standardFlow: "Bağlam → Kararlar → Kanıt.", standardBody: "Her case, işi şekillendirenleri, neyin değiştiğini ve bunu neyin kanıtladığını gösterir.", label: "LAB · 001", title: "AI Crawlability Experiment", description: "Test edilen crawler user-agent string'lerinin neye erişebildiğine dair request-level deney.", evidence: [["Test edilen", "10 UA string"], ["Yanıt", "HTTP 200"], ["HTML", "~42 KB"], ["JS-off", "Temel içerik okunabilir"]], pipeline: "İstek → Yanıt → HTML → JS-off", limitLabel: "Sınır", limit: "UA simülasyonu ≠ gerçek crawler kimliği", link: "Deneyi incele →", openLabel: "Sıradaki case · Açık" }, breadcrumb: "AI Crawlability",
@@ -35,6 +39,6 @@ export const labTr = {
   changes: { title: "Bu deneyden sonra ne değişti?", items: [["01", "Progressive enhancement", "JavaScript-off davranışı crawlability QA sürecimizin bir parçası oldu."], ["02", "Production testing", "Crawler-UA response kontrolleri yayın sonrası doğrulama sürecine girdi."], ["03", "Evidence discipline", "Erişim, indexlenme ve kaynak gösterilme ayrı sorular olarak ele alınıyor."]], equation: "Erişim ≠ indexlenme ≠ kaynak gösterilme" },
   related: { label: "İlgili case · Case 002", body: "Studio'yu, web sitelerinin inşa edilmesi gerektiğine inandığımız şekilde inşa ettik.", link: "Case 002'yi incele →" },
   next: { eyebrow: "Sıradaki deney", label: "LAB 002", title: "GEO readiness", body: "Erişim yalnızca ilk soruydu. Siteye erişilebildiğini gördükten sonra sıradaki soru şuydu: AI sistemleri erişebildikleri şeyi ne kadar net anlayabiliyor?", metrics: ["47 readiness kontrolü", "GEO readiness 64 → 74", "AI understanding 72 → 86"], note: "GEO Readiness Experiment · Yakında" },
-  cta: { title: "Web sitenizin arama ve AI sistemlerine gerçekte ne sunduğunu görmek ister misiniz?", button: "Ücretsiz audit isteyin →" },
+  cta: { title: "Web sitenizin arama ve AI sistemlerine gerçekte ne sunduğunu görmek ister misiniz?", button: "Ücretsiz teklif alın →" },
   caseRelated: { label: "İlgili lab · Lab 001", text: "Canlı studio'yu request-level crawlability, ham HTML erişimi ve JavaScript-off davranışı için test ettik.", link: "Lab 001'i incele →" },
 } as const;

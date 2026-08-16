@@ -2,7 +2,7 @@ import { en, type Dictionary } from "./en";
 import { labTr } from "./lab";
 
 /** Turkish content mirrors the English dictionary so visible copy and schema stay aligned. */
-export const tr = {
+const trBase = {
   ...en,
   lab: labTr,
   meta: {
@@ -55,7 +55,7 @@ export const tr = {
     { number: "03", title: "İçerik", description: "Marka sesinizde, v1be pipeline tarafından üretilen ve alıntılanabilirliği puanlanan makaleler. Hepsi CMS'inize taslak olarak aktarılır; yalnızca onayınızla yayınlanır." },
     { number: "04", title: "Ölç", description: "Görünürlük özetini yeniden çalıştırır; ChatGPT, Gemini ve Perplexity genelinde önce/sonra farkını gösteririz. Lansman günü GEO'nun bittiği değil, başladığı gündür." },
   ], cta: { title: "Denetimle başlayın.", subtitle: "Alan adınızı gönderin; bugün nerede olduğunuzu gösterelim.", button: "Ücretsiz denetim alın" } },
-  work: { ...en.work, meta: { title: "İşler — vaka çalışmaları | v1be studio", description: "v1be studio vaka çalışmaları: kendi platform sitemiz v1be.io ile başlayan, doğrulanmış GEO uygulamaları." }, hero: { eyebrow: "İşler", title: "Kanıt, önce kendimizden.", subtitle: "Metodolojiyi satmadan önce kendi platformumuzda uygularız. İlk vaka v1be.io." }, cases: [{ ...en.work.cases[0], tag: "İlk vaka", description: "Kendi platform sitemiz ilk vakamızdır: şema grafiği, hazırlık aşamasındaki alıntılanabilirlik puanlı içerik ve Google Rich Results Test doğrulaması. Önce kendimizde uygularız.", linkLabel: "Vaka çalışmasını okuyun" }, { ...en.work.cases[1], tag: "Vaka 002", description: "Kendi hizmet sitemiz; iki dilde rotalar, yerelleştirilmiş şema ve tek bir iletişim yolu üzerinde aynı GEO sistemini uygular.", linkLabel: "Vaka çalışmasını okuyun" }], openSlot: { label: "Bu alan, alıntılanmak isteyen bir marka için ayrıldı.", cta: "Ücretsiz denetim alın" }, studioCase: { meta: { title: "Vaka çalışması: studio.v1be.io | v1be studio", description: "v1be studio'nun GEO odaklı sistemi kendi iki dilli hizmet sitesinde nasıl uyguladığını inceleyin: yerelleştirilmiş içerik, şema ve taranabilir rotalar." }, eyebrow: "Vaka çalışması · Vaka 002", title: "studio.v1be.io — hizmet sitesinin kanıtı.", subtitle: "Kendi hizmet sitemiz, sunduğumuz metodun canlı referansıdır.", breadcrumbLabel: "studio.v1be.io", sections: [{ heading: "İhtiyaç", body: "studio.v1be.io, v1be'nin ürünleştirilmiş hizmet yüzüdür. Hızlı ve yapılandırılmış bir hizmet sitesinin yapay zekâ sistemleri tarafından okunup kaynak gösterilebildiğini kanıtlarken, iletişime tek ve doğrudan bir yol sunması gerekiyordu." }, { heading: "Ne değişti", body: "Site, İngilizceyi prefix'siz varsayılan dil olarak koruyor; Türkçeyi ise açık /tr/ rotalarıyla sunuyor. Paylaşılan navigasyon, breadcrumb'lar, kanonik URL'ler ve yapılandırılmış veri ziyaretçinin etkin dilinde çözülür." }, { heading: "Kanıt", body: "Her yerelleştirilmiş rota statik, indekslenebilir ve hreflang alternatifleriyle bağlıdır. Sayfa metni, başlıklar, açıklamalar, şema dili ve breadcrumb URL'leri tarayıcıda sonradan çevrilmek yerine birlikte kalır." }], cta: "Ücretsiz denetim alın" }, caseStudy: { ...en.work.caseStudy, meta: { title: "Vaka çalışması: v1be.io — kendi platform sitemiz | v1be studio", description: "v1be.io'yu ilk vaka olarak nasıl geliştirdiğimizi inceleyin: tam şema grafiği, alıntılanabilirlik puanlı içerik ve Rich Results Test doğrulaması." }, hero: { ...en.work.caseStudy.hero, eyebrow: "Vaka çalışması · İlk vaka", title: "v1be.io — önce kendimizde uyguladığımız site.", subtitle: "Web varlığınızı optimize etmeden önce metodolojiyi kendi platformumuzda kanıtlarız. İşte bunun nasıl göründüğü." }, breadcrumbLabel: "v1be.io", sections: [
+  work: { ...en.work, meta: { title: "İşler — vaka çalışmaları | v1be studio", description: "v1be studio vaka çalışmaları: kendi platform sitemiz v1be.io ile başlayan, doğrulanmış GEO uygulamaları." }, hero: { eyebrow: "İşler", title: "Kanıt, önce kendimizden.", subtitle: "Metodolojiyi satmadan önce kendi platformumuzda uygularız. İlk vaka v1be.io." }, cases: [{ ...en.work.cases[0], tag: "İlk vaka", description: "Kendi platform sitemiz ilk vakamızdır: şema grafiği, hazırlık aşamasındaki alıntılanabilirlik puanlı içerik ve Google Rich Results Test doğrulaması. Önce kendimizde uygularız.", linkLabel: "Vaka çalışmasını okuyun" }, { ...en.work.cases[1], tag: "Vaka 002", description: "Kendi hizmet sitemiz; iki dilde rotalar, yerelleştirilmiş şema ve tek bir iletişim yolu üzerinde aynı GEO sistemini uygular.", linkLabel: "Vaka çalışmasını okuyun" }], openSlot: { label: "Bu alan sizin için ayrıldı.", description: "Ücretsiz bir denetimle başlayın. Fırsatı net bir brief’e ve kaynak gösterilmek üzere tasarlanmış bir web sitesine dönüştürelim.", cta: "Ücretsiz denetim alın" }, studioCase: { meta: { title: "Vaka çalışması: studio.v1be.io | v1be studio", description: "v1be studio'nun GEO odaklı sistemi kendi iki dilli hizmet sitesinde nasıl uyguladığını inceleyin: yerelleştirilmiş içerik, şema ve taranabilir rotalar." }, eyebrow: "Vaka çalışması · Vaka 002", title: "studio.v1be.io — hizmet sitesinin kanıtı.", subtitle: "Kendi hizmet sitemiz, sunduğumuz metodun canlı referansıdır.", breadcrumbLabel: "studio.v1be.io", sections: [{ heading: "İhtiyaç", body: "studio.v1be.io, v1be'nin ürünleştirilmiş hizmet yüzüdür. Hızlı ve yapılandırılmış bir hizmet sitesinin yapay zekâ sistemleri tarafından okunup kaynak gösterilebildiğini kanıtlarken, iletişime tek ve doğrudan bir yol sunması gerekiyordu." }, { heading: "Ne değişti", body: "Site, İngilizceyi prefix'siz varsayılan dil olarak koruyor; Türkçeyi ise açık /tr/ rotalarıyla sunuyor. Paylaşılan navigasyon, breadcrumb'lar, kanonik URL'ler ve yapılandırılmış veri ziyaretçinin etkin dilinde çözülür." }, { heading: "Kanıt", body: "Her yerelleştirilmiş rota statik, indekslenebilir ve hreflang alternatifleriyle bağlıdır. Sayfa metni, başlıklar, açıklamalar, şema dili ve breadcrumb URL'leri tarayıcıda sonradan çevrilmek yerine birlikte kalır." }], cta: "Ücretsiz denetim alın" }, caseStudy: { ...en.work.caseStudy, meta: { title: "Vaka çalışması: v1be.io — kendi platform sitemiz | v1be studio", description: "v1be.io'yu ilk vaka olarak nasıl geliştirdiğimizi inceleyin: tam şema grafiği, alıntılanabilirlik puanlı içerik ve Rich Results Test doğrulaması." }, hero: { ...en.work.caseStudy.hero, eyebrow: "Vaka çalışması · İlk vaka", title: "v1be.io — önce kendimizde uyguladığımız site.", subtitle: "Web varlığınızı optimize etmeden önce metodolojiyi kendi platformumuzda kanıtlarız. İşte bunun nasıl göründüğü." }, breadcrumbLabel: "v1be.io", sections: [
     { heading: "İhtiyaç", body: "v1be.io, yapay zekâ pazarlama ajanı v1be'nin platform ana sayfasıdır. Teknik SEO denetçisinin kaynak kodunu açıp eleştirecek hiçbir şey bulamayacağı, doğru yapılmış GEO'nun canlı bir gösterimi olmalıydı." },
     { heading: "Ne geliştirdik", body: "Her sayfada tam şema grafiğine sahip static-first Astro geliştirmesi: site genelinde Organization ve WebSite, teklif sayfalarında Service, gerektiği yerde FAQPage ve BreadcrumbList. Hepsi görünür içerikle aynı sözlüklerden beslenir; böylece yapılandırılmış veri asla okuyucunun gördüğünden kopmaz." },
     { heading: "GEO altyapısı", body: "robots.txt, GPTBot, ClaudeBot, PerplexityBot ve Google-Extended'a bilinçli olarak izin verir. Bir llms.txt uç noktası kanonik sayfaları listeler. Fontlar kendi barındırmamızda, önden yüklenmiş ve alt kümelenmiştir. OG görselleri her zaman çözülür. Her görsel açıklayıcı alt metne, her sayfa tam olarak bir h1'e sahiptir." },
@@ -82,3 +82,69 @@ export const tr = {
   // Keep its complete stage model until Turkish stage copy is authored against it.
   process: en.process,
 } as unknown as Dictionary;
+
+export const tr: Dictionary = {
+  ...trBase,
+  nav: { ...trBase.nav, cta: "Ücretsiz teklif alın" },
+  home: {
+    ...trBase.home,
+    what: { ...trBase.home.what, cta: "Ücretsiz teklif alın" },
+    how: { ...trBase.home.how, cta: "Ücretsiz teklif alın" },
+    work: { ...trBase.home.work, openSlot: { ...trBase.home.work.openSlot, cta: "Ücretsiz teklif alın" } },
+  },
+  packages: {
+    ...trBase.packages,
+    hero: { ...trBase.packages.hero, primaryCta: "Ücretsiz teklif alın" },
+    paths: [
+      { ...trBase.packages.paths[0], briefCta: "Ücretsiz teklif alın" },
+      { ...trBase.packages.paths[1], briefCta: "Ücretsiz teklif alın" },
+    ],
+  },
+  about: { ...trBase.about, cta: { ...trBase.about.cta, button: "Ücretsiz teklif alın" } },
+  contact: { ...trBase.contact, form: { ...trBase.contact.form, submit: "Ücretsiz teklifimi iste" } },
+  footer: {
+    ...trBase.footer,
+    taglineLines: [
+      { text: "Güzel olmak için tasarlandı.", accent: "Güzel" },
+      { text: "Alıntılanabilmek için geliştirildi.", accent: "geliştirildi." },
+    ],
+  },
+  work: {
+    ...trBase.work,
+    hero: {
+      ...trBase.work.hero,
+      eyebrow: "Uygulanmış v1be.",
+      title: "İnceleyebileceğiniz çalışmalarımız.",
+      subtitle: "Bir vaat, ancak arkasındaki iş görünür kaldığında anlam taşır. Her vaka için kararları, teslim edilen sistemi ve kanıtı somutlaştırıyoruz.",
+      indexLabel: "Yayınlanmış vakalar",
+      indexNote: "Şu anlık, sadece markalarımızın tasarımdan yayına almaya kadar süreçlerini yönettiğimiz çalışmaları sergileyebiliyoruz. Sergi alanımızda sizin için de bir yer bıraktık, çalışma ve geliştirmelere aynı zamanda devam ediyoruz.",
+    },
+    featured: {
+      ...trBase.work.featured,
+      eyebrow: "Öne çıkan çalışma",
+      title: "İlk çalışma, v1be.",
+      titleBefore: "İlk çalışma, ",
+      titleLink: "v1be.",
+      note: "",
+      servicesLabel: "Bu çalışmaya dahil olanlar",
+    },
+    cases: [
+      {
+        ...trBase.work.cases[0],
+        tag: "İlk çalışma",
+        linkLabel: "Çalışmamızı inceleyin",
+        description: "Kendi markamız ilk çalışmamız. Şema grafiği, hazırlık aşamasındaki alıntılanabilirlik puanlı içerik ve Google Rich Results Test doğrulamasıyla bunu ilk kendimizde uyguladık ve metodolojimizi oluşturduk.",
+        services: ["Strateji ve UX", "Astro geliştirme", "SEO / GEO altyapısı"],
+        proof: [
+          { label: "Şema grafiği", value: "Yapılandırılmış" },
+          { label: "Yapay zekâ crawler erişimi", value: "Açık" },
+          { label: "Yayın kanıtı", value: "Doğrulandı" },
+        ],
+      },
+      { ...trBase.work.cases[1], linkLabel: "Çalışmamızı inceleyin" },
+    ],
+    openSlot: { ...trBase.work.openSlot, cta: "Ücretsiz teklif alın" },
+    studioCase: { ...trBase.work.studioCase, cta: "Ücretsiz teklif alın" },
+    caseStudy: { ...trBase.work.caseStudy, cta: { ...trBase.work.caseStudy.cta, button: "Ücretsiz teklif alın" } },
+  },
+};

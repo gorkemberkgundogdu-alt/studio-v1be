@@ -723,6 +723,8 @@ export const en = {
     featured: {
       eyebrow: "Featured case",
       title: "The first proof is ours.",
+      titleBefore: "The first proof is ours.",
+      titleLink: "",
       note: "Case zero keeps the method honest before it reaches a client project.",
       servicesLabel: "Work included in this case",
     },
@@ -773,9 +775,9 @@ export const en = {
     },
     openSlot: {
       eyebrow: "Case 02 · Open",
-      label: "This slot is reserved for a brand that wants to be cited.",
+      label: "This slot is reserved for you.",
       description:
-        "Start with a free audit. If there is a useful problem to solve, we turn the baseline into a clear brief and a case worth showing.",
+        "Start with a free audit. We’ll turn the opportunity into a clear brief and a website built to be cited.",
       cta: "Get a free audit",
     },
     caseStudy: {
