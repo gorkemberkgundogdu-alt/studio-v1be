@@ -1,0 +1,17 @@
+---
+interface Props { nodes: readonly string[]; }
+const { nodes } = Astro.props;
+---
+
+<figure class="overflow-hidden rounded-[1.75rem] border border-line bg-surface/45 p-5 sm:p-7" data-reveal>
+  <figcaption class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">Shared knowledge, different jobs</figcaption>
+  <ol class="mt-8 grid gap-3 lg:grid-cols-4" aria-label="The relationship between v1be.io and v1be studio">
+    {nodes.map((node, index) => (
+      <li class="relative rounded-2xl border border-line bg-base/70 p-4 text-center font-bold leading-tight">
+        <span class="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-ink-muted">0{index + 1}</span>
+        <p class="mt-3">{node}</p>
+        {index < nodes.length - 1 && <span class="mt-4 block font-mono text-xl text-accent lg:absolute lg:-right-5 lg:top-1/2 lg:mt-0 lg:-translate-y-1/2" aria-hidden="true">→</span>}
+      </li>
+    ))}
+  </ol>
+</figure>

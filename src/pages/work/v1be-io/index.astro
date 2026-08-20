@@ -11,6 +11,9 @@ const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
 const path = "/work/v1be-io/";
 const t = useTranslations(locale);
 const cs = t.work.caseStudy;
+const secondaryCtaHref = cs.hero.secondaryHref?.startsWith("#")
+  ? cs.hero.secondaryHref
+  : localizePath(locale, cs.hero.secondaryHref ?? "/work/");
 
 const crumbs = [
   { name: t.footer.nav.home, path: "/" },
@@ -56,7 +59,7 @@ const crumbs = [
               >
                 {cs.hero.primaryCta} <span class="ml-2" aria-hidden="true">↗</span>
               </a>
-              <Button href={cs.hero.secondaryHref ? localizePath(locale, cs.hero.secondaryHref) : localizePath(locale, "/work/")} variant="surface">{cs.hero.secondaryCta}</Button>
+              <Button href={secondaryCtaHref} variant="surface">{cs.hero.secondaryCta}</Button>
             </div>
           </div>
         </div>

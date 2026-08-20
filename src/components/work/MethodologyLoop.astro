@@ -1,0 +1,15 @@
+---
+interface Props { steps: readonly string[]; }
+const { steps } = Astro.props;
+---
+
+<ol class="methodology-loop mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Continuous improvement methodology" data-reveal-group>
+  {steps.map((step, index) => (
+    <li class:list={["relative rounded-2xl border border-line bg-surface/45 p-5", index === steps.length - 1 && "border-accent/55 bg-accent/[0.07]"]} data-reveal>
+      <span class="font-mono text-xs font-bold text-accent">0{index + 1}</span>
+      <p class="mt-7 font-mono text-sm font-bold uppercase tracking-[0.12em]">{step}</p>
+      {index < steps.length - 1 && <span class="mt-5 block font-mono text-accent lg:absolute lg:-right-5 lg:top-1/2 lg:mt-0 lg:-translate-y-1/2" aria-hidden="true">→</span>}
+      {index === steps.length - 1 && <span class="mt-5 block font-mono text-accent" aria-hidden="true">↺ back into the system</span>}
+    </li>
+  ))}
+</ol>
