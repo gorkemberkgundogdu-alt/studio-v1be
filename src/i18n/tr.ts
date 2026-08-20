@@ -144,7 +144,7 @@ export const tr: Dictionary = {
       { ...trBase.work.cases[1], linkLabel: "Çalışmamızı inceleyin" },
     ],
     openSlot: { ...trBase.work.openSlot, cta: "Ücretsiz teklif alın" },
-    studioCase: { ...trBase.work.studioCase, cta: "Ücretsiz teklif alın" },
+    studioCase: trBase.work.studioCase,
     caseStudy: { ...trBase.work.caseStudy, cta: { ...trBase.work.caseStudy.cta, button: "Ücretsiz teklif alın" } },
   },
 };
