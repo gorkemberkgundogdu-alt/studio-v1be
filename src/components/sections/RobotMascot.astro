@@ -26,20 +26,26 @@ const { look = "classic", name } = Astro.props;
 </div>
 
 <script>
-  const stages = document.querySelectorAll<HTMLElement>("[data-robot-stage]");
-  if (stages.length > 0) {
-    const boot = () =>
+  function initRobotStages() {
+    const stages = document.querySelectorAll<HTMLElement>("[data-robot-stage]:not(.is-mounted)");
+    if (stages.length > 0) {
       import("@/lib/robot-mascot")
         .then((m) => {
-          stages.forEach((stage) => m.mountRobot(stage).catch(() => {}));
+          stages.forEach((stage) => {
+            stage.classList.add("is-mounted");
+            m.mountRobot(stage).catch(() => {});
+          });
         })
         .catch(() => {});
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(boot, { timeout: 2000 });
-    } else {
-      setTimeout(boot, 600);
     }
   }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRobotStages);
+  } else {
+    initRobotStages();
+  }
+  document.addEventListener("astro:page-load", initRobotStages);
 </script>
 
 <style>

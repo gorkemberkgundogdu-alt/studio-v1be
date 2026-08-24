@@ -1,15 +1,140 @@
 ---
-interface Props { knownLabel: string; unknownLabel: string; known: readonly string[]; unknown: readonly string[]; closing: string; }
-const { knownLabel, unknownLabel, known, unknown, closing } = Astro.props;
+interface Props {
+  knownLabel: string;
+  unknownLabel: string;
+  known: readonly string[];
+  unknown: readonly string[];
+  closing: string;
+  theme?: "dark" | "light";
+}
+
+const {
+  knownLabel,
+  unknownLabel,
+  known,
+  unknown,
+  closing,
+  theme = "dark",
+} = Astro.props;
+
+const isLight = theme === "light";
 ---
-<div class="mt-10 grid gap-3 lg:grid-cols-[1.2fr_0.8fr]" data-reveal-group>
-  <section class="rounded-3xl border border-line bg-surface/45 p-6 sm:p-8" data-reveal>
-    <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{knownLabel}</p>
-    <ul class="mt-6 space-y-4">{known.map((item) => <li class="flex gap-3 text-sm leading-relaxed text-ink"><span class="text-accent" aria-hidden="true">✓</span><span>{item}</span></li>)}</ul>
+
+<div class="mt-10 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]" data-reveal-group>
+  <section
+    class:list={[
+      "rounded-3xl border p-6 sm:p-8",
+      isLight
+        ? "border-light-line bg-white/80 shadow-sm"
+        : "border-line bg-surface/50",
+    ]}
+    data-reveal
+  >
+    <div class="flex items-center justify-between border-b pb-4 border-inherit">
+      <p
+        class:list={[
+          "font-mono text-xs font-bold uppercase tracking-[0.16em]",
+          isLight ? "text-green" : "text-accent",
+        ]}
+      >
+        {knownLabel}
+      </p>
+      <span
+        class:list={[
+          "rounded-full px-2.5 py-0.5 font-mono text-[0.58rem] font-bold uppercase tracking-wider",
+          isLight
+            ? "border border-green/30 bg-green/10 text-green"
+            : "border border-accent/40 bg-accent/10 text-accent",
+        ]}
+      >
+        Implemented & Verified
+      </span>
+    </div>
+    <ul class="mt-6 space-y-3.5">
+      {known.map((item) => (
+        <li
+          class:list={[
+            "flex items-start gap-3 text-sm leading-relaxed",
+            isLight ? "text-light-ink" : "text-ink",
+          ]}
+        >
+          <span
+            class:list={[
+              "mt-0.5 font-bold",
+              isLight ? "text-green" : "text-accent",
+            ]}
+            aria-hidden="true"
+          >
+            ✓
+          </span>
+          <span class="font-medium">{item}</span>
+        </li>
+      ))}
+    </ul>
   </section>
-  <section class="rounded-3xl border border-accent/45 bg-accent/[0.06] p-6 sm:p-8" data-reveal>
-    <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{unknownLabel}</p>
-    <ul class="mt-6 space-y-4">{unknown.map((item) => <li class="text-sm leading-relaxed text-ink-muted">{item}</li>)}</ul>
+
+  <section
+    class:list={[
+      "rounded-3xl border p-6 sm:p-8",
+      isLight
+        ? "border-light-line bg-white/90 border-dashed shadow-sm"
+        : "border-accent/35 bg-accent/[0.05] border-dashed",
+    ]}
+    data-reveal
+    style="--reveal-delay: 80ms"
+  >
+    <div class="flex items-center justify-between border-b pb-4 border-inherit">
+      <p
+        class:list={[
+          "font-mono text-xs font-bold uppercase tracking-[0.16em]",
+          isLight ? "text-green" : "text-accent",
+        ]}
+      >
+        {unknownLabel}
+      </p>
+      <span
+        class:list={[
+          "rounded-full border px-2.5 py-0.5 font-mono text-[0.58rem] font-bold uppercase tracking-wider",
+          isLight
+            ? "border-light-line bg-light-base text-light-ink font-semibold"
+            : "border-line bg-base/50 text-ink-muted",
+        ]}
+      >
+        Requires Production Time
+      </span>
+    </div>
+    <ul class="mt-6 space-y-3.5">
+      {unknown.map((item) => (
+        <li
+          class:list={[
+            "flex items-start gap-3 text-sm leading-relaxed",
+            isLight ? "text-light-ink font-medium" : "text-ink-muted",
+          ]}
+        >
+          <span
+            class:list={[
+              "mt-0.5 font-mono text-xs",
+              isLight ? "text-green font-bold" : "text-ink-muted/60",
+            ]}
+            aria-hidden="true"
+          >
+            ◷
+          </span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
   </section>
 </div>
-<p class="mt-6 border-l-2 border-accent pl-4 text-sm font-bold leading-relaxed text-ink">{closing}</p>
+
+<p
+  class:list={[
+    "mt-8 border-l-2 pl-4 text-sm font-bold leading-relaxed",
+    isLight
+      ? "border-green text-light-ink"
+      : "border-accent text-ink",
+  ]}
+  data-reveal
+>
+  {closing}
+</p>

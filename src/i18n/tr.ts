@@ -55,7 +55,180 @@ const trBase = {
     { number: "03", title: "İçerik", description: "Marka sesinizde, v1be pipeline tarafından üretilen ve alıntılanabilirliği puanlanan makaleler. Hepsi CMS'inize taslak olarak aktarılır; yalnızca onayınızla yayınlanır." },
     { number: "04", title: "Ölç", description: "Görünürlük özetini yeniden çalıştırır; ChatGPT, Gemini ve Perplexity genelinde önce/sonra farkını gösteririz. Lansman günü GEO'nun bittiği değil, başladığı gündür." },
   ], cta: { title: "Denetimle başlayın.", subtitle: "Alan adınızı gönderin; bugün nerede olduğunuzu gösterelim.", button: "Ücretsiz denetim alın" } },
-  work: { ...en.work, meta: { title: "İşler — vaka çalışmaları | v1be studio", description: "v1be studio vaka çalışmaları: kendi platform sitemiz v1be.io ile başlayan, doğrulanmış GEO uygulamaları." }, hero: { eyebrow: "İşler", title: "Kanıt, önce kendimizden.", subtitle: "Metodolojiyi satmadan önce kendi platformumuzda uygularız. İlk vaka v1be.io." }, cases: [{ ...en.work.cases[0], tag: "İlk vaka", description: "Kendi platform sitemiz ilk vakamızdır: şema grafiği, hazırlık aşamasındaki alıntılanabilirlik puanlı içerik ve Google Rich Results Test doğrulaması. Önce kendimizde uygularız.", linkLabel: "Vaka çalışmasını okuyun" }, { ...en.work.cases[1], tag: "Vaka 002", description: "Kendi hizmet sitemiz; iki dilde rotalar, yerelleştirilmiş şema ve tek bir iletişim yolu üzerinde aynı GEO sistemini uygular.", linkLabel: "Vaka çalışmasını okuyun" }], openSlot: { label: "Bu alan sizin için ayrıldı.", description: "Ücretsiz bir denetimle başlayın. Fırsatı net bir brief’e ve kaynak gösterilmek üzere tasarlanmış bir web sitesine dönüştürelim.", cta: "Ücretsiz denetim alın" }, studioCase: { meta: { title: "Vaka çalışması: studio.v1be.io | v1be studio", description: "v1be studio'nun GEO odaklı sistemi kendi iki dilli hizmet sitesinde nasıl uyguladığını inceleyin: yerelleştirilmiş içerik, şema ve taranabilir rotalar." }, eyebrow: "Vaka çalışması · Vaka 002", title: "studio.v1be.io — hizmet sitesinin kanıtı.", subtitle: "Kendi hizmet sitemiz, sunduğumuz metodun canlı referansıdır.", breadcrumbLabel: "studio.v1be.io", sections: [{ heading: "İhtiyaç", body: "studio.v1be.io, v1be'nin ürünleştirilmiş hizmet yüzüdür. Hızlı ve yapılandırılmış bir hizmet sitesinin yapay zekâ sistemleri tarafından okunup kaynak gösterilebildiğini kanıtlarken, iletişime tek ve doğrudan bir yol sunması gerekiyordu." }, { heading: "Ne değişti", body: "Site, İngilizceyi prefix'siz varsayılan dil olarak koruyor; Türkçeyi ise açık /tr/ rotalarıyla sunuyor. Paylaşılan navigasyon, breadcrumb'lar, kanonik URL'ler ve yapılandırılmış veri ziyaretçinin etkin dilinde çözülür." }, { heading: "Kanıt", body: "Her yerelleştirilmiş rota statik, indekslenebilir ve hreflang alternatifleriyle bağlıdır. Sayfa metni, başlıklar, açıklamalar, şema dili ve breadcrumb URL'leri tarayıcıda sonradan çevrilmek yerine birlikte kalır." }], cta: "Ücretsiz denetim alın" }, caseStudy: { ...en.work.caseStudy, meta: { title: "Vaka çalışması: v1be.io — kendi platform sitemiz | v1be studio", description: "v1be.io'yu ilk vaka olarak nasıl geliştirdiğimizi inceleyin: tam şema grafiği, alıntılanabilirlik puanlı içerik ve Rich Results Test doğrulaması." }, hero: { ...en.work.caseStudy.hero, eyebrow: "Vaka çalışması · İlk vaka", title: "v1be.io — önce kendimizde uyguladığımız site.", subtitle: "Web varlığınızı optimize etmeden önce metodolojiyi kendi platformumuzda kanıtlarız. İşte bunun nasıl göründüğü." }, breadcrumbLabel: "v1be.io", sections: [
+  work: { ...en.work, meta: { title: "İşler — vaka çalışmaları | v1be studio", description: "v1be studio vaka çalışmaları: kendi platform sitemiz v1be.io ile başlayan, doğrulanmış GEO uygulamaları." }, hero: { eyebrow: "İşler", title: "Kanıt, önce kendimizden.", subtitle: "Metodolojiyi satmadan önce kendi platformumuzda uygularız. İlk vaka v1be.io." }, cases: [{ ...en.work.cases[0], tag: "İlk vaka", description: "Kendi platform sitemiz ilk vakamızdır: şema grafiği, hazırlık aşamasındaki alıntılanabilirlik puanlı içerik ve Google Rich Results Test doğrulaması. Önce kendimizde uygularız.", linkLabel: "Vaka çalışmasını okuyun" }, { ...en.work.cases[1], tag: "Vaka 002", description: "Kendi hizmet sitemiz; iki dilde rotalar, yerelleştirilmiş şema ve tek bir iletişim yolu üzerinde aynı GEO sistemini uygular.", linkLabel: "Vaka çalışmasını okuyun" }], openSlot: { label: "Bu alan sizin için ayrıldı.", description: "Ücretsiz bir denetimle başlayın. Fırsatı net bir brief’e ve kaynak gösterilmek üzere tasarlanmış bir web sitesine dönüştürelim.", cta: "Ücretsiz denetim alın" }, studioCase: {
+      meta: {
+        title: "v1be studio web tasarım ve geliştirme vaka çalışması | v1be studio",
+        description: "v1be studio'nun keşif ve aksiyon için kendi hizmet sitesini nasıl tasarladığını, geliştirdiğini, test ettiğini ve iyileştirmeye devam ettiğini inceleyin."
+      },
+      breadcrumbLabel: "v1be studio",
+      hero: {
+        eyebrow: "VAKA 002 · V1BE STUDIO",
+        title: "Kendi sitemizi, web sitelerinin yapılması gerektiğine inandığımız şekilde inşa ettik.",
+        titleBefore: "Kendi sitemizi, web sitelerinin yapılması gerektiğine inandığımız şekilde ",
+        titleAccent: "inşa ettik.",
+        narrative: [
+          "v1be studio, sadece güzel görünmekten fazlasını yapmak üzere sıfırdan tasarlandı ve geliştirildi. Güçlü bir ilk izlenim bırakmalı, ne yaptığımızı net bir şekilde açıklamalı, keşfedilebilirliği desteklemeli ve ilgiyi aksiyona dönüştüren net yollar sunmalıydı.",
+          "Ardından yayına aldık, test etmeye başladık, geliştirebileceğimiz noktaları keşfettik ve inşa etmeye devam ettik."
+        ],
+        image: "",
+        imageAlt: "Prosedürel karakter ve yüksek kontrastlı tipografi ile canlı v1be studio deneyimi"
+      },
+      origin: {
+        eyebrow: "KÖKEN",
+        title: "Bir geliştirme diğerine öncülük etti.",
+        narrative: [
+          "v1be studio, v1be.io'dan doğdu.",
+          "v1be.io'yu inşa etmek, web sitesinin arkasındaki sistemin kendi ürünümüzün ötesinde de faydalı olabileceğini gösterdi: görsel tasarım, geliştirme ve keşfedilebilirliğin arkasındaki teknik temeller birbirine bağlı tek bir süreç olarak ele alınabilirdi.",
+          "Bu yaklaşım, v1be studio için bir başlangıç noktası oldu.",
+          "İki web sitesi, temeldeki prosedürel maskot sistemi de dahil olmak üzere hâlâ aynı DNA'nın bir kısmını paylaşıyor; ancak farklı amaçlar için tasarlandılar. v1be.io ürünü tanıtır. v1be studio ise neler inşa edebileceğimizi kanıtlamalı, nasıl çalıştığımızı açıklamalı, hizmetlerimizi anlaşılır kılmalı ve ilk ziyaretten iş birliğine uzanan bir yol açmalıdır.",
+          "Böylece deneyimi birebir kopyalamadan, öğrendiğimiz dersleri ileriye taşıdık. Stüdyo kendi görsel dilini, arayüz kararlarını ve ticari rolünü geliştirdi."
+        ],
+        map: ["v1be.io", "deneyim / öğrenimler", "tasarım + geliştirme + keşif", "v1be studio"],
+        link: "v1be.io'nun nasıl tasarlandığını ve inşa edildiğini görün"
+      },
+      design: {
+        eyebrow: "TASARIM",
+        title: "İlk izlenim, sunumun bir parçasını üstlenmek zorundaydı.",
+        narrative: [
+          "v1be studio'yu keşfeden biri, siteye ulaşmadan önce hakkımızda hiçbir şey bilmiyor olabilir. Sürecimizi, paketlerimizi veya teknik yaklaşımımızı okumadan önce, deneyimin kendisinin tek bir şeyi netleştirmesi gerekiyordu: özgün ve ayırt edici bir web sitesi inşa etmeyi biliyoruz.",
+          "Bu vizyon, görsel yönü en başından itibaren şekillendirdi.",
+          "Arayüzü koyu ve ölçülü tuttuk, ardından bilinçli bir kontrast unsuru olarak neon yeşili kullandık. Prosedürel maskot Stüdyoya tanınabilir bir görsel imza kazandırırken; tipografi, hareket ve sayfalandırılmış etkileşimler, açılış deneyiminin bilindik ajans kalıplarından toplanmış gibi değil, kasıtlı olarak tasarlandığını hissettirir.",
+          "Ancak görsel etki işin yalnızca bir tarafıydı. Sitenin anlaşılır, duyarlı ve kolayca gezinilebilir kalması gerekiyordu. İç sayfalar, içeriğin nefes alması gerektiğinde açılış sayfasının daha dışavurumcu davranışından bilinçli olarak uzaklaşır.",
+          "Amaç kendi içinde bir karmaşıklık yaratmak değildi. Deneyimi zorlaştırmadan, akılda kalacak düzeyde güçlü bir karakter oluşturmaktı."
+        ],
+        visuals: [
+          {
+            label: "AÇILIŞ DENEYİMİ",
+            title: "Bir bakış açısıyla açılan sayfa",
+            body: "Açılış deneyimi Stüdyonun görsel kişiliğinin çoğunu taşır: odaklanmış bir palet, prosedürel karakter ve ilk karşılaşmayı belirgin şekilde v1be studio hissettirmek için tasarlanmış etkileşim sistemi.",
+            image: "",
+            alt: ""
+          },
+          {
+            label: "İŞLER",
+            title: "Çalışmalar vaadi açıklamalıdır",
+            body: "Güçlü bir ilk izlenim ilgi çekebilir. İşler sistemi ise bunu haklı çıkarmalıdır. Vakalar ne inşa ettiğimizi belgeler; Laboratuvarlar ise yayından sonra neyi test ettiğimizi, öğrendiğimizi ve değiştirdiğimizi giderek daha fazla belgeler.",
+            image: "",
+            alt: ""
+          }
+        ]
+      },
+      discovery: {
+        eyebrow: "SEO + GEO",
+        title: "İyi görünmek işin sadece yarısıydı.",
+        narrative: [
+          "Bir web sitesi güçlü bir izlenim bırakabilir ancak onu nereden bulacağını zaten bilenlerin ötesinde neredeyse görünmez kalabilir.",
+          "Özgün bir arayüz ilgi çekebilir; ancak daha güçlü bir dijital varlık, sitenin keşfedilebilir olmasına, anlaşılmasına ve markanın geri kalanına doğru bağlanmasına da bağlıdır.",
+          "En başından beri, v1be studio'nun bu denklemin her iki tarafında da çalışmasını istedik: ziyaret edilmeye değer bir deneyim yaratmak, ardından insanların onu en başta bulmasını destekleyen temelleri kurmak.",
+          "Bu, arama görünürlüğünü lansmandan sonra eklenecek bir şey olarak değil, geliştirmenin doğal bir parçası olarak ele almak anlamına geliyordu. Semantik yapı, indekslenebilir içerik, yapılandırılmış veri ve net keşif yolları doğrudan arayüzün kendisiyle birlikte tasarlandı.",
+          "Aynı düşünceyi şunun için de uyguladık:",
+          "Amaç her yeni optimizasyon taktiğinin peşinden koşmak değildi. Arama ve yapay zekâ keşfi gelişmeye devam ettikçe test edilebilecek, ölçülebilecek ve iyileştirilebilecek teknik açıdan sağlam bir temel oluşturmaktı."
+        ],
+        definition: "Yapay zekâ sistemlerinin bir markaya ve web sitesine ne kadar net erişebildiğini, anlayabildiğini ve temsil edebildiğini iyileştirmek.",
+        flow: ["ARAMA + AI", "KEŞİF", "v1be studio", "ANLAMA", "AKSİYON"],
+        concepts: [
+          ["KEŞFEDİLEBİLİR", "Net rotalar ve makineler tarafından okunabilir keşif yolları."],
+          ["ANLAŞILABİLİR", "Marka, hizmetler ve çalışmalar etrafında semantik içerik ve yapılandırılmış ilişkiler."],
+          ["TEST EDİLEBİLİR", "Çalıştığını varsaymak yerine lansmandan sonra denetleyebileceğimiz bir altyapı."]
+        ]
+      },
+      conversion: {
+        eyebrow: "DÖNÜŞÜM",
+        title: "İlginin gidecek bir yere ihtiyacı vardı.",
+        narrative: [
+          "Birini web sitesine getirmek hiçbir zaman nihai hedef olmadı.",
+          "İlk taslaktan itibaren, farklı niyet düzeylerindeki ziyaretçiler için net yollar tasarladık. Teklifi anlamaya hazır biri paketlerimizi inceleyebilir. Zaten bir web sitesi olan ancak onu neyin geride tuttuğundan emin olmayan biri ücretsiz bir denetimle başlayabilir. Ve her ikisinden önce kanıt isteyen biri Çalışmalarımızı gezebilir.",
+          "Bu yaklaşım, görsel detaylar tamamlanmadan önce site mimarisini şekillendirdi.",
+          "Paketler deneyimi, soyut bir web tasarım ve geliştirme hizmetini başlamanın daha somut yollarına dönüştürür. Çalışmalar, vaadin arkasındaki kanıtı sunar. Denetim ise sürtünmesiz bir ilk diyalog ortamı yaratır.",
+          "Birlikte ele alındığında bu yollar, web sitesini dijital bir broşürden fazlası kılmak ve farklı türdeki ziyaretçilere anlamlı bir sonraki adım sunmak için tasarlandı."
+        ],
+        sources: "ARAMA · AI · LINKEDIN · REFERANS",
+        steps: ["ULAŞMA", "v1be studio"],
+        destinations: [
+          ["İNCELE", "Paketler", "/packages/"],
+          ["DOĞRULA", "Çalışmalar", "/work/"],
+          ["BAŞLA", "Ücretsiz denetim", "/contact/"]
+        ],
+        sequence: "KEŞFET → ANLA → DENETLE → HAREKETE GEÇ"
+      },
+      development: {
+        eyebrow: "GELİŞTİRME",
+        title: "Deneyimin, ona ayak uydurabilecek bir temele ihtiyacı vardı.",
+        narrative: [
+          "Görsel sistem dinamizm ve kişilik talep etti. Keşif stratejisi temiz ve erişilebilir içerik istedi. Geliştirme süreci, birini diğeri için feda etmeden her ikisini de desteklemek zorundaydı.",
+          "Siteyi hızlı, bileşen odaklı ve tarayıcıya iletilen HTML'e olabildiğince yakın tutmak için TypeScript ve Tailwind ile Astro'yu seçtik. Daha dışavurumcu etkileşimler deneyime değer kattıkları noktalarda yer alırken, alttaki içerik okunabilir ve esnek kalmayı sürdürdü.",
+          "Ana sayfa daha yönlendirilmiş, sayfalandırılmış bir deneyim kullanır. İç sayfalar, uzun formatlı içeriğin tanıdık bir okuma modelinden faydalandığı yerel kaydırmaya geçer. Kademeli zenginleştirme (progressive enhancement), etkileşim katmanı yüklenmediğinde dahi temel içeriğin erişilebilir kalmasını sağlar.",
+          "Yapay zekâ destekli geliştirme de iş akışının bir parçası oldu; esas olarak uygulamayı, yinelemeyi ve tekrarlayan teknik işleri hızlandırmak için kullanıldı. Bilgi mimarisi, UX kararları, görsel yönlendirme ve nihai değerlendirme insan liderliğinde kaldı.",
+          "Amaç daha fazla teknoloji kullanmak değildi. Her seferinde düşünceyi sıfırdan kurmak zorunda kalmadan geliştirmeye devam edebileceğimiz bir temel oluşturmaktı."
+        ],
+        stack: [
+          ["ASTRO", "Statik-öncelikli temel"],
+          ["TYPESCRIPT", "Öngörülebilir bileşenler"],
+          ["TAILWIND", "Tutarlı arayüz sistemi"],
+          ["PROGRESSIVE ENHANCEMENT", "Etkileşimden önce içerik"]
+        ],
+        annotation: "İNSAN-LİDERLİĞİNDE · AI-HIZLANDIRILMIŞ"
+      },
+      afterDeploy: {
+        eyebrow: "YAYIN SONRASI",
+        title: "Yayına almak bize geliştirecek bir zemin verdi.",
+        lead: "Yayına aldık. Ardından onu değiştirmek için nedenler bulmaya başladık.",
+        narrative: [
+          "Site gerçek iletişim çalışmalarımızın bir parçası haline geldiğinde, onu farklı görmeye başladık.",
+          "Deneyime potansiyel müşterilerin gözünden bakmak, inşa ederken fark edilmesi zor olan boşlukları açığa çıkardı. Çalışmaların daha fazla kanıt taşıması gerekiyordu. v1be studio'nun kendisi bir Vaka haline gelmeyi hak ediyordu. SEO ve GEO temellerimizin gerçekten beklediğimiz gibi davranıp davranmadığına dair sorular bizi bunları test etmeye yöneltti.",
+          "Bu sorular zamanla Laboratuvarlar (Labs) haline geldi.",
+          "İyileştirme, önceden planlanmış bir yeniden tasarım değildi. Web sitesini gerçek dünyada kullanmaktan, ondan öğrenmekten ve bu dersleri sisteme geri beslemekten doğdu."
+        ],
+        loop: ["TASARIM", "KOD", "SEO/GEO", "YAYIN", "GÖZLEM", "İYİLEŞTİRME"]
+      },
+      lab: {
+        eyebrow: "LAB 001 · AI TARANABİLİRLİĞİ",
+        intro: "İlk sorulardan biri oldukça basitti: Yapay zekâ keşfi için inşa ediyorsak, yapay zekâ tarayıcıları inşa ettiğimiz içeriğe gerçekten erişebiliyor mu?",
+        stages: [
+          ["SORU", "Yapay zekâ tarayıcıları, anlamaları için inşa ettiğimiz siteye gerçekten erişebiliyor mu?"],
+          ["TEST", "Tarayıcı user-agent'ları, ham HTML ve JavaScript kapalıykenki davranış."],
+          ["BULGU", "Site test edilen koşullarda erişilebilirdi; ancak deney JavaScript kapalıyken oluşan bir sayfalandırma sorununu açığa çıkardı."],
+          ["DEĞİŞİKLİK", "Sorunu giderdik ve bu denetimi lansman sonrası QA sürecimize ekledik."]
+        ],
+        result: "ERİŞİLEBİLİR*",
+        qualification: "Test edilen istek koşulları altında geçerlidir. Bu sonuç indeksleme, kaynak gösterme veya sıralama garantisi vermez.",
+        cta: "Lab 001'i Keşfedin: AI Taranabilirliği"
+      },
+      state: {
+        eyebrow: "MEVCUT DURUM",
+        title: "Bugün var olanlar. Hâlâ zamana ihtiyaç duyanlar.",
+        establishedLabel: "YERLEŞİK OLANLAR",
+        measuringLabel: "HÂLÂ ÖLÇÜLENLER",
+        established: [
+          "Sıfırdan tasarlanıp geliştirilen canlı bir hizmet sitesi",
+          "Özgün bir görsel ve etkileşim sistemi",
+          "Net hizmet, Çalışmalar ve denetim yolları",
+          "Arama ve yapay zekâ keşif temelleri",
+          "Yapılandırılmış, taranabilir içerik",
+          "Lansman sonrası tarayıcı testleri",
+          "Lab 001 ile tespit edilip giderilen bir canlı ortam sorunu",
+          "Büyüyen bir Vaka + Laboratuvar kanıt sistemi"
+        ],
+        measuring: [
+          "Uzun vadeli organik arama büyümesi",
+          "Yapay zekâ görünürlüğü ve alıntıları",
+          "Dönüşüm performansı",
+          "Farklı edinme kanallarının birbirini nasıl etkilediği",
+          "Zaman içindeki ticari etki"
+        ],
+        note: "Henüz erken aşamadayız; bu nedenle ölçülmesi zaman alan varsayımsal sonuçlar üretmek yerine, var olanı şeffafça göstermeyi tercih ederiz."
+      },
+      service: {
+        eyebrow: "KANITTAN HİZMETE",
+        title: "Aynı vizyon sizin web siteniz için de hazır.",
+        narrative: [
+          "Müşteri web sitelerinde çalışırken de aynı tasarım, geliştirme, keşif ve lansman sonrası düşünce sistemini uyguluyoruz.",
+          "Zaten bir web siteniz varsa, başlamanın en kolay yolu onun neleri masada bırakıyor olabileceğini anlamaktır."
+        ],
+        primary: "Ücretsiz denetim alın",
+        secondary: "Paketleri inceleyin"
+      }
+    }, caseStudy: { ...en.work.caseStudy, meta: { title: "Vaka çalışması: v1be.io — kendi platform sitemiz | v1be studio", description: "v1be.io'yu ilk vaka olarak nasıl geliştirdiğimizi inceleyin: tam şema grafiği, alıntılanabilirlik puanlı içerik ve Rich Results Test doğrulaması." }, hero: { ...en.work.caseStudy.hero, eyebrow: "Vaka çalışması · İlk vaka", title: "v1be.io — önce kendimizde uyguladığımız site.", subtitle: "Web varlığınızı optimize etmeden önce metodolojiyi kendi platformumuzda kanıtlarız. İşte bunun nasıl göründüğü." }, breadcrumbLabel: "v1be.io", sections: [
     { heading: "İhtiyaç", body: "v1be.io, yapay zekâ pazarlama ajanı v1be'nin platform ana sayfasıdır. Teknik SEO denetçisinin kaynak kodunu açıp eleştirecek hiçbir şey bulamayacağı, doğru yapılmış GEO'nun canlı bir gösterimi olmalıydı." },
     { heading: "Ne geliştirdik", body: "Her sayfada tam şema grafiğine sahip static-first Astro geliştirmesi: site genelinde Organization ve WebSite, teklif sayfalarında Service, gerektiği yerde FAQPage ve BreadcrumbList. Hepsi görünür içerikle aynı sözlüklerden beslenir; böylece yapılandırılmış veri asla okuyucunun gördüğünden kopmaz." },
     { heading: "GEO altyapısı", body: "robots.txt, GPTBot, ClaudeBot, PerplexityBot ve Google-Extended'a bilinçli olarak izin verir. Bir llms.txt uç noktası kanonik sayfaları listeler. Fontlar kendi barındırmamızda, önden yüklenmiş ve alt kümelenmiştir. OG görselleri her zaman çözülür. Her görsel açıklayıcı alt metne, her sayfa tam olarak bir h1'e sahiptir." },

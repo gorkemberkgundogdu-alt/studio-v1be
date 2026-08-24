@@ -7,56 +7,594 @@ import GEOGlossaryTerm from "@/components/work/GEOGlossaryTerm.astro";
 import MethodologyLoop from "@/components/work/MethodologyLoop.astro";
 import KnownUnknown from "@/components/work/KnownUnknown.astro";
 import BrowserScreenshot from "@/components/work/BrowserScreenshot.astro";
+import LiveHeroTerminal from "@/components/work/LiveHeroTerminal.astro";
+import LiveArmTerminal from "@/components/work/LiveArmTerminal.astro";
+import RobotMascot from "@/components/sections/RobotMascot.astro";
 import { breadcrumbSchema, webPageSchema } from "@/config/schemas";
 import { localizePath, useTranslations } from "@/i18n";
 import { estimateReadingMinutes } from "@/lib/reading-time";
 
 const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
+const isTr = locale === "tr";
 const path = "/work/studio-v1be/";
 const t = useTranslations(locale);
-// Case 002 is being redesigned from the English source. Keep the existing
-// Turkish document routable until its localized content is supplied.
-const englishCase = useTranslations("en").work.studioCase;
-const c = locale === "en"
-  ? t.work.studioCase
-  : { ...englishCase, meta: t.work.studioCase.meta, breadcrumbLabel: t.work.studioCase.breadcrumbLabel };
+const c = t.work.studioCase;
+
 const readingTime = estimateReadingMinutes([
-  ...c.hero.narrative, ...c.origin.narrative, ...c.design.narrative, ...c.discovery.narrative,
-  ...c.conversion.narrative, ...c.development.narrative, c.afterDeploy.lead, ...c.afterDeploy.narrative,
-  c.lab.intro, ...c.lab.stages.map((stage) => stage[1]), c.lab.qualification, ...c.service.narrative,
+  ...c.hero.narrative,
+  ...c.origin.narrative,
+  ...c.design.narrative,
+  ...c.discovery.narrative,
+  ...c.conversion.narrative,
+  ...c.development.narrative,
+  c.afterDeploy.lead,
+  ...c.afterDeploy.narrative,
+  c.lab.intro,
+  ...c.lab.stages.map((stage) => stage[1]),
+  c.lab.qualification,
+  ...c.service.narrative,
 ]);
-const crumbs = [{ name: t.footer.nav.home, path: "/" }, { name: t.nav.work, path: "/work/" }, { name: c.breadcrumbLabel, path }];
+
+const crumbs = [
+  { name: t.footer.nav.home, path: "/" },
+  { name: t.nav.work, path: "/work/" },
+  { name: c.breadcrumbLabel, path },
+];
 ---
 
-<BaseLayout title={c.meta.title} description={c.meta.description} {locale} {path} schemas={[webPageSchema({ name: c.hero.title, description: c.meta.description, locale, path }), breadcrumbSchema(crumbs, locale)]}>
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  {locale}
+  {path}
+  schemas={[
+    webPageSchema({
+      name: c.hero.title,
+      description: c.meta.description,
+      locale,
+      path,
+    }),
+    breadcrumbSchema(crumbs, locale),
+  ]}
+>
   <Breadcrumb {locale} items={crumbs} />
 
+  {/* SECTION 01 — HERO */}
   <section class="grid-texture border-b border-line" aria-labelledby="studio-case-title">
     <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
-      <div data-reveal>
-        <p class="font-mono text-sm font-bold uppercase tracking-widest text-accent">{c.hero.eyebrow} · {readingTime} MIN READ</p>
-        <h1 id="studio-case-title" class="mt-4 max-w-3xl font-extrabold" style="font-size: clamp(2.25rem, 1.5rem + 4vw, 4.5rem); line-height: 1.02; letter-spacing: -0.04em;">{c.hero.title}</h1>
-        {c.hero.narrative.map((paragraph) => <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{paragraph}</p>)}
-        {c.hero.image && <figure class="mt-10"><BrowserScreenshot image={c.hero.image} alt={c.hero.imageAlt} priority /><figcaption class="mt-4 font-mono text-xs text-ink-muted">Live v1be studio landing experience</figcaption></figure>}
+      <div class="grid items-center gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-14" data-reveal-group>
+        <div data-reveal>
+          <p class="font-mono text-sm font-bold uppercase tracking-widest text-accent" style="color: var(--color-accent, #d1f300);">
+            {c.hero.eyebrow} · {readingTime} {isTr ? "DK OKUMA" : "MIN READ"}
+          </p>
+          <h1
+            id="studio-case-title"
+            class="mt-4 max-w-4xl font-extrabold text-white"
+            style="font-size: clamp(1.85rem, 1.25rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
+          >
+            {isTr ? (
+              <>Kendi sitemizi, web sitelerinin yapılması gerektiğine inandığımız şekilde <span class="text-accent" style="color: var(--color-accent, #d1f300);">inşa ettik.</span></>
+            ) : (
+              <>We built our own site the way we believe websites should be <span class="text-accent" style="color: var(--color-accent, #d1f300);">built.</span></>
+            )}
+          </h1>
+          <p class="mt-6 max-w-3xl text-lg font-medium leading-relaxed text-ink-muted md:text-xl">
+            {c.hero.narrative[0]}
+          </p>
+          <p class="mt-4 max-w-2xl text-sm font-medium leading-relaxed text-ink-muted">
+            {c.hero.narrative[1]}
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href={localizePath(locale, "/contact/")}
+              class="cta-lift inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 text-base font-bold text-(--color-base)"
+              style="background-color: var(--color-accent, #d1f300);"
+            >
+              {c.service.primary} <span class="ml-2" aria-hidden="true">↗</span>
+            </a>
+            <Button href={localizePath(locale, "/packages/")} variant="surface">
+              {c.service.secondary}
+            </Button>
+          </div>
+        </div>
+
+        <div class="flex justify-center lg:justify-end" data-reveal style="--reveal-delay: 80ms">
+          <div class="relative w-[200px] sm:w-[240px] lg:w-[280px] shrink-0">
+            <RobotMascot look="scout" name="v1ben." />
+          </div>
+        </div>
+      </div>
+
+      <figure class="mt-12" data-reveal style="--reveal-delay: 120ms">
+        <BrowserScreenshot
+          domain="studio.v1be.io"
+          route={isTr ? "/tr/" : "/"}
+          status={isTr ? "Canlı Site" : "Live Site"}
+          priority
+        >
+          <LiveHeroTerminal />
+        </BrowserScreenshot>
+        <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-2 font-mono text-[0.65rem] font-bold uppercase tracking-[0.14em] text-white/70">
+          <span>{isTr ? "Canlı web sitesi · gerçek üretim mimarisi" : "Live website · real production architecture"}</span>
+          <span class="text-accent" style="color: var(--color-accent, #d1f300);">studio.v1be.io</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {/* SECTION 02 — ORIGIN */}
+  <section class="border-b border-line" aria-labelledby="origin-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <div data-reveal>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent" style="color: var(--color-accent, #d1f300);">
+            02 · {c.origin.eyebrow}
+          </p>
+          <h2 id="origin-title" class="mt-3 text-h2 font-bold text-white">
+            {c.origin.title}
+          </h2>
+          <div class="mt-5 space-y-4 font-medium leading-relaxed text-ink-muted">
+            {c.origin.narrative.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+          <div class="mt-8">
+            <a
+              href={localizePath(locale, "/work/v1be-io/")}
+              class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-accent transition-colors hover:border-accent hover:bg-accent/20"
+              style="color: var(--color-accent, #d1f300);"
+            >
+              {c.origin.link} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <CaseRelationshipMap nodes={c.origin.map} />
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-line" aria-labelledby="origin-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-center"><div data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.origin.eyebrow}</p><h2 id="origin-title" class="mt-3 text-h2 font-bold">{c.origin.title}</h2>{c.origin.narrative.map((paragraph) => <p class="mt-5 leading-relaxed text-ink-muted">{paragraph}</p>)}<a href={localizePath(locale, "/work/v1be-io/")} class="mt-7 inline-block font-bold text-accent underline underline-offset-4">{c.origin.link} →</a></div><CaseRelationshipMap nodes={c.origin.map} /></div></div></section>
+  {/* SECTION 03 — FIRST IMPRESSION & DESIGN */}
+  <section id="design" class="bg-light-base text-light-ink" aria-labelledby="design-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-4xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">
+          03 · {c.design.eyebrow}
+        </p>
+        <h2 id="design-title" class="mt-3 text-h2 font-bold text-light-ink">
+          {c.design.title}
+        </h2>
+        <p class="mt-5 max-w-3xl text-lg font-medium leading-relaxed text-light-muted">
+          {c.design.narrative[0]}
+        </p>
+      </div>
 
-  <section class="bg-light-base text-light-ink" aria-labelledby="design-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="max-w-3xl" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{c.design.eyebrow}</p><h2 id="design-title" class="mt-3 text-h2 font-bold">{c.design.title}</h2></div><div class="mt-10 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start"><div class="space-y-5 text-lg leading-relaxed text-light-muted" data-reveal>{c.design.narrative.map((paragraph) => <p>{paragraph}</p>)}</div><div class="grid gap-4" data-reveal-group>{c.design.visuals.map((visual, index) => <article class:list={["rounded-[1.5rem] border p-6", index === 0 ? "border-green/45 bg-white/60" : "border-light-line bg-white/35"]} data-reveal>{visual.image && <figure class="mb-6"><BrowserScreenshot image={visual.image} alt={visual.alt} /></figure>}<p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-green">{visual.label}</p><h3 class="mt-8 text-2xl font-extrabold text-light-ink">{visual.title}</h3><p class="mt-4 leading-relaxed text-light-muted">{visual.body}</p></article>)}</div></div></div></section>
+      <div class="mt-12 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="space-y-6" data-reveal>
+          <BrowserScreenshot
+            domain="studio.v1be.io"
+            route={isTr ? "/tr/about/" : "/about/"}
+            theme="light"
+            status={isTr ? "Tasarım Sistemi" : "Design System"}
+          >
+            <LiveArmTerminal locale={locale} />
+          </BrowserScreenshot>
+          <div class="rounded-2xl border border-light-line bg-white/50 p-6">
+            <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-green">
+              {isTr ? "Görsel Uygulama Stratejisi" : "Visual Execution Strategy"}
+            </p>
+            <p class="mt-3 font-medium leading-relaxed text-light-muted">
+              {c.design.narrative[2]}
+            </p>
+          </div>
+        </div>
 
-  <section class="grid-texture border-b border-line" aria-labelledby="discovery-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="max-w-3xl" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.discovery.eyebrow}</p><h2 id="discovery-title" class="mt-3 text-h2 font-bold">{c.discovery.title}</h2>{c.discovery.narrative.slice(0, 4).map((paragraph) => <p class="mt-5 leading-relaxed text-ink-muted">{paragraph}</p>)}<p class="mt-5 leading-relaxed text-ink-muted">{c.discovery.narrative[4]} <GEOGlossaryTerm term="Generative Engine Optimization" abbreviation="GEO" definition={c.discovery.definition} />: making the site easier for AI systems to access, understand and correctly connect with the v1be brand.</p><p class="mt-5 leading-relaxed text-ink-muted">{c.discovery.narrative[5]}</p></div><ol class="mt-12 grid gap-3 sm:grid-cols-5" aria-label="Discovery path" data-reveal-group>{c.discovery.flow.map((item, index) => <li class="relative rounded-2xl border border-line bg-surface/50 p-4 text-center font-mono text-xs font-bold uppercase tracking-[0.1em]" data-reveal><span>{item}</span>{index < c.discovery.flow.length - 1 && <span class="mt-4 block text-accent sm:absolute sm:-right-4 sm:top-1/2 sm:mt-0 sm:-translate-y-1/2" aria-hidden="true">→</span>}</li>)}</ol><dl class="mt-5 grid gap-3 md:grid-cols-3" data-reveal-group>{c.discovery.concepts.map((concept) => <div class="rounded-2xl border border-line bg-base/70 p-5" data-reveal><dt class="font-mono text-xs font-bold tracking-[0.14em] text-accent">{concept[0]}</dt><dd class="mt-4 text-sm leading-relaxed text-ink-muted">{concept[1]}</dd></div>)}</dl></div></section>
+        <div class="space-y-4" data-reveal-group>
+          {c.design.visuals.map((visual, index) => (
+            <article
+              class:list={[
+                "rounded-[1.75rem] border p-6 sm:p-8 transition-all",
+                index === 0
+                  ? "border-green/40 bg-white/80 shadow-sm"
+                  : "border-light-line bg-white/45",
+              ]}
+              data-reveal
+              style={`--reveal-delay: ${index * 80}ms`}
+            >
+              <div class="flex items-center justify-between border-b border-light-line/60 pb-3">
+                <span class="font-mono text-xs font-bold text-green">
+                  0{index + 1} · {visual.label}
+                </span>
+                <span class="rounded-full border border-light-line bg-white/60 px-2.5 py-0.5 font-mono text-[0.55rem] font-bold uppercase tracking-wider text-light-muted">
+                  {isTr ? "Temel Arayüz" : "Core Interface"}
+                </span>
+              </div>
+              <h3 class="mt-5 text-xl font-extrabold text-light-ink">
+                {visual.title}
+              </h3>
+              <p class="mt-3 text-sm font-medium leading-relaxed text-light-muted">
+                {visual.body}
+              </p>
+              <p class="mt-5 border-l-2 border-green pl-4 text-xs font-bold leading-relaxed text-light-ink">
+                {index === 0
+                  ? (isTr
+                      ? "Odaklanmış bir palet ve prosedürel karakter, gereksiz karmaşa yaratmadan anında görsel hatırlanabilirlik sağlar."
+                      : "A focused palette and procedural character create immediate visual recall without clutter.")
+                  : (isTr
+                      ? "Stüdyo web sitesindeki her iddia, şeffaf vaka kanıtları ve ampirik testlerle eşleştirilir."
+                      : "Every claim on the studio website is paired with transparent case evidence and empirical tests.")}
+              </p>
+            </article>
+          ))}
 
-  <section class="border-b border-line" aria-labelledby="conversion-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]"><div data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.conversion.eyebrow}</p><h2 id="conversion-title" class="mt-3 text-h2 font-bold">{c.conversion.title}</h2>{c.conversion.narrative.map((paragraph) => <p class="mt-5 leading-relaxed text-ink-muted">{paragraph}</p>)}</div><nav class="rounded-[1.75rem] border border-line bg-surface/45 p-6 sm:p-8" aria-label="Conversion architecture" data-reveal><p class="font-mono text-xs font-bold tracking-[0.16em] text-ink-muted">{c.conversion.sources}</p><p class="mt-6 text-center font-mono text-accent">↓</p><ol class="mt-4 space-y-3 text-center">{c.conversion.steps.map((step) => <li class="rounded-xl border border-line bg-base/70 p-4 font-bold">{step}</li>)}</ol><div class="my-6 text-center font-mono text-accent">↓</div><ul class="grid gap-3 sm:grid-cols-3">{c.conversion.destinations.map((destination) => <li><a href={localizePath(locale, destination[2])} class="cta-lift block rounded-xl border border-line bg-base p-4 text-center hover:border-accent"><span class="font-mono text-xs font-bold text-accent">{destination[0]}</span><strong class="mt-3 block">{destination[1]}</strong></a></li>)}</ul><p class="mt-7 text-center font-mono text-xs font-bold tracking-[0.12em] text-ink-muted">{c.conversion.sequence}</p></nav></div></div></section>
+          <div class="rounded-[1.75rem] border border-light-line bg-white/30 p-6 text-sm leading-relaxed text-light-muted" data-reveal>
+            <p class="font-bold text-light-ink mb-1">
+              {isTr ? "Editoryal Ritim & Etkileşim" : "Editorial Rhythm & Interaction"}
+            </p>
+            <p>{c.design.narrative[3]}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section class="bg-light-base text-light-ink" aria-labelledby="development-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="max-w-3xl" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{c.development.eyebrow}</p><h2 id="development-title" class="mt-3 text-h2 font-bold">{c.development.title}</h2></div><div class="mt-10 grid gap-8 lg:grid-cols-[1fr_0.9fr]"><div class="space-y-5 leading-relaxed text-light-muted" data-reveal>{c.development.narrative.map((paragraph) => <p>{paragraph}</p>)}</div><div class="grid gap-px overflow-hidden rounded-3xl border border-light-line bg-light-line sm:grid-cols-2" data-reveal-group>{c.development.stack.map((item) => <div class="bg-light-base p-6" data-reveal><p class="font-mono text-xs font-bold tracking-[0.16em] text-green">{item[0]}</p><p class="mt-5 font-bold">{item[1]}</p></div>)}<div class="bg-light-base p-6 sm:col-span-2" data-reveal><p class="font-mono text-xs font-bold tracking-[0.16em] text-green">{c.development.annotation}</p></div></div></div></div></section>
+  {/* SECTION 04 — DISCOVERY (SEO + GEO) */}
+  <section class="grid-texture border-b border-line" aria-labelledby="discovery-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div data-reveal>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">
+            04 · {c.discovery.eyebrow}
+          </p>
+          <h2 id="discovery-title" class="mt-3 text-h2 font-bold">
+            {c.discovery.title}
+          </h2>
+          <div class="mt-5 space-y-4 font-medium leading-relaxed text-ink-muted">
+            <p>{c.discovery.narrative[0]}</p>
+            <p>{c.discovery.narrative[1]}</p>
+            <p>{c.discovery.narrative[2]}</p>
+            <p>{c.discovery.narrative[3]}</p>
+            <p>
+              {c.discovery.narrative[4]}{" "}
+              <GEOGlossaryTerm
+                term={isTr ? "Üretken Motor Optimizasyonu" : "Generative Engine Optimization"}
+                abbreviation="GEO"
+                definition={c.discovery.definition}
+              />
+              {isTr
+                ? ": sitenin yapay zekâ sistemleri tarafından erişilmesini, anlaşılmasını ve v1be markasıyla doğru şekilde bağlanmasını kolaylaştırmak."
+                : ": making the site easier for AI systems to access, understand, and correctly connect with the v1be brand."}
+            </p>
+            <p>{c.discovery.narrative[5]}</p>
+          </div>
+        </div>
 
-  <section class="grid-texture border-b border-line" aria-labelledby="after-deploy-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]"><div data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.afterDeploy.eyebrow}</p><h2 id="after-deploy-title" class="mt-3 text-h2 font-bold">{c.afterDeploy.title}</h2><p class="mt-6 border-l-2 border-accent pl-4 text-xl font-bold leading-relaxed">{c.afterDeploy.lead}</p>{c.afterDeploy.narrative.map((paragraph) => <p class="mt-5 leading-relaxed text-ink-muted">{paragraph}</p>)}</div><MethodologyLoop steps={c.afterDeploy.loop} /></div></div></section>
+        <div class="space-y-4" data-reveal-group>
+          <div class="rounded-3xl border border-line bg-surface/50 p-6 sm:p-7" data-reveal>
+            <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">
+              {isTr ? "Temel Keşif Sistemi Mimarisi" : "Core Discovery System Architecture"}
+            </p>
+            <dl class="mt-5 space-y-3">
+              {c.discovery.concepts.map((concept, index) => (
+                <div class="rounded-2xl border border-line bg-base/70 p-4">
+                  <dt class="flex items-center gap-2 font-mono text-xs font-bold tracking-[0.14em] text-accent">
+                    <span>0{index + 1}</span>
+                    <span>·</span>
+                    <span>{concept[0]}</span>
+                  </dt>
+                  <dd class="mt-2 text-sm font-medium leading-relaxed text-ink-muted">
+                    {concept[1]}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
 
-  <section class="border-b border-line" aria-labelledby="lab-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><div class="max-w-3xl" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.lab.eyebrow}</p><h2 id="lab-title" class="mt-3 text-h2 font-bold">{c.lab.intro}</h2></div><ol class="mt-10 grid overflow-hidden rounded-3xl border border-line md:grid-cols-4" aria-label="Lab 001 evidence progression" data-reveal-group>{c.lab.stages.map((stage, index) => <li class="border-b border-line bg-surface/35 p-6 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0" data-reveal><p class="font-mono text-xs font-bold tracking-[0.16em] text-accent">0{index + 1} · {stage[0]}</p><p class="mt-6 text-sm leading-relaxed text-ink-muted">{stage[1]}</p></li>)}</ol><div class="mt-5 grid gap-4 rounded-2xl border border-accent/45 bg-accent/[0.07] p-6 md:grid-cols-[auto_1fr] md:items-center" data-reveal><p class="font-mono text-3xl font-black text-accent">{c.lab.result}</p><p class="text-sm font-medium leading-relaxed text-ink">{c.lab.qualification}</p></div><a href={localizePath(locale, "/work/ai-crawlability/")} class="mt-7 inline-block font-bold text-accent underline underline-offset-4">{c.lab.cta} →</a></div></section>
+      {/* Discovery Flow Visual */}
+      <div class="mt-12 overflow-hidden rounded-3xl border border-line bg-surface/40 p-5 sm:p-7" data-reveal>
+        <div class="flex items-center justify-between border-b border-line pb-3 font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em]">
+          <span class="text-accent">{isTr ? "Keşif Akış Hattı" : "Discovery Pipeline Flow"}</span>
+          <span class="text-ink-muted">{isTr ? "Makine ve İnsan Niyet Yolu" : "Machine & Human Intent Path"}</span>
+        </div>
+        <ol
+          class="mt-4 grid gap-2.5 sm:grid-cols-5"
+          aria-label={isTr ? "Aramadan eyleme keşif yolu" : "Discovery path from search to action"}
+          data-reveal-group
+        >
+          {c.discovery.flow.map((item, index) => (
+            <li
+              class:list={[
+                "relative flex flex-col items-center justify-center rounded-xl border p-3.5 text-center font-mono text-xs font-bold uppercase tracking-[0.12em]",
+                index === 2
+                  ? "border-accent bg-accent/[0.09] text-accent"
+                  : "border-line bg-base/70 text-ink",
+              ]}
+              data-reveal
+              style={`--reveal-delay: ${index * 45}ms`}
+            >
+              <span class="text-[0.58rem] opacity-60">{isTr ? "Aşama" : "Phase"} 0{index + 1}</span>
+              <span class="mt-1.5 text-xs">{item}</span>
+              {index < c.discovery.flow.length - 1 && (
+                <span
+                  class="mt-2 block font-mono text-xs text-accent sm:absolute sm:-right-3.5 sm:top-1/2 sm:mt-0 sm:-translate-y-1/2 sm:z-10"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
 
-  <section class="bg-light-base text-light-ink" aria-labelledby="state-title"><div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24"><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green" data-reveal>{c.state.eyebrow}</p><h2 id="state-title" class="mt-3 text-h2 font-bold" data-reveal>{c.state.title}</h2><KnownUnknown knownLabel={c.state.establishedLabel} unknownLabel={c.state.measuringLabel} known={c.state.established} unknown={c.state.measuring} closing={c.state.note} /></div></section>
+  {/* SECTION 05 — CONVERSION ARCHITECTURE */}
+  <section class="border-b border-line" aria-labelledby="conversion-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <div data-reveal>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">
+            05 · {c.conversion.eyebrow}
+          </p>
+          <h2 id="conversion-title" class="mt-3 text-h2 font-bold">
+            {c.conversion.title}
+          </h2>
+          <div class="mt-5 space-y-4 font-medium leading-relaxed text-ink-muted">
+            {c.conversion.narrative.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </div>
 
-  <section class="grid-texture" aria-labelledby="service-title"><div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 md:py-28" data-reveal><p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{c.service.eyebrow}</p><h2 id="service-title" class="mt-3 text-h2 font-bold">{c.service.title}</h2>{c.service.narrative.map((paragraph) => <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{paragraph}</p>)}<div class="mt-10 flex flex-wrap justify-center gap-4"><Button href={localizePath(locale, "/contact/")}>{c.service.primary}</Button><Button href={localizePath(locale, "/packages/")} variant="surface">{c.service.secondary}</Button></div></div></section>
+        <nav
+          class="overflow-hidden rounded-[1.75rem] border border-line bg-surface/50 p-5 sm:p-6"
+          aria-label={isTr ? "Dönüşüm mimarisi hunisi" : "Conversion architecture funnel"}
+          data-reveal
+        >
+          <div class="flex items-center justify-between border-b border-line pb-3 font-mono text-[0.62rem] font-bold uppercase tracking-[0.14em]">
+            <span class="text-accent">{isTr ? "Trafik Edinme Kanalları" : "Inbound Acquisition"}</span>
+            <span class="text-ink-muted">{c.conversion.sources}</span>
+          </div>
+
+          <div class="mt-4 rounded-xl border border-line bg-base/80 p-3.5 text-center">
+            <span class="font-mono text-[0.58rem] font-bold uppercase tracking-widest text-ink-muted">
+              {isTr ? "Merkezi Hedef" : "Central Destination"}
+            </span>
+            <p class="mt-0.5 text-base font-extrabold text-ink">v1be studio · {isTr ? "Açılış Deneyimi" : "Landing Experience"}</p>
+          </div>
+
+          <div class="my-2.5 text-center font-mono text-xs text-accent" aria-hidden="true">
+            ↓ {isTr ? "Kullanıcı Niyetine Göre Ayrışma" : "Split by User Intent"}
+          </div>
+
+          <ul class="grid gap-2.5 sm:grid-cols-3">
+            {c.conversion.destinations.map((destination) => (
+              <li>
+                <a
+                  href={localizePath(locale, destination[2])}
+                  class="cta-lift flex h-full flex-col justify-between rounded-xl border border-line bg-base p-3.5 text-center transition-colors hover:border-accent hover:bg-accent/[0.03]"
+                >
+                  <span class="font-mono text-[0.58rem] font-bold uppercase tracking-wider text-accent">
+                    {destination[0]}
+                  </span>
+                  <strong class="mt-1.5 block text-sm font-extrabold text-ink">
+                    {destination[1]}
+                  </strong>
+                  <span class="mt-2 font-mono text-[0.58rem] text-ink-muted">
+                    {destination[2]} ↗
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-4 border-t border-line/60 pt-3 text-center font-mono text-[0.68rem] font-bold tracking-[0.12em] text-ink-muted">
+            {c.conversion.sequence}
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 06 — DEVELOPMENT & STACK */}
+  <section id="development" class="bg-light-base text-light-ink" aria-labelledby="development-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-4xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">
+          06 · {c.development.eyebrow}
+        </p>
+        <h2 id="development-title" class="mt-3 text-h2 font-bold">
+          {c.development.title}
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div class="space-y-5 text-base font-medium leading-relaxed text-light-muted" data-reveal>
+          {c.development.narrative.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <div class="space-y-4" data-reveal-group>
+          <div class="grid gap-px overflow-hidden rounded-3xl border border-light-line bg-light-line sm:grid-cols-2">
+            {c.development.stack.map((item, index) => (
+              <div class="bg-light-base p-6" data-reveal style={`--reveal-delay: ${index * 60}ms`}>
+                <span class="font-mono text-[0.65rem] font-bold text-green">0{index + 1}</span>
+                <h3 class="mt-3 font-mono text-sm font-bold uppercase tracking-[0.14em] text-light-ink">
+                  {item[0]}
+                </h3>
+                <p class="mt-2 text-sm font-medium leading-relaxed text-light-muted">
+                  {item[1]}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div
+            class="rounded-3xl border border-green/30 bg-green/[0.08] p-6"
+            data-reveal
+          >
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-green">
+              {isTr ? "Çalışma Metodolojisi" : "Working Methodology"}
+            </p>
+            <p class="mt-2 text-base font-extrabold text-light-ink">
+              {c.development.annotation}
+            </p>
+            <p class="mt-2 text-sm leading-relaxed text-light-muted">
+              {isTr
+                ? "Otomasyon; araştırma, tip güvenliği ve tekrarlayan frontend işlerini hızlandırır; anlatı, görsel kompozisyon ve stratejik muhakeme kesinlikle insan liderliğinde kalır."
+                : "Automation accelerates research, type safety, and repetitive frontend plumbing; narrative, visual composition, and strategic judgment remain strictly human-led."}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 07 — METHODOLOGY LOOP */}
+  <section class="grid-texture border-b border-line" aria-labelledby="after-deploy-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+        <div data-reveal>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">
+            07 · {c.afterDeploy.eyebrow}
+          </p>
+          <h2 id="after-deploy-title" class="mt-3 text-h2 font-bold">
+            {c.afterDeploy.title}
+          </h2>
+          <p class="mt-6 border-l-2 border-accent pl-4 text-xl font-bold leading-relaxed text-ink">
+            {c.afterDeploy.lead}
+          </p>
+          <div class="mt-5 space-y-4 font-medium leading-relaxed text-ink-muted">
+            {c.afterDeploy.narrative.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <MethodologyLoop steps={c.afterDeploy.loop} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 08 — LAB 001 EVIDENCE */}
+  <section class="border-b border-line" aria-labelledby="lab-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-4xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">
+          08 · {c.lab.eyebrow}
+        </p>
+        <h2 id="lab-title" class="mt-3 text-h2 font-bold">
+          {c.lab.intro}
+        </h2>
+      </div>
+
+      <ol
+        class="mt-8 grid overflow-hidden rounded-2xl border border-line md:grid-cols-4"
+        aria-label="Lab 001 evidence progression"
+        data-reveal-group
+      >
+        {c.lab.stages.map((stage, index) => (
+          <li
+            class="border-b border-line bg-surface/40 p-4 sm:p-5 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
+            data-reveal
+            style={`--reveal-delay: ${index * 60}ms`}
+          >
+            <p class="font-mono text-xs font-bold tracking-[0.16em] text-accent" style="color: var(--color-accent, #d1f300);">
+              0{index + 1} · {stage[0]}
+            </p>
+            <p class="mt-3 text-xs sm:text-sm font-medium leading-relaxed text-ink-muted">
+              {stage[1]}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <div
+        class="mt-4 grid gap-3 rounded-2xl border border-accent/40 bg-accent/[0.06] p-4 sm:p-5 md:grid-cols-[auto_1fr] md:items-center"
+        data-reveal
+      >
+        <div>
+          <span class="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent" style="color: var(--color-accent, #d1f300);">
+            Observed Outcome
+          </span>
+          <p class="mt-0.5 font-mono text-2xl font-black text-accent sm:text-3xl" style="color: var(--color-accent, #d1f300);">
+            {c.lab.result}
+          </p>
+        </div>
+        <div class="md:border-l md:border-accent/25 md:pl-5">
+          <p class="text-xs sm:text-sm font-medium leading-relaxed text-white">
+            {c.lab.qualification}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-start" data-reveal>
+        <a
+          href={localizePath(locale, "/work/ai-crawlability/")}
+          class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-surface/70 px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-accent transition-colors hover:border-accent hover:bg-accent/15"
+        >
+          {c.lab.cta} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 09 — EVIDENCE BOUNDARIES (CURRENT STATE) */}
+  <section class="bg-light-base text-light-ink" aria-labelledby="state-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-4xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">
+          09 · {c.state.eyebrow}
+        </p>
+        <h2 id="state-title" class="mt-3 text-h2 font-bold">
+          {c.state.title}
+        </h2>
+      </div>
+
+      <KnownUnknown
+        knownLabel={c.state.establishedLabel}
+        unknownLabel={c.state.measuringLabel}
+        known={c.state.established}
+        unknown={c.state.measuring}
+        closing={c.state.note}
+        theme="light"
+      />
+    </div>
+  </section>
+
+  {/* SECTION 10 — CTA */}
+  <section class="grid-texture border-t border-line" aria-labelledby="service-title">
+    <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 md:py-28" data-reveal>
+      <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">
+        10 · {c.service.eyebrow}
+      </p>
+      <h2 id="service-title" class="mt-3 text-h2 font-bold">
+        {c.service.title}
+      </h2>
+      <div class="mx-auto mt-5 max-w-2xl space-y-3 text-lg font-medium leading-relaxed text-ink-muted">
+        {c.service.narrative.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a
+          href={localizePath(locale, "/contact/")}
+          class="cta-lift inline-flex h-12 items-center justify-center rounded-full bg-accent px-8 text-base font-bold text-(--color-base)"
+        >
+          {c.service.primary} <span class="ml-2" aria-hidden="true">↗</span>
+        </a>
+        <Button href={localizePath(locale, "/packages/")} variant="surface">
+          {c.service.secondary}
+        </Button>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

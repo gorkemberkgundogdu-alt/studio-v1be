@@ -1,0 +1,91 @@
+---
+interface Props {
+  locale?: string;
+}
+
+const { locale = "en" } = Astro.props;
+const isTr = locale === "tr";
+---
+
+<div class="relative min-h-[420px] w-full overflow-hidden bg-[#121214] grid-texture p-6 sm:p-10 select-none text-white">
+  <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+    {/* Left Column */}
+    <div>
+      <span
+        class="font-mono text-xs font-bold uppercase tracking-[0.18em]"
+        style="color: var(--color-accent, #d1f300);"
+      >
+        {isTr ? "V1BE STUDIO HAKKINDA" : "ABOUT V1BE STUDIO"}
+      </span>
+      <h3
+        class="mt-4 font-extrabold leading-tight text-white"
+        style="font-size: clamp(1.75rem, 1.25rem + 2.5vw, 2.75rem);"
+      >
+        {isTr ? (
+          <>v1be'nin<br />stüdyo kolu.</>
+        ) : (
+          <>The studio arm of<br />v1be.</>
+        )}
+      </h3>
+      <p class="mt-5 text-sm sm:text-base font-medium leading-relaxed text-white/80">
+        {isTr
+          ? "v1be studio, v1be'nin web tasarım ve geliştirme koludur. ChatGPT, Gemini ve Perplexity gibi yapay zekâ arama motorlarının okuyup anlayacağı ve kaynak göstereceği, SEO ve GEO odaklı içerikleri yerleşik hızlı ve yapılandırılmış web siteleri üretiriz."
+          : "v1be studio is the web design and development arm of v1be. We build fast, structured websites engineered to be read, understood and cited by AI search engines like ChatGPT, Gemini, and Perplexity — with SEO- and GEO-optimized content built in."}
+      </p>
+    </div>
+
+    {/* Right Column: Platform / Service Arm Card Stack */}
+    <div class="rounded-3xl border border-white/15 bg-[#18181b] p-5 sm:p-7 space-y-4 shadow-2xl">
+      {/* Platform Node */}
+      <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+        <span class="font-mono text-[0.6rem] font-bold uppercase tracking-wider text-white/60">
+          PLATFORM
+        </span>
+        <p class="mt-1 text-xl font-extrabold text-white">v1be</p>
+        <p class="mt-1 text-xs text-white/70 leading-relaxed">
+          {isTr
+            ? "Araştırma, içgörü, içerik sistemleri ve yapay zekâ destekli pazarlama operasyonları."
+            : "Research, intelligence, content systems and AI-assisted marketing operations."}
+        </p>
+      </div>
+
+      {/* Shared Method Divider */}
+      <div class="flex items-center gap-3 font-mono text-[0.58rem] font-bold uppercase tracking-wider text-white/50 px-1">
+        <span class="size-2 rounded-full" style="background-color: var(--color-accent, #d1f300);"></span>
+        <span class="h-px flex-1 bg-white/15"></span>
+        <span>{isTr ? "ORTAK YÖNTEM" : "SHARED METHOD"}</span>
+      </div>
+
+      {/* Service Arm Node */}
+      <div class="rounded-2xl border p-4" style="border-color: rgba(209, 243, 0, 0.4); background-color: rgba(209, 243, 0, 0.05);">
+        <span
+          class="font-mono text-[0.6rem] font-bold uppercase tracking-wider"
+          style="color: var(--color-accent, #d1f300);"
+        >
+          {isTr ? "HİZMET KOLU" : "SERVICE ARM"}
+        </span>
+        <p class="mt-1 text-xl font-extrabold text-white">v1be studio</p>
+        <p class="mt-1 text-xs text-white/80 leading-relaxed">
+          {isTr
+            ? "Strateji, UX, görsel tasarım ve bu sistemlerin dayandığı web varlığı için teknik teslimat."
+            : "Strategy, UX, visual design and technical delivery for the web presence those systems rely on."}
+        </p>
+      </div>
+
+      {/* Shared Outcome Box (Lime) */}
+      <div
+        class="rounded-2xl p-4 text-[#121214] shadow-md"
+        style="background-color: var(--color-accent, #d1f300);"
+      >
+        <span class="font-mono text-[0.58rem] font-extrabold uppercase tracking-wider text-[#121214]/75 block mb-1">
+          {isTr ? "ORTAK ÇIKTI" : "SHARED OUTCOME"}
+        </span>
+        <p class="text-sm sm:text-base font-extrabold leading-snug text-[#121214]">
+          {isTr
+            ? "İnsanların anladığı ve yapay zekâ motorlarının ayrıştırabildiği tescilli bir web sitesi."
+            : "An owned website people understand and AI engines can parse."}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
