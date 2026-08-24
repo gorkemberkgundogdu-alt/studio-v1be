@@ -523,7 +523,7 @@ const crumbs = [
       >
         <div>
           <span class="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent" style="color: var(--color-accent, #d1f300);">
-            Observed Outcome
+            {isTr ? "Gözlemlenen Sonuç" : "Observed Outcome"}
           </span>
           <p class="mt-0.5 font-mono text-2xl font-black text-accent sm:text-3xl" style="color: var(--color-accent, #d1f300);">
             {c.lab.result}
@@ -539,9 +539,10 @@ const crumbs = [
       <div class="mt-8 flex justify-start" data-reveal>
         <a
           href={localizePath(locale, "/work/ai-crawlability/")}
-          class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-surface/70 px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-accent transition-colors hover:border-accent hover:bg-accent/15"
+          class="cta-lift inline-flex h-12 items-center justify-center rounded-full bg-accent px-7 text-sm font-bold transition-colors"
+          style="background-color: var(--color-accent, #d1f300); color: #121214;"
         >
-          {c.lab.cta} <span aria-hidden="true">→</span>
+          {c.lab.cta} <span class="ml-2" aria-hidden="true">→</span>
         </a>
       </div>
     </div>
