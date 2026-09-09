@@ -57,7 +57,7 @@ const configuratorPaths = p.paths.map((item) => ({
   <section class="grid-texture relative overflow-hidden">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
       <div class="grid items-center gap-10 lg:grid-cols-[1.3fr_auto]" data-reveal-group>
-        <div>
+        <div class="pr-16 sm:pr-24 lg:pr-0">
           <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{p.hero.eyebrow}</p>
           <h1
             class="mt-4 font-extrabold"
@@ -74,10 +74,10 @@ const configuratorPaths = p.paths.map((item) => ({
           <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{p.hero.reassurance}</p>
         </div>
         <div
-          class="pointer-events-none absolute -top-3 -right-2 z-10 w-[115px] sm:w-[135px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
+          class="pointer-events-none absolute -top-4 -right-3 z-10 w-[110px] sm:w-[130px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
           data-reveal
         >
-          <div class="-rotate-[24deg] lg:rotate-0 transition-transform">
+          <div class="-rotate-[18deg] lg:rotate-0 transition-transform origin-top-right">
             <RobotMascot look="classic" />
           </div>
         </div>

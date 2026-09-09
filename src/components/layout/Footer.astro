@@ -25,11 +25,11 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="relative overflow-hidden flex flex-col justify-center border-t border-line" data-paginate={paginate ? true : undefined}>
-  {/* Mobile Peeking Mascot (top-right corner, like v1be.io hero) */}
+  {/* Mobile Peeking Mascot (hanging naturally from top-right edge) */}
   <div
-    class="pointer-events-none absolute -top-3 -right-2 z-10 w-[110px] sm:w-[130px] lg:hidden hero-mascot-peek"
+    class="pointer-events-none absolute -top-4 -right-3 z-10 w-[110px] sm:w-[130px] lg:hidden hero-mascot-peek"
   >
-    <div class="-rotate-[24deg] transition-transform">
+    <div class="-rotate-[18deg] transition-transform origin-top-right">
       <RobotMascot look="classic" />
     </div>
   </div>
@@ -179,13 +179,13 @@ const year = new Date().getFullYear();
             <div class="flex flex-col gap-2.5 text-sm">
               <a
                 href={`mailto:${SITE.email}`}
-                class="break-all text-ink-muted underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                class="break-all text-ink-muted transition-colors hover:text-accent"
               >
                 {SITE.email}
               </a>
               <a
                 href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
-                class="text-ink-muted underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                class="text-ink-muted transition-colors hover:text-accent"
               >
                 {SITE.phone}
               </a>
@@ -194,7 +194,7 @@ const year = new Date().getFullYear();
                   href={SITE.social.linkedin}
                   target="_blank"
                   rel="noopener"
-                  class="inline-block text-ink underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                  class="inline-block font-medium text-ink transition-colors hover:text-accent"
                 >
                   {t.footer.linkedinLabel} ↗
                 </a>

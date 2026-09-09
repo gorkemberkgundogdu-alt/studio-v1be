@@ -53,7 +53,7 @@ const crumbs = [
 
   <section class="grid-texture relative overflow-hidden">
     <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1fr)_280px]">
-      <div data-reveal-group>
+      <div class="pr-16 sm:pr-24 lg:pr-0" data-reveal-group>
         <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.hero.eyebrow}</p>
         <h1
           class="mt-4 max-w-4xl font-extrabold"
@@ -70,10 +70,10 @@ const crumbs = [
       </div>
 
       <div
-        class="pointer-events-none absolute -top-3 -right-2 z-10 w-[115px] sm:w-[135px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
+        class="pointer-events-none absolute -top-4 -right-3 z-10 w-[110px] sm:w-[130px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
         data-reveal
       >
-        <div class="-rotate-[24deg] lg:rotate-0 transition-transform">
+        <div class="-rotate-[18deg] lg:rotate-0 transition-transform origin-top-right">
           <RobotMascot look="classic" />
         </div>
       </div>
