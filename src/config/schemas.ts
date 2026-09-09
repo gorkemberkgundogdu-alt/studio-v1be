@@ -14,11 +14,13 @@ export function serviceSchema(opts: {
   description: string;
   locale: Locale;
   path: string;
+  serviceType?: string;
 }) {
   return {
     "@type": "Service",
     name: opts.name,
     description: opts.description,
+    ...(opts.serviceType ? { serviceType: opts.serviceType } : {}),
     provider: { "@id": `${SITE.url}/#organization` },
     url: new URL(localizePath(opts.locale, opts.path), SITE.url).href,
   };
@@ -95,11 +97,6 @@ export function founderSchemas() {
       description: FOUNDER.description,
       worksFor: { "@id": `${SITE.url}/#organization` },
       sameAs: [FOUNDER.linkedin],
-    },
-    {
-      "@type": "Organization",
-      "@id": `${SITE.url}/#organization`,
-      founder: { "@id": FOUNDER.id },
     },
   ];
 }

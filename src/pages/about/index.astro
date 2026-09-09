@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Button from "@/components/ui/Button.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import { localizePath, useTranslations } from "@/i18n";
+import { splitAccent } from "@/lib/text-highlight";
 import { FOUNDER } from "@/config/site";
 import { aboutPageSchema, breadcrumbSchema, founderSchemas } from "@/config/schemas";
 
@@ -38,7 +39,9 @@ const crumbs = [
           class="mt-4 font-extrabold"
           style="font-size: clamp(1.75rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em;"
         >
-          {a.hero.title}
+          {splitAccent(a.hero.title, "v1be").map((seg) =>
+            seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text
+          )}
         </h1>
         {/* Canonical brand description — required verbatim in visible About copy. */}
         <p class="mt-6 max-w-3xl text-lg font-medium leading-relaxed text-ink sm:text-xl">{a.canonical}</p>

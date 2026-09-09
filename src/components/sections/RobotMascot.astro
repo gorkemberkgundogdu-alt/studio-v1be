@@ -90,6 +90,12 @@ const { look = "classic", name } = Astro.props;
     opacity: 1;
   }
 
+  @media (max-width: 1023px) {
+    :global(.hero-mascot-peek) .robot-shadow {
+      display: none !important;
+    }
+  }
+
   .robot-name {
     position: absolute;
     left: 50%;

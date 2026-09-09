@@ -24,24 +24,31 @@ const legalLocale = locale === "tr" ? "en" : locale;
 const year = new Date().getFullYear();
 ---
 
-<footer class="flex flex-col justify-center border-t border-line" data-paginate={paginate ? true : undefined}>
+<footer class="relative overflow-hidden flex flex-col justify-center border-t border-line" data-paginate={paginate ? true : undefined}>
+  {/* Mobile Peeking Mascot (top-right corner, like v1be.io hero) */}
+  <div
+    class="pointer-events-none absolute -top-3 -right-2 z-10 w-[110px] sm:w-[130px] lg:hidden hero-mascot-peek"
+  >
+    <div class="-rotate-[24deg] transition-transform">
+      <RobotMascot look="classic" />
+    </div>
+  </div>
+
   <div class="mx-auto max-w-[96rem] px-4 py-10 sm:px-6 md:py-14">
     {/* Row 1 */}
     <div class="flex flex-col gap-5">
-      {/* 1a — "v1be studio" wordmark (together) / mascot / nav */}
-      <div class="flex flex-wrap items-center justify-between gap-6">
+      {/* 1a — DESKTOP: "v1be studio" wordmark / mascot / nav */}
+      <div class="hidden lg:flex lg:flex-wrap lg:items-center lg:justify-between lg:gap-6">
         <h2 class="text-[clamp(2.5rem,6.5vw,6rem)] font-black uppercase leading-none">
           <span class="text-ink">v1be</span> <span class="text-accent">studio</span>
         </h2>
 
-        {/* classic (full-body) — greeter'ın yakın-plan kadrajı ayakları
-            kırpıyordu; classic tüm gövdeyi gösterir (Hero'daki gibi).
-            ml-auto ile nav'a yaklaşacak şekilde sağa itilir. */}
+        {/* classic (full-body) */}
         <div class="ml-auto w-[160px] shrink-0 md:w-[200px] xl:w-[240px]">
           <RobotMascot look="classic" />
         </div>
 
-        <nav aria-label={t.a11y.footerNav} class="flex flex-col gap-3 xl:self-end xl:pb-8">
+        <nav aria-label={t.a11y.footerNav} class="flex flex-col gap-2.5 xl:self-end xl:pb-8">
           <a
             href={localizePath(locale, "/")}
             class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
@@ -49,16 +56,34 @@ const year = new Date().getFullYear();
             {t.footer.nav.home}
           </a>
           <a
+            href={localizePath(locale, "/packages/")}
+            class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+          >
+            {t.footer.nav.packages}
+          </a>
+          <a
+            href={localizePath(locale, "/process/")}
+            class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+          >
+            {t.footer.nav.process}
+          </a>
+          <a
             href={localizePath(locale, "/work/")}
             class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
           >
             {t.footer.nav.work}
           </a>
+          <a
+            href={localizePath(locale, "/about/")}
+            class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+          >
+            {t.footer.nav.about}
+          </a>
         </nav>
       </div>
 
-      {/* 1b — tagline (2 lines, bold) / contact (true-centered) / linkedin */}
-      <div class="grid grid-cols-1 items-center gap-4 border-b border-line pb-4 sm:grid-cols-3 md:pb-6">
+      {/* 1b — DESKTOP: tagline / contact (center) / linkedin */}
+      <div class="hidden lg:grid lg:grid-cols-3 lg:items-center lg:gap-4 lg:border-b lg:border-line lg:pb-6">
         <p class="text-lg font-bold leading-snug text-ink sm:text-xl">
           {t.footer.taglineLines.map((line) => (
             <span class="block">
@@ -91,23 +116,102 @@ const year = new Date().getFullYear();
         </a>
       </div>
 
-      {/* 1c — CTA, now full-width (fills the space "studio" used to occupy
-          here before it moved up next to "v1be" in 1a). Points at Home's own
-          "Get your v1be" contact section (id="contact-title" in index.astro)
-          rather than the separate /contact/ page — data-goto-contact lets
-          lib/paginate.ts intercept the click and jump straight there with
-          the same cross-fade as wheel/keyboard nav, since that section is
-          position:fixed while paginated (native anchor-scroll can't reach a
-          fixed element). Outside the paginated zone (mobile/touch/other
-          pages) the plain href still works via normal anchor navigation. */}
+      {/* MOBILE ONLY (Option 2): Wordmark + Tagline, then 2-Col Side-by-Side (Pages & Contact) */}
+      <div class="flex flex-col gap-6 lg:hidden">
+        {/* Mobile Header: Wordmark & Tagline stacked */}
+        <div class="pr-24">
+          <h2 class="text-4xl font-black uppercase leading-none tracking-tight sm:text-5xl">
+            <span class="text-ink">v1be</span> <span class="text-accent">studio</span>
+          </h2>
+          <p class="mt-3 text-base font-bold leading-snug text-ink sm:text-lg">
+            {t.footer.taglineLines.map((line) => (
+              <span class="block">
+                {splitAccent(line.text, line.accent).map((seg) =>
+                  seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text,
+                )}
+              </span>
+            ))}
+          </p>
+        </div>
+
+        {/* 2-Column Side-by-Side Grid: Pages (Col 1) & Contact/Social (Col 2) */}
+        <div class="grid grid-cols-2 gap-6 border-t border-b border-line py-5">
+          {/* Col 1: Navigation Links */}
+          <div class="flex flex-col">
+            <span class="mb-3 text-[11px] font-mono font-semibold uppercase tracking-widest text-accent">Navigation</span>
+            <nav aria-label={t.a11y.footerNav} class="flex flex-col gap-2.5">
+              <a
+                href={localizePath(locale, "/")}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {t.footer.nav.home}
+              </a>
+              <a
+                href={localizePath(locale, "/packages/")}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {t.footer.nav.packages}
+              </a>
+              <a
+                href={localizePath(locale, "/process/")}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {t.footer.nav.process}
+              </a>
+              <a
+                href={localizePath(locale, "/work/")}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {t.footer.nav.work}
+              </a>
+              <a
+                href={localizePath(locale, "/about/")}
+                class="text-sm font-medium text-ink-muted transition-colors duration-300 hover:text-ink"
+              >
+                {t.footer.nav.about}
+              </a>
+            </nav>
+          </div>
+
+          {/* Col 2: Contact & Social */}
+          <div class="flex flex-col">
+            <span class="mb-3 text-[11px] font-mono font-semibold uppercase tracking-widest text-accent">Contact</span>
+            <div class="flex flex-col gap-2.5 text-sm">
+              <a
+                href={`mailto:${SITE.email}`}
+                class="break-all text-ink-muted underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                {SITE.email}
+              </a>
+              <a
+                href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
+                class="text-ink-muted underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                {SITE.phone}
+              </a>
+              <div class="pt-1">
+                <a
+                  href={SITE.social.linkedin}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-block text-ink underline decoration-ink-muted underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                >
+                  {t.footer.linkedinLabel} ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 1c — CTA, full-width */}
       <a
         href={`${localizePath(locale, "/")}#contact-title`}
         data-goto-contact
-        class="cta-lift flex w-full items-center justify-center rounded-2xl bg-accent py-6 text-center text-[2rem] font-bold text-(--color-base) transition-colors hover:bg-accent-hot md:py-8 md:text-[2.5rem] xl:py-10 xl:text-[3.75rem]"
+        class="cta-lift flex w-full items-center justify-center rounded-2xl bg-accent py-5 text-center text-[1.75rem] font-bold text-(--color-base) transition-colors hover:bg-accent-hot sm:py-6 sm:text-[2rem] md:py-8 md:text-[2.5rem] xl:py-10 xl:text-[3.75rem]"
       >
         {t.footer.cta} ↗
       </a>
-
     </div>
 
     {/* Row 2 — copyright / "A v1be Company" (centered between the two) / legal */}

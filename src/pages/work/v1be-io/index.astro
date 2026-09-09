@@ -239,8 +239,9 @@ const crumbs = [
         <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{cs.cta.eyebrow}</p>
         <h2 id="case-cta-title" class="mt-3 text-h2 font-bold">{cs.cta.title}</h2>
         <p class="mx-auto mt-4 max-w-2xl text-lg font-medium leading-relaxed text-ink-muted">{cs.cta.subtitle}</p>
-        <div class="mt-8 flex justify-center">
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
           <Button href={localizePath(locale, "/contact/")}>{cs.cta.button}</Button>
+          <Button href={localizePath(locale, "/packages/")} variant="surface">{cs.cta.secondary}</Button>
         </div>
       </div>
   </section>

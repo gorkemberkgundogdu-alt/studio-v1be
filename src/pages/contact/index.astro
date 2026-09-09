@@ -4,6 +4,7 @@ import Breadcrumb from "@/components/Breadcrumb.astro";
 import AuditForm from "@/components/AuditForm.astro";
 import FaqAccordion from "@/components/FaqAccordion.astro";
 import { useTranslations } from "@/i18n";
+import { splitAccent } from "@/lib/text-highlight";
 import { faqSchema, breadcrumbSchema, webPageSchema } from "@/config/schemas";
 
 const locale = (Astro.props.locale ?? "en") as import("@/i18n").Locale;
@@ -12,8 +13,8 @@ const t = useTranslations(locale);
 const c = t.contact;
 
 const crumbs = [
-  { name: "Home", path: "/" },
-  { name: t.nav.cta, path },
+  { name: t.footer.nav.home, path: "/" },
+  { name: c.breadcrumbLabel, path },
 ];
 ---
 
@@ -32,7 +33,11 @@ const crumbs = [
 
   <section class="grid-texture">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
-      <h1 class="text-display font-extrabold">{c.hero.title}</h1>
+      <h1 class="text-display font-extrabold">
+        {splitAccent(c.hero.title, "v1be").map((seg) =>
+          seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text
+        )}
+      </h1>
       <p class="mt-6 text-lg leading-relaxed text-ink-muted">{c.hero.promise}</p>
 
       <div class="mt-10">

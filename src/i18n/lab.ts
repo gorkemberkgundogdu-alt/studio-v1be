@@ -1,3 +1,7 @@
+import { lab002En, lab002Tr } from "./lab002";
+
+export { lab002En, lab002Tr };
+
 export const labEn = {
   workProof: { stackLabel: "v1be.io / proof stack", caseLabel: "case zero", schemaGraph: "schema graph", organization: "Organization", website: "WebSite", validation: "validation", validationText: "Readable by people, search and AI." },
   workHub: { experiment: "Experiment", testPipeline: "Test pipeline", processCta: "See our process →", studioPreview: { label: "Bilingual route system", english: "English", turkish: "Türkçe", schema: "Localized schema", crawler: "Crawler access" } },
@@ -16,9 +20,10 @@ export const labEn = {
   conclusion: { eyebrow: "Experiment conclusion", before: "Under the tested conditions, ", accent: "yes.", body: ["The experiment supports request-level accessibility for the tested user-agent strings.", "It does not prove indexing, citation, ranking or genuine crawler identity.", "That's a smaller claim. It's also the one the evidence supports."], supported: "Request-level accessibility", notEstablished: ["Indexing", "Citation", "Ranking", "Genuine crawler identity"] },
   changes: { title: "What changed because of the experiment", items: [["01", "Progressive enhancement", "JavaScript-off behavior became part of our crawlability QA."], ["02", "Production testing", "Crawler-UA response checks became part of after-launch validation."], ["03", "Evidence discipline", "Access, indexing and citation are treated as separate questions."]], equation: "Access ≠ indexing ≠ citation" },
   related: { label: "Related case · Case 002", body: "We built the studio the same way we believe websites should be built.", link: "View Case 002 →" },
-  next: { eyebrow: "Next experiment", label: "LAB 002", title: "GEO readiness", body: "Access was only the first question. Once we knew what could reach the site, the next question became: Can AI systems clearly understand what they can access?", metrics: ["47 readiness checks", "GEO readiness 64 → 74", "AI understanding 72 → 86"], note: "GEO Readiness Experiment · Coming next" },
+  next: { eyebrow: "Next experiment", label: "LAB 002", title: "AI Understanding", body: "Access was only the first question. Once we knew what could reach the site, the next question became: Can AI systems clearly understand what we build, or do they hallucinate?", metrics: ["20 frozen prompts", "5 test dimensions", "3 context layers"], note: "AI Understanding Experiment · Lab 002" },
   cta: { title: "Want to know what your website exposes to search and AI systems?", button: "Get a free audit →" },
   caseRelated: { label: "Related lab · Lab 001", text: "We tested the live studio for request-level crawlability, raw HTML access and JavaScript-off behavior.", link: "Inspect Lab 001 →" },
+  lab002: lab002En,
 } as const;
 
 export const labTr = {
@@ -38,7 +43,8 @@ export const labTr = {
   conclusion: { eyebrow: "Deney sonucu", before: "Test ettiğimiz koşullar altında, ", accent: "evet.", body: ["Deney, test edilen user-agent string'leri için request-level erişilebilirliği destekliyor.", "Indexlenmeyi, kaynak gösterilmeyi, sıralamayı veya gerçek crawler kimliğini kanıtlamıyor.", "Bu daha küçük bir iddia. Ama elimizdeki kanıtın desteklediği iddia bu."], supported: "Request-level erişilebilirlik", notEstablished: ["Indexlenme", "Kaynak gösterilme", "Sıralama", "Gerçek crawler kimliği"] },
   changes: { title: "Bu deneyden sonra ne değişti?", items: [["01", "Progressive enhancement", "JavaScript-off davranışı crawlability QA sürecimizin bir parçası oldu."], ["02", "Production testing", "Crawler-UA response kontrolleri yayın sonrası doğrulama sürecine girdi."], ["03", "Evidence discipline", "Erişim, indexlenme ve kaynak gösterilme ayrı sorular olarak ele alınıyor."]], equation: "Erişim ≠ indexlenme ≠ kaynak gösterilme" },
   related: { label: "İlgili case · Case 002", body: "Studio'yu, web sitelerinin inşa edilmesi gerektiğine inandığımız şekilde inşa ettik.", link: "Case 002'yi incele →" },
-  next: { eyebrow: "Sıradaki deney", label: "LAB 002", title: "GEO readiness", body: "Erişim yalnızca ilk soruydu. Siteye erişilebildiğini gördükten sonra sıradaki soru şuydu: AI sistemleri erişebildikleri şeyi ne kadar net anlayabiliyor?", metrics: ["47 readiness kontrolü", "GEO readiness 64 → 74", "AI understanding 72 → 86"], note: "GEO Readiness Experiment · Yakında" },
-  cta: { title: "Web sitenizin arama ve AI sistemlerine gerçekte ne sunduğunu görmek ister misiniz?", button: "Ücretsiz teklif alın →" },
+  next: { eyebrow: "Sıradaki deney", label: "LAB 002", title: "AI Anlama", body: "Erişim yalnızca ilk soruydu. Siteye erişilebildiğini gördükten sonra sıradaki soru şuydu: AI sistemleri ne inşa ettiğimizi doğru anlayabiliyor mu, yoksa halüsinasyon mu üretiyor?", metrics: ["20 sabit prompt", "5 test boyutu", "3 bağlam katmanı"], note: "AI Anlama Deneyi · Lab 002" },
+  cta: { title: "Web sitenizin arama ve AI sistemlerine gerçekte ne sunduğunu görmek ister misiniz?", button: "Ücretsiz audit’inizi alın →" },
   caseRelated: { label: "İlgili lab · Lab 001", text: "Canlı studio'yu request-level crawlability, ham HTML erişimi ve JavaScript-off davranışı için test ettik.", link: "Lab 001'i incele →" },
+  lab002: lab002Tr,
 } as const;

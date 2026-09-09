@@ -6,6 +6,8 @@ interface Props {
   unknown: readonly string[];
   closing: string;
   theme?: "dark" | "light";
+  knownBadge?: string;
+  unknownBadge?: string;
 }
 
 const {
@@ -15,6 +17,8 @@ const {
   unknown,
   closing,
   theme = "dark",
+  knownBadge = "Implemented & Verified",
+  unknownBadge = "Requires Production Time",
 } = Astro.props;
 
 const isLight = theme === "light";
@@ -47,7 +51,7 @@ const isLight = theme === "light";
             : "border border-accent/40 bg-accent/10 text-accent",
         ]}
       >
-        Implemented & Verified
+        {knownBadge}
       </span>
     </div>
     <ul class="mt-6 space-y-3.5">
@@ -100,7 +104,7 @@ const isLight = theme === "light";
             : "border-line bg-base/50 text-ink-muted",
         ]}
       >
-        Requires Production Time
+        {unknownBadge}
       </span>
     </div>
     <ul class="mt-6 space-y-3.5">

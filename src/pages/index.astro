@@ -128,17 +128,11 @@ const homeFaqItems = t.contact.faq.items
   >
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28" data-reveal-group>
       <h2
-        class="text-[clamp(2rem,1.5rem+1.39vw,2.5rem)] leading-[1.2] tracking-[-0.025em]"
+        class="mx-auto max-w-4xl text-center text-[clamp(1.55rem,1.2rem+1.2vw,2.5rem)] leading-[1.25] tracking-[-0.025em]"
         data-reveal
       >
-        {h.what.headingLines.map((line, i) => (
-          <span
-            class:list={[
-              "block",
-              i === 0 && "ml-8",
-              i === 2 && "text-center",
-            ]}
-          >
+        {h.what.headingLines.map((line) => (
+          <span class="block">
             {highlightWords(line, h.what.bold).map((seg) =>
               seg.bold ? <strong class="font-black">{seg.text}</strong> : seg.text,
             )}
@@ -269,7 +263,11 @@ const homeFaqItems = t.contact.faq.items
     aria-labelledby="contact-title"
   >
     <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 md:py-28">
-      <h2 id="contact-title" class="text-h2 font-bold" data-reveal>{h.contact.title}</h2>
+      <h2 id="contact-title" class="text-h2 font-bold" data-reveal>
+        {splitAccent(h.contact.title, "v1be").map((seg) =>
+          seg.accent ? <span class="text-accent">{seg.text}</span> : seg.text
+        )}
+      </h2>
       <p class="mt-5 text-lg leading-relaxed text-ink-muted" data-reveal style="--reveal-delay: 60ms">
         {h.contact.promise}
       </p>

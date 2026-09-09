@@ -51,7 +51,7 @@ const crumbs = [
 >
   <Breadcrumb {locale} items={crumbs} />
 
-  <section class="grid-texture overflow-hidden">
+  <section class="grid-texture relative overflow-hidden">
     <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 md:py-14 lg:grid-cols-[minmax(0,1fr)_280px]">
       <div data-reveal-group>
         <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.hero.eyebrow}</p>
@@ -69,8 +69,13 @@ const crumbs = [
         </div>
       </div>
 
-      <div class="mx-auto w-[160px] shrink-0 md:w-[200px]" data-reveal>
-        <RobotMascot look="classic" />
+      <div
+        class="pointer-events-none absolute -top-3 -right-2 z-10 w-[115px] sm:w-[135px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
+        data-reveal
+      >
+        <div class="-rotate-[24deg] lg:rotate-0 transition-transform">
+          <RobotMascot look="classic" />
+        </div>
       </div>
     </div>
   </section>
@@ -372,8 +377,9 @@ const crumbs = [
       <p class="font-mono text-sm font-semibold uppercase tracking-widest text-accent" data-reveal>{pr.cta.eyebrow}</p>
       <h2 id="process-cta-title" class="mt-5 text-h2 font-black" data-reveal>{pr.cta.title}</h2>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted" data-reveal>{pr.cta.subtitle}</p>
-      <div class="mt-8 flex justify-center" data-reveal>
+      <div class="mt-8 flex flex-wrap justify-center gap-3" data-reveal>
         <Button href={localizePath(locale, "/contact/")} data-cta="process_final_audit">{pr.cta.button}</Button>
+        <Button href={localizePath(locale, "/packages/")} variant="surface" data-cta="process_final_packages">{pr.cta.secondary}</Button>
       </div>
       <p class="mt-5 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{pr.cta.note}</p>
     </div>

@@ -58,9 +58,10 @@ export const en = {
       // section container'ına uyarlandı; tipografik satır kırılımı için tek
       // string yerine dizi).
       headingLines: [
-        "We build websites with the award-grade design,",
-        "engineered from the ground up to be read and cited",
-        "by AI search engines.",
+        "We build websites",
+        "with the award-grade design,",
+        "engineered from the ground up",
+        "to be read and cited by AI search engines.",
       ],
       bold: ["websites", "engineered", "cited", "AI"],
       cta: "Get a free audit",
@@ -205,6 +206,7 @@ export const en = {
         id: "new",
         microLabel: "No website yet",
         title: "Start from zero",
+        serviceType: "Web Design and Development",
         selectorDescription:
           "Build the message, experience and technical foundation together from day one.",
         briefCta: "Get your free audit",
@@ -219,6 +221,7 @@ export const en = {
         id: "redesign",
         microLabel: "Not happy with your site",
         title: "Fix what's broken",
+        serviceType: "Website Redesign and Migration",
         selectorDescription:
           "Keep what has value, repair what creates friction and protect existing search equity.",
         briefCta: "Get your free audit",
@@ -702,6 +705,7 @@ export const en = {
       subtitle:
         "Tell us your domain or project idea. We'll show you what people and AI engines can understand today, what they miss and what the first decision should be.",
       button: "Get a free audit",
+      secondary: "Explore packages",
       note: "Evidence, not a proposal deck. One working session, a visible baseline and a prioritized first move.",
     },
   },
@@ -953,6 +957,7 @@ export const en = {
         subtitle:
           "Start with a clear view of what people, search engines and AI systems can understand today.",
         button: "Get a free audit",
+        secondary: "Explore packages",
       },
     },
     studioCase: {
@@ -1072,6 +1077,7 @@ export const en = {
     },
   },
   contact: {
+    breadcrumbLabel: "Contact",
     meta: {
       title: "Get a free audit | v1be studio",
       description:
@@ -1184,7 +1190,10 @@ export const en = {
     ],
     nav: {
       home: "Home",
+      packages: "Packages",
+      process: "Process",
       work: "Work",
+      about: "About",
     },
     linkedinLabel: "LinkedIn",
     cta: "Get in Touch",
@@ -1197,8 +1206,18 @@ export const en = {
 } as const;
 
 /** Şemayı korur ama değerleri `string`e genişletir — diğer diller buna uyar. */
-type DeepString<T> = {
-  [K in keyof T]: T[K] extends string ? string : DeepString<T[K]>;
-};
+type DeepString<T> = T extends string
+  ? string
+  : T extends readonly [infer A, infer B, infer C, infer D]
+    ? readonly [DeepString<A>, DeepString<B>, DeepString<C>, DeepString<D>]
+    : T extends readonly [infer A, infer B, infer C]
+      ? readonly [DeepString<A>, DeepString<B>, DeepString<C>]
+      : T extends readonly [infer A, infer B]
+        ? readonly [DeepString<A>, DeepString<B>]
+        : T extends readonly (infer U)[]
+          ? readonly DeepString<U>[]
+          : T extends object
+            ? { [K in keyof T]: DeepString<T[K]> }
+            : T;
 
 export type Dictionary = DeepString<typeof en>;

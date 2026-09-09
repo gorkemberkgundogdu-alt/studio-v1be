@@ -32,7 +32,7 @@ export interface BoldSegment {
 export function highlightWords(text: string, words: readonly string[]): BoldSegment[] {
   if (words.length === 0) return [{ text, bold: false }];
   const escaped = words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`\\b(${escaped.join("|")})\\b`, "g");
+  const re = new RegExp(`(?<=^|\\P{L})(${escaped.join("|")})(?=\\P{L}|$)`, "gu");
   const parts: BoldSegment[] = [];
   let last = 0;
   let m: RegExpExecArray | null;

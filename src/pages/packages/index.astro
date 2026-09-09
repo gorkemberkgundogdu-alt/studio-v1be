@@ -22,7 +22,13 @@ const crumbs = [
 // Her yol için Service JSON-LD — görünür kopyayla aynı kaynaktan (schemaSummary
 // yalnızca şemaya girer, kartta ayrıca render edilmez).
 const services = p.paths.map((item) =>
-  serviceSchema({ name: item.title, description: item.bullets.join(". "), locale, path }),
+  serviceSchema({
+    name: item.title,
+    description: item.bullets.join(". "),
+    serviceType: item.serviceType,
+    locale,
+    path,
+  }),
 );
 
 const configuratorPaths = p.paths.map((item) => ({
@@ -30,7 +36,7 @@ const configuratorPaths = p.paths.map((item) => ({
   label: item.microLabel,
   title: item.title,
   description: item.selectorDescription,
-  price: `From ${item.priceNew}`,
+  price: locale === "tr" ? `${item.priceNew}'dan başlayan` : `From ${item.priceNew}`,
   bullets: item.bullets,
   cta: item.briefCta,
 }));
@@ -48,7 +54,7 @@ const configuratorPaths = p.paths.map((item) => ({
   {/* 1 — Hero: metin sol/orta, mascot sağda (Home'un tam ortalanmış hero'sundan
       bilinçli fark — burada tek bir yerleşik poz, blueprint look yok çünkü
       kodda mevcut değil, CLAUDE.md §7 gereği main site ile aynı "classic"). */}
-  <section class="grid-texture">
+  <section class="grid-texture relative overflow-hidden">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
       <div class="grid items-center gap-10 lg:grid-cols-[1.3fr_auto]" data-reveal-group>
         <div>
@@ -67,8 +73,13 @@ const configuratorPaths = p.paths.map((item) => ({
           </div>
           <p class="mt-4 font-mono text-xs uppercase tracking-wider text-ink-muted" data-reveal>{p.hero.reassurance}</p>
         </div>
-        <div class="mx-auto w-[160px] shrink-0 md:w-[200px]" data-reveal>
-          <RobotMascot look="classic" />
+        <div
+          class="pointer-events-none absolute -top-3 -right-2 z-10 w-[115px] sm:w-[135px] lg:pointer-events-auto lg:static lg:w-[200px] lg:shrink-0 hero-mascot-peek"
+          data-reveal
+        >
+          <div class="-rotate-[24deg] lg:rotate-0 transition-transform">
+            <RobotMascot look="classic" />
+          </div>
         </div>
       </div>
     </div>
