@@ -36,14 +36,32 @@ const crumbs = [
 >
   <Breadcrumb {locale} items={crumbs} />
 
-  <!-- Hero Section -->
-  <section class="grid-texture border-b border-line">
+  <!-- 1. Hero Section -->
+  <section class="grid-texture border-b border-line" aria-labelledby="hero-title">
     <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.45fr_0.85fr] lg:items-end">
       <div data-reveal>
         <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.hero.eyebrow}</p>
-        <h1 class="mt-4 max-w-4xl text-display font-extrabold">{lab.hero.title}</h1>
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">{lab.hero.body}</p>
+        <h1 id="hero-title" class="mt-4 text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] xl:text-[3.6rem] font-extrabold tracking-tight leading-[1.08]">
+          <span class="block whitespace-nowrap">Can <span class="text-accent">AI</span> systems</span>
+          <span class="block whitespace-nowrap">actually understand</span>
+          <span class="block whitespace-nowrap">what we <span class="text-accent">build</span>?</span>
+        </h1>
+        <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-ink-muted">{lab.hero.body}</p>
+
+        <!-- Quick Action / Exploration Links -->
+        <div class="mt-8 flex flex-wrap items-center gap-6 font-mono text-xs font-bold">
+          <a href="#results" class="inline-flex items-center gap-2 text-accent underline underline-offset-4 hover:text-ink transition-colors">
+            <span aria-hidden="true">↓</span>
+            <span>{lab.hero.exploreLink}</span>
+          </a>
+          <a href={localizePath(locale, "/work/ai-crawlability/")} class="inline-flex items-center gap-2 text-ink-muted underline underline-offset-4 hover:text-ink transition-colors">
+            <span>{lab.hero.crawlabilityLink}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
+
+      <!-- Hero Metadata Panel (LAB 001 parity) -->
       <aside class="rounded-3xl border border-line bg-surface/70 p-6" data-reveal>
         <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">{lab.hero.summary}</p>
         <dl class="mt-6 grid grid-cols-2 gap-x-4 gap-y-6">
@@ -58,26 +76,52 @@ const crumbs = [
         <p class="mt-1 text-xs text-ink-muted">{lab.hero.footnote}</p>
       </aside>
     </div>
+
+    <!-- Epistemic Boundary Caveat Banner -->
     <div class="border-t border-accent/40 bg-accent/[0.08] px-4 py-3 text-center font-mono text-xs font-bold uppercase tracking-[0.14em] text-accent">
       {lab.hero.caveat}
     </div>
   </section>
 
-  <!-- 2. What We Test / 5 Dimensions (Lab 001 Tested Families Grid) -->
-  <section aria-labelledby="tested-title">
+  <!-- 2. Sticky Research Index Navigation Bar -->
+  <nav class="sticky top-[72px] z-30 border-b border-line/70 bg-base/90 backdrop-blur-md" aria-label="Research Index">
+    <div class="mx-auto flex max-w-6xl items-center gap-6 overflow-x-auto px-4 py-3 sm:px-6 text-xs font-mono font-bold uppercase tracking-wider no-scrollbar">
+      <a href="#method" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.method}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#evidence" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.evidence}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#results" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.results}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#diagnostic" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.gaps}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#taxonomy" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.taxonomy}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#boundary" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.boundary}</a>
+      <span class="text-line" aria-hidden="true">/</span>
+      <a href="#protocol" class="whitespace-nowrap text-ink-muted hover:text-accent transition-colors">{lab.nav.protocol}</a>
+    </div>
+  </nav>
+
+  <!-- 3. Section 01: Method & Pipeline -->
+  <section id="method" class="scroll-mt-32 border-b border-line" aria-labelledby="tested-title">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
       <div class="max-w-3xl" data-reveal>
-        <h2 id="tested-title" class="text-h2 font-bold">{lab.tested.title}</h2>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">01 · Methodology</p>
+        <h2 id="tested-title" class="mt-4 text-h2 font-bold">{lab.tested.title}</h2>
         <p class="mt-5 text-lg leading-relaxed text-ink-muted">{lab.tested.intro}</p>
       </div>
-      <div class="mt-10 grid gap-3 sm:grid-cols-2" data-reveal-group>
+
+      <!-- 5 Operational Dimensions Grid -->
+      <div class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
         {lab.tested.families.map((family, index) => (
-          <article class="rounded-2xl border border-line bg-surface/40 p-5" data-reveal style={`--reveal-delay: ${index * 55}ms`}>
+          <article class="rounded-2xl border border-line bg-surface/40 p-5" data-reveal style={`--reveal-delay: ${index * 50}ms`}>
             <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{family[0]}</p>
-            <p class="mt-4 text-sm leading-relaxed text-ink">{family[1]}</p>
+            <p class="mt-4 text-xs leading-relaxed text-ink">{family[1]}</p>
           </article>
         ))}
       </div>
+
+      <!-- Tested Checks Pills -->
       <div class="mt-8 border-t border-line pt-6">
         <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">{lab.ui.checks}</p>
         <ul class="mt-4 flex flex-wrap gap-2">
@@ -85,153 +129,526 @@ const crumbs = [
             <li class="rounded-full border border-line px-3 py-1.5 font-mono text-xs text-ink-muted">{check}</li>
           ))}
         </ul>
-        <p class="mt-5 text-xs leading-relaxed text-ink-muted">{lab.tested.note}</p>
+        <p class="mt-4 text-xs leading-relaxed text-ink-muted">{lab.tested.note}</p>
+      </div>
+
+      <!-- 4-Stage Experiment Pipeline -->
+      <div class="mt-16 border-t border-line pt-14">
+        <div class="max-w-3xl" data-reveal>
+          <h3 class="text-xl font-bold text-ink">{lab.method.title}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink-muted">{lab.method.intro}</p>
+        </div>
+        <ExperimentPipeline stages={lab.method.stages} note={lab.method.note} label={lab.method.pipelineLabel} />
       </div>
     </div>
   </section>
 
-  <!-- 3. How We Evaluate / Experiment Pipeline (Lab 001 ExperimentPipeline Component) -->
-  <section class="grid-texture border-y border-line" aria-labelledby="method-title">
+  <!-- 4. Section 02: Source-of-Truth Evidence Ledger -->
+  <section id="evidence" class="scroll-mt-32 border-b border-line" aria-labelledby="evidence-title">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
       <div class="max-w-3xl" data-reveal>
-        <h2 id="method-title" class="text-h2 font-bold">{lab.method.title}</h2>
-        <p class="mt-5 text-lg leading-relaxed text-ink-muted">{lab.method.intro}</p>
-      </div>
-      <ExperimentPipeline stages={lab.method.stages} note={lab.method.note} label={lab.method.pipelineLabel} />
-    </div>
-  </section>
-
-  <!-- 4. Frozen Source-of-Truth Ledger (Lab 001 EvidenceLedger Component) -->
-  <section aria-labelledby="evidence-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <div class="max-w-3xl" data-reveal>
-        <h2 id="evidence-title" class="text-h2 font-bold">{lab.evidence.title}</h2>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">02 · Ground Truth</p>
+        <h2 id="evidence-title" class="mt-4 text-h2 font-bold">{lab.evidence.title}</h2>
         <p class="mt-5 text-lg leading-relaxed text-ink-muted">{lab.evidence.intro}</p>
       </div>
       <EvidenceLedger items={lab.evidence.items} observedLabel={lab.evidence.observedLabel} interpretationLabel={lab.evidence.interpretationLabel} />
     </div>
   </section>
 
-  <!-- 5. Context Layers & Failure Taxonomy (Lab 001 Finding Light Section) -->
-  <section class="bg-light-base text-light-ink" aria-labelledby="contexts-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <div class="max-w-4xl" data-reveal>
-        <h2 id="contexts-title" class="text-h2 font-bold">{lab.contexts.title}</h2>
-        <p class="mt-5 text-lg leading-relaxed text-light-muted">{lab.contexts.body}</p>
-      </div>
+  <!-- Major Sloped Transition 1: Divider into Results -->
+  <div class="relative w-full overflow-hidden leading-none pointer-events-none -mb-px" aria-hidden="true">
+    <svg viewBox="0 0 1440 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-6 sm:h-9 block" preserveAspectRatio="none">
+      <polygon points="0,36 1440,0 1440,36" class="fill-surface/40" />
+    </svg>
+  </div>
 
-      <div class="mt-10 grid gap-3 lg:grid-cols-2" data-reveal-group>
-        <article class="rounded-3xl border border-light-line p-6" data-reveal>
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-light-muted">{lab.ui.before}</p>
-          <ol class="mt-6 space-y-3">
-            {lab.contexts.before.map((item, i) => (
-              <li class="text-sm leading-relaxed">
-                {item}
-                {i < 2 && <span class="ml-2 text-green" aria-hidden="true">↓</span>}
-              </li>
-            ))}
-          </ol>
-        </article>
-
-        <article class="rounded-3xl border border-green/40 bg-green/10 p-6" data-reveal>
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-green">{lab.ui.fix}</p>
-          <p class="mt-5 text-lg font-bold">{lab.contexts.fix}</p>
-          <ol class="mt-6 space-y-3">
-            {lab.contexts.after.map((item, i) => (
-              <li class="text-sm leading-relaxed">
-                {item}
-                {i < 2 && <span class="ml-2 text-green" aria-hidden="true">↓</span>}
-              </li>
-            ))}
-          </ol>
-        </article>
-      </div>
-
-      <div class="mt-8 rounded-3xl border border-light-line bg-base p-6 text-ink" data-reveal>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{lab.contexts.patch}</p>
-        <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {lab.contexts.categories.map((cat) => (
-            <div class="rounded-xl border border-line bg-surface/40 p-4">
-              <p class="font-mono text-xs font-bold text-accent">{cat[0]}</p>
-              <p class="mt-2 text-xs leading-relaxed text-ink-muted">{cat[1]}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p class="mt-8 max-w-3xl text-lg font-bold leading-relaxed">{lab.contexts.closing}</p>
-      <a href={localizePath(locale, "/process/")} class="mt-6 inline-block font-bold text-green underline underline-offset-4">{lab.contexts.link}</a>
-    </div>
-  </section>
-
-  <!-- 6. Result Status / Absence of Evidence (Lab 001 Rate Limit Section) -->
-  <section aria-labelledby="rate-title">
-    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-24">
-      <div data-reveal>
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-ink-muted">{lab.rate.label}</p>
-        <h2 id="rate-title" class="mt-3 text-h2 font-bold">{lab.rate.title}</h2>
-      </div>
-      <div class="mt-8 grid gap-6 border-y border-line py-8 sm:grid-cols-[auto_1fr]" data-reveal>
-        <p class="font-mono text-5xl sm:text-6xl font-black text-ink-muted">{lab.rate.code}</p>
-        <div>
-          <p class="font-bold text-ink">{lab.rate.observed}</p>
-          <p class="mt-5 font-mono text-xs uppercase tracking-wider text-ink-muted">{lab.ui.notProven}</p>
-          <ul class="mt-3 space-y-2 text-sm text-ink-muted">
-            {lab.rate.notProven.map((item) => (
-              <li>— {item}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <p class="mt-6 text-sm leading-relaxed text-ink-muted">{lab.rate.closing}</p>
-    </div>
-  </section>
-
-  <!-- 7. 20-Prompt Evaluation Protocol Ledger (Editorial Ledger Style) -->
-  <section class="grid-texture border-y border-line" aria-labelledby="prompts-title">
+  <!-- 5. Section 03: Empirical Baseline Results & Stepped Dip Visual Centerpiece -->
+  <section id="results" class="scroll-mt-32 bg-surface/40 border-y border-line" aria-labelledby="results-title">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
       <div class="max-w-3xl" data-reveal>
-        <h2 id="prompts-title" class="text-h2 font-bold">{lab.promptsSection.title}</h2>
-        <p class="mt-5 text-lg leading-relaxed text-ink-muted">{lab.promptsSection.intro}</p>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.results.eyebrow}</p>
+        <h2 id="results-title" class="mt-4 text-h2 font-bold">{lab.results.title}</h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-muted">{lab.results.intro}</p>
       </div>
 
-      <ol class="mt-10 divide-y divide-line overflow-hidden rounded-3xl border border-line bg-surface/20" data-reveal-group>
-        {lab.promptsSection.prompts.map((p, idx) => (
-          <li class="grid gap-6 p-6 sm:p-7 md:grid-cols-[11rem_1.4fr_1fr] md:items-start transition-colors hover:bg-surface/40" data-reveal style={`--reveal-delay: ${(idx % 5) * 45}ms`}>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-xs font-bold text-accent">{p.id}</span>
-                <span class="rounded-full border border-line px-2 py-0.5 font-mono text-[0.58rem] uppercase text-ink-muted">{p.dimension}</span>
-              </div>
-              <span class="mt-3 inline-block rounded-full border border-line bg-base/60 px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{p.type}</span>
+      <!-- Primary Score Callout Banner -->
+      <div class="mt-10 overflow-hidden rounded-3xl border border-accent/40 bg-base/80 p-6 sm:p-8 md:p-10 shadow-lg" data-reveal>
+        <div class="grid gap-6 md:grid-cols-[auto_1fr] md:items-center">
+          <div class="border-b border-line pb-6 md:border-b-0 md:border-r md:pr-10 md:pb-0">
+            <span class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">{lab.results.scoreLabel}</span>
+            <div class="mt-2 flex items-baseline gap-3">
+              <p class="font-mono text-5xl sm:text-6xl font-black text-accent">{lab.results.score}</p>
             </div>
+          </div>
+          <div>
+            <p class="text-base sm:text-lg font-bold text-ink leading-relaxed">{lab.results.summary}</p>
+            <p class="mt-2 font-mono text-xs uppercase tracking-wider text-ink-muted">{lab.hero.footnote}</p>
+          </div>
+        </div>
+      </div>
 
-            <div>
-              <p class="text-sm font-bold text-ink sm:text-base leading-snug">"{p.prompt}"</p>
-              <div class="mt-3 rounded-xl border border-line/60 bg-base/40 p-3">
-                <p class="font-mono text-[0.6rem] uppercase tracking-wider text-accent">{lab.ui.truthLabel}</p>
-                <p class="mt-1 text-xs leading-relaxed text-ink-muted">{p.truth}</p>
-              </div>
-            </div>
+      <!-- Visual Centerpiece: Stepped Context Dip (A 60/60 ↘ B 47.5/60 ↗ C 60/60) -->
+      <div class="mt-10" data-reveal>
+        <div class="flex items-center justify-between border-b border-line/60 pb-3">
+          <span class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">Controlled Representation Progression</span>
+          <span class="font-mono text-xs text-ink-muted font-bold">{lab.results.dipLabel}</span>
+        </div>
 
+        <div class="mt-6 grid gap-6 lg:grid-cols-3">
+          <!-- Step 1: Context A -->
+          <article class="relative flex flex-col justify-between rounded-3xl border border-line bg-base/60 p-6 sm:p-7 shadow-sm">
             <div>
-              <p class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{lab.ui.ruleLabel}</p>
-              <p class="mt-1.5 text-xs leading-relaxed text-ink-muted">{p.rule}</p>
-              <div class="mt-4 flex items-center justify-between border-t border-line/50 pt-3">
-                <span class="font-mono text-[0.58rem] uppercase tracking-wider text-ink-muted">{lab.ui.statusLabel}</span>
-                <span class="inline-flex items-center rounded-full border border-line bg-surface/80 px-2.5 py-0.5 font-mono text-[0.62rem] font-bold text-ink-muted">
-                  {p.status}
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono text-xs font-bold text-accent">{lab.results.contexts[0].label}</span>
+                <span class="rounded-full border border-green/40 bg-green/10 px-2.5 py-0.5 font-mono text-[0.58rem] font-bold uppercase tracking-wider text-green">
+                  {lab.results.contexts[0].badge}
                 </span>
               </div>
+              <h3 class="mt-4 text-lg font-bold text-ink">{lab.results.contexts[0].name}</h3>
+              <p class="mt-3 text-xs leading-relaxed text-ink-muted">{lab.results.contexts[0].desc}</p>
             </div>
-          </li>
+
+            <div class="mt-6 border-t border-line/60 pt-5">
+              <div class="flex items-baseline justify-between">
+                <span class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{lab.ui.scorePerContext}</span>
+                <span class="font-mono text-2xl font-black text-ink">{lab.results.contexts[0].score}</span>
+              </div>
+              <dl class="mt-4 space-y-2 border-t border-line/40 pt-3 font-mono text-xs">
+                {lab.results.contexts[0].models.map((m) => (
+                  <div class="flex items-center justify-between">
+                    <dt class="text-ink-muted">{m[0]}</dt>
+                    <dd class="font-bold text-accent">{m[1]}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div class="mt-5 rounded-xl border border-line/60 bg-surface/50 p-2.5 text-center font-mono text-[0.65rem] font-bold text-accent">
+                <span>{lab.results.vectorDown}</span>
+                <span class="ml-1" aria-hidden="true">↘</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 2: Context B (The Isolated Dip) -->
+          <article class="relative flex flex-col justify-between rounded-3xl border-2 border-accent/60 bg-accent/[0.04] p-6 sm:p-7 shadow-md">
+            <div class="absolute -top-3 left-6 rounded-full bg-accent px-3 py-0.5 font-mono text-[0.6rem] font-black uppercase tracking-wider text-base">
+              Diagnostic Dip
+            </div>
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono text-xs font-bold text-accent">{lab.results.contexts[1].label}</span>
+                <span class="rounded-full border border-accent/50 bg-accent/15 px-2.5 py-0.5 font-mono text-[0.58rem] font-bold uppercase tracking-wider text-accent">
+                  {lab.results.contexts[1].badge}
+                </span>
+              </div>
+              <h3 class="mt-4 text-lg font-bold text-ink">{lab.results.contexts[1].name}</h3>
+              <p class="mt-3 text-xs leading-relaxed text-ink-muted">{lab.results.contexts[1].desc}</p>
+            </div>
+
+            <div class="mt-6 border-t border-accent/20 pt-5">
+              <div class="flex items-baseline justify-between">
+                <span class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{lab.ui.scorePerContext}</span>
+                <span class="font-mono text-2xl font-black text-accent">{lab.results.contexts[1].score}</span>
+              </div>
+              <dl class="mt-4 space-y-2 border-t border-accent/20 pt-3 font-mono text-xs">
+                {lab.results.contexts[1].models.map((m) => (
+                  <div class="flex items-center justify-between">
+                    <dt class="text-ink-muted">{m[0]}</dt>
+                    <dd class="font-bold text-accent">{m[1]}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div class="mt-5 rounded-xl border border-accent/40 bg-accent/10 p-2.5 text-center font-mono text-[0.65rem] font-bold text-accent">
+                <span>{lab.results.vectorUp}</span>
+                <span class="ml-1" aria-hidden="true">↗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Step 3: Context C -->
+          <article class="relative flex flex-col justify-between rounded-3xl border border-line bg-base/60 p-6 sm:p-7 shadow-sm">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono text-xs font-bold text-accent">{lab.results.contexts[2].label}</span>
+                <span class="rounded-full border border-green/40 bg-green/10 px-2.5 py-0.5 font-mono text-[0.58rem] font-bold uppercase tracking-wider text-green">
+                  {lab.results.contexts[2].badge}
+                </span>
+              </div>
+              <h3 class="mt-4 text-lg font-bold text-ink">{lab.results.contexts[2].name}</h3>
+              <p class="mt-3 text-xs leading-relaxed text-ink-muted">{lab.results.contexts[2].desc}</p>
+            </div>
+
+            <div class="mt-6 border-t border-line/60 pt-5">
+              <div class="flex items-baseline justify-between">
+                <span class="font-mono text-[0.6rem] uppercase tracking-wider text-ink-muted">{lab.ui.scorePerContext}</span>
+                <span class="font-mono text-2xl font-black text-ink">{lab.results.contexts[2].score}</span>
+              </div>
+              <dl class="mt-4 space-y-2 border-t border-line/40 pt-3 font-mono text-xs">
+                {lab.results.contexts[2].models.map((m) => (
+                  <div class="flex items-center justify-between">
+                    <dt class="text-ink-muted">{m[0]}</dt>
+                    <dd class="font-bold text-accent">{m[1]}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div class="mt-5 rounded-xl border border-green/40 bg-green/10 p-2.5 text-center font-mono text-[0.65rem] font-bold text-green">
+                Full Answer-Key Match Restored
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Model Aggregate Ledger Cards -->
+      <div class="mt-8 grid gap-4 sm:grid-cols-3" data-reveal-group>
+        {lab.results.models.map((model, idx) => (
+          <div class="rounded-2xl border border-line bg-base/60 p-5" data-reveal style={`--reveal-delay: ${idx * 45}ms`}>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-ink text-sm">{model.name}</span>
+              <span class="font-mono text-sm font-extrabold text-accent">{model.score}</span>
+            </div>
+            <p class="mt-2 font-mono text-[0.65rem] text-ink-muted">{model.breakdown}</p>
+            <p class="mt-3 text-xs leading-relaxed text-ink-muted">{model.note}</p>
+          </div>
         ))}
-      </ol>
+      </div>
     </div>
   </section>
 
-  <!-- 8. Known vs Unknown (Lab 001 KnownUnknown Component) -->
-  <section class="grid-texture border-y border-line" aria-labelledby="knowledge-title">
+  <!-- 6. Section 04: Context B Diagnostic / Source Coverage Gaps -->
+  <section id="diagnostic" class="scroll-mt-32 border-b border-line" aria-labelledby="diagnostic-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-3xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.diagnostic.eyebrow}</p>
+        <h2 id="diagnostic-title" class="mt-4 text-h2 font-bold">{lab.diagnostic.title}</h2>
+        <p class="mt-3 text-lg font-semibold text-accent">{lab.diagnostic.subtitle}</p>
+        <p class="mt-4 text-base leading-relaxed text-ink-muted">{lab.diagnostic.intro}</p>
+      </div>
+
+      <!-- 4 Isolated Gaps Grid -->
+      <div class="mt-10 grid gap-4 sm:grid-cols-2" data-reveal-group>
+        {lab.diagnostic.gaps.map((gap, idx) => (
+          <article class="flex flex-col justify-between rounded-3xl border border-line bg-surface/35 p-6 sm:p-7" data-reveal style={`--reveal-delay: ${idx * 50}ms`}>
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono text-xs font-bold text-accent">{gap.num}</span>
+                <span class="rounded-full border border-line bg-base/60 px-2.5 py-0.5 font-mono text-[0.6rem] text-ink-muted">{gap.promptRef}</span>
+              </div>
+              <h3 class="mt-4 text-lg font-bold text-ink">{gap.title}</h3>
+              <p class="mt-3 text-xs leading-relaxed text-ink-muted">{gap.diagnosis}</p>
+            </div>
+            <div class="mt-5 rounded-2xl border border-accent/30 bg-accent/[0.06] p-4">
+              <p class="font-mono text-[0.6rem] font-bold uppercase tracking-wider text-accent">Synchronization Rule</p>
+              <p class="mt-1 font-mono text-xs leading-relaxed text-ink">{gap.lesson}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Desirable Epistemic Restraint Callout Banner -->
+      <div class="mt-8 rounded-3xl border border-accent/40 bg-surface/90 p-6 sm:p-8" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">Observed Model Behavior</p>
+        <p class="mt-3 text-sm sm:text-base leading-relaxed text-white font-medium">{lab.diagnostic.takeaway}</p>
+      </div>
+
+      <!-- Restrained Research-to-Service Bridge CTA -->
+      <div class="mt-12 rounded-3xl border border-line bg-surface/50 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6" data-reveal>
+        <div class="max-w-2xl">
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{lab.serviceBridge.eyebrow}</p>
+          <h3 class="mt-2 text-xl font-bold text-ink">{lab.serviceBridge.title}</h3>
+          <p class="mt-2 text-xs sm:text-sm text-ink-muted leading-relaxed">{lab.serviceBridge.body}</p>
+        </div>
+        <div class="shrink-0">
+          <Button href={localizePath(locale, "/contact/")}>{lab.serviceBridge.button}</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Sloped Transition 2: Divider into Light Section -->
+  <div class="relative w-full overflow-hidden leading-none pointer-events-none -mb-px" aria-hidden="true">
+    <svg viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-8 sm:h-12 block" preserveAspectRatio="none">
+      <polygon points="0,48 1440,0 1440,48" class="fill-light-base" />
+    </svg>
+  </div>
+
+  <!-- 7. Section 05: Editorial Typographic Taxonomy & Standardization (Light Section) -->
+  <section id="taxonomy" class="scroll-mt-32 bg-light-base text-light-ink" aria-labelledby="taxonomy-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-3xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{lab.taxonomy.eyebrow}</p>
+        <h2 id="taxonomy-title" class="mt-3 text-h2 font-bold">{lab.taxonomy.title}</h2>
+        <p class="mt-4 text-base sm:text-lg leading-relaxed text-light-muted">{lab.taxonomy.intro}</p>
+      </div>
+
+      <!-- 5-Part Error Taxonomy (Editorial Typographic Flow, No Nested Boxes) -->
+      <div class="mt-12 divide-y divide-light-line border-y border-light-line" data-reveal-group>
+        {lab.taxonomy.categories.map((cat, idx) => (
+          <div class="grid gap-4 py-6 md:grid-cols-[4rem_1.2fr_1.5fr] md:items-baseline" data-reveal style={`--reveal-delay: ${idx * 45}ms`}>
+            <div>
+              <span class="font-mono text-3xl font-black text-green">{cat.code}</span>
+            </div>
+            <div>
+              <h3 class="text-lg font-extrabold text-light-ink">{cat.title}</h3>
+              <p class="mt-1 text-xs font-mono font-bold text-green">{cat.action}</p>
+            </div>
+            <div>
+              <p class="text-sm leading-relaxed text-light-muted">{cat.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Standardization Resulting from LAB 002 (3 Large Numbered Protocol Items) -->
+      <div class="mt-20 border-t border-light-line pt-16">
+        <div class="max-w-3xl" data-reveal>
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-green">{lab.standardization.eyebrow}</p>
+          <h3 class="mt-3 text-2xl font-extrabold text-light-ink">{lab.standardization.title}</h3>
+          <p class="mt-3 text-base leading-relaxed text-light-muted">{lab.standardization.intro}</p>
+        </div>
+
+        <ol class="mt-10 grid gap-6 md:grid-cols-3" data-reveal-group>
+          {lab.standardization.items.map((item, idx) => (
+            <li class="border-t-2 border-green pt-6" data-reveal style={`--reveal-delay: ${idx * 50}ms`}>
+              <span class="font-mono text-2xl font-black text-green">{item.num}</span>
+              <h4 class="mt-3 text-base font-extrabold text-light-ink">{item.title}</h4>
+              <p class="mt-3 text-xs sm:text-sm leading-relaxed text-light-muted">{item.desc}</p>
+            </li>
+          ))}
+        </ol>
+
+        <!-- Standardization Equation -->
+        <p class="mt-12 text-center font-mono text-sm sm:text-base font-bold tracking-wide text-green" data-reveal>
+          {lab.standardization.equation}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Sloped Transition 3: Divider out of Light Section back to Dark -->
+  <div class="relative w-full overflow-hidden leading-none pointer-events-none -mt-px" aria-hidden="true">
+    <svg viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-8 sm:h-12 block" preserveAspectRatio="none">
+      <polygon points="0,0 1440,48 0,48" class="fill-base" />
+    </svg>
+  </div>
+
+  <!-- 8. Section 06: Epistemic Boundary (High-Contrast Conceptual Boundary) -->
+  <section id="boundary" class="scroll-mt-32 border-b border-line" aria-labelledby="boundary-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-4xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">{lab.boundary.label}</p>
+        <h2 id="boundary-title" class="mt-4 text-h2 font-black tracking-tight text-ink">
+          {lab.boundary.title}
+        </h2>
+        <p class="mt-4 text-lg font-semibold text-accent">{lab.boundary.subtitle}</p>
+      </div>
+
+      <!-- Large Boundary Equation Banner -->
+      <div class="mt-10 rounded-3xl border border-accent/40 bg-accent/[0.07] p-6 sm:p-8 text-center font-mono" data-reveal>
+        <p class="text-xl sm:text-2xl md:text-3xl font-black tracking-wider text-accent">
+          {lab.boundary.code} CONTROLLED UNDERSTANDING ≠ LIVE RETRIEVAL
+        </p>
+      </div>
+
+      <!-- Two-Column Comparison: What it proves vs What remains untested -->
+      <div class="mt-10 grid gap-6 md:grid-cols-2" data-reveal-group>
+        <!-- Column 1: What 167.5 / 180 Proves -->
+        <article class="rounded-3xl border border-green/40 bg-surface/40 p-6 sm:p-8" data-reveal>
+          <div class="flex items-center justify-between border-b border-line pb-4">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-green">{lab.boundary.controlledLabel}</span>
+            <span class="rounded-full border border-green/40 bg-green/10 px-2.5 py-0.5 font-mono text-[0.6rem] font-bold text-green">167.5 / 180</span>
+          </div>
+          <ul class="mt-6 space-y-4">
+            {lab.boundary.controlledPoints.map((pt) => (
+              <li class="flex items-start gap-3 text-xs sm:text-sm text-ink leading-relaxed">
+                <span class="text-green font-bold shrink-0">✓</span>
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <!-- Column 2: What Remains Untested -->
+        <article class="rounded-3xl border border-line bg-surface/30 p-6 sm:p-8" data-reveal>
+          <div class="flex items-center justify-between border-b border-line pb-4">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider text-ink-muted">{lab.boundary.liveLabel}</span>
+            <span class="rounded-full border border-line bg-base px-2.5 py-0.5 font-mono text-[0.6rem] font-bold text-ink-muted">Lab 003 / 004</span>
+          </div>
+          <ul class="mt-6 space-y-4">
+            {lab.boundary.livePoints.map((pt) => (
+              <li class="flex items-start gap-3 text-xs sm:text-sm text-ink-muted leading-relaxed">
+                <span class="text-accent font-bold shrink-0">—</span>
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+
+      <!-- Conclusion Text & Links -->
+      <div class="mt-10 rounded-2xl border border-line/60 bg-surface/20 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6" data-reveal>
+        <p class="text-xs sm:text-sm text-ink-muted leading-relaxed max-w-2xl">{lab.boundary.conclusion}</p>
+        <div class="flex flex-wrap items-center gap-4 shrink-0 font-mono text-xs font-bold">
+          <a href={localizePath(locale, "/process/")} class="text-accent underline underline-offset-4 hover:text-ink transition-colors">
+            {lab.boundary.geoLink}
+          </a>
+          <a href={localizePath(locale, "/work/studio-v1be/")} class="text-ink-muted underline underline-offset-4 hover:text-ink transition-colors">
+            {lab.boundary.caseLink}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Section 07: 20-Prompt Evaluation Protocol Ledger -->
+  <section id="protocol" class="scroll-mt-32 grid-texture border-b border-line" aria-labelledby="prompts-title">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div class="max-w-3xl" data-reveal>
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-accent">07 · Evaluation Protocol</p>
+        <h2 id="prompts-title" class="mt-4 text-h2 font-bold text-white">{lab.promptsSection.title}</h2>
+        <p class="mt-5 text-lg leading-relaxed text-white/80">{lab.promptsSection.intro}</p>
+      </div>
+
+      <!-- Synthesis: What We Evaluated vs What We Achieved -->
+      <div class="mt-10 grid gap-6 md:grid-cols-2 rounded-3xl border border-line bg-surface/40 p-6 sm:p-8" data-reveal>
+        <div class="border-b border-line/60 pb-6 md:border-b-0 md:border-r md:pr-8 md:pb-0">
+          <p class="font-mono text-xs font-bold uppercase tracking-wider text-accent">{lab.promptsSection.synthesis.whatWeDidTitle}</p>
+          <p class="mt-3 text-sm leading-relaxed text-white font-medium">{lab.promptsSection.synthesis.whatWeDid}</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs font-bold uppercase tracking-wider text-green">{lab.promptsSection.synthesis.whatWeFoundTitle}</p>
+          <p class="mt-3 text-sm leading-relaxed text-white font-medium">{lab.promptsSection.synthesis.whatWeFound}</p>
+        </div>
+      </div>
+
+      <!-- Interactive Filter Bar -->
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-b border-line/70 pb-4" data-reveal>
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs" id="prompt-filters">
+          <button type="button" data-filter="all" class="prompt-filter-btn rounded-full bg-accent px-4 py-1.5 font-bold text-base transition-colors cursor-pointer">
+            {lab.promptsSection.synthesis.filterAll}
+          </button>
+          <button type="button" data-filter="gap" class="prompt-filter-btn rounded-full border border-line bg-surface/60 px-4 py-1.5 font-bold text-white hover:text-accent transition-colors cursor-pointer">
+            {lab.promptsSection.synthesis.filterGaps}
+          </button>
+          <button type="button" data-filter="match" class="prompt-filter-btn rounded-full border border-line bg-surface/60 px-4 py-1.5 font-bold text-white hover:text-accent transition-colors cursor-pointer">
+            {lab.promptsSection.synthesis.filterMatches}
+          </button>
+        </div>
+        <span class="font-mono text-[0.7rem] text-white/80 hidden sm:inline-block">
+          {lab.promptsSection.synthesis.expandHint}
+        </span>
+      </div>
+
+      <!-- Clickable Accordion Prompts List -->
+      <div class="mt-6 space-y-3" id="prompts-list" data-reveal-group>
+        {lab.promptsSection.prompts.map((p, idx) => {
+          const isGap = p.status.includes("Gap") || p.status.includes("Boşluğu");
+          return (
+            <details
+              class:list={[
+                "prompt-item group rounded-2xl border transition-all duration-200 overflow-hidden",
+                isGap
+                  ? "border-accent/40 bg-accent/[0.04] hover:border-accent/70"
+                  : "border-line bg-surface/30 hover:border-line/80 hover:bg-surface/50"
+              ]}
+              data-type={isGap ? "gap" : "match"}
+              data-reveal
+              style={`--reveal-delay: ${(idx % 5) * 35}ms`}
+            >
+              <summary class="flex cursor-pointer items-center justify-between gap-4 p-4 sm:p-5 select-none transition-colors" style="color: #ffffff !important;">
+                <div class="flex flex-wrap items-center gap-3">
+                  <span class="font-mono text-xs font-bold text-accent min-w-[2.2rem]">{p.id}</span>
+                  <span class="rounded-full border border-line bg-base/80 px-2.5 py-0.5 font-mono text-[0.58rem] uppercase text-white">{p.dimension}</span>
+                  <span class="rounded-full border border-line/60 bg-base/40 px-2 py-0.5 font-mono text-[0.55rem] uppercase text-white/90 hidden md:inline-block">{p.type}</span>
+                  <span class="prompt-text text-sm font-bold text-white sm:text-base leading-snug" style="color: #ffffff !important;">
+                    "{p.prompt}"
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class:list={[
+                    "inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-[0.6rem] font-bold",
+                    isGap
+                      ? "border-accent/60 bg-accent/20 text-accent"
+                      : "border-white/30 bg-surface/90 text-white"
+                  ]}>
+                    {p.status}
+                  </span>
+                  <span class="font-mono text-xs text-white transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
+                    ▼
+                  </span>
+                </div>
+              </summary>
+
+              <div class="border-t border-line/50 bg-base/60 p-5 sm:p-6 grid gap-4 md:grid-cols-2">
+                <div class="rounded-xl border border-line/60 bg-surface/40 p-4">
+                  <p class="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-accent">{lab.ui.truthLabel}</p>
+                  <p class="mt-2 text-xs sm:text-sm leading-relaxed text-white font-medium">{p.truth}</p>
+                </div>
+                <div class="rounded-xl border border-line/60 bg-surface/40 p-4">
+                  <p class="font-mono text-[0.62rem] font-bold uppercase tracking-wider text-white/80">{lab.ui.ruleLabel}</p>
+                  <p class="mt-2 text-xs sm:text-sm leading-relaxed text-white font-medium">{p.rule}</p>
+                </div>
+              </div>
+            </details>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Section 07 Contrast guarantees: force prompt questions, labels, details and badges to white */
+    #protocol {
+      color: #ffffff;
+    }
+    #protocol h2 {
+      color: #ffffff !important;
+    }
+    #protocol summary {
+      color: #ffffff !important;
+    }
+    #protocol summary span.prompt-text {
+      color: #ffffff !important;
+    }
+    #protocol summary * {
+      /* Keep accent colors for P01, P02... while forcing all regular texts to white */
+    }
+    #protocol details[open] summary {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+  </style>
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterBtns = document.querySelectorAll('.prompt-filter-btn');
+      const items = document.querySelectorAll('.prompt-item');
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+
+          filterBtns.forEach((b) => {
+            b.classList.remove('bg-accent', 'text-base');
+            b.classList.add('border', 'border-line', 'bg-surface/60', 'text-white');
+          });
+
+          btn.classList.add('bg-accent', 'text-base');
+          btn.classList.remove('border', 'border-line', 'bg-surface/60', 'text-white');
+
+          items.forEach((item) => {
+            const itemType = item.getAttribute('data-type');
+            if (filter === 'all' || filter === itemType) {
+              item.style.display = '';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+  <!-- 10. Known vs Unknown -->
+  <section class="border-b border-line" aria-labelledby="knowledge-title">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
       <h2 id="knowledge-title" class="text-h2 font-bold" data-reveal>{lab.knowledge.title}</h2>
       <KnownUnknown
@@ -246,47 +663,7 @@ const crumbs = [
     </div>
   </section>
 
-  <!-- 9. Conclusion & Impact (Lab 001 Centered Conclusion) -->
-  <section aria-labelledby="conclusion-title">
-    <div class="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 md:py-24" data-reveal>
-      <p class="font-mono text-xs font-bold uppercase tracking-[0.16em] text-accent">{lab.conclusion.eyebrow}</p>
-      <h2 id="conclusion-title" class="mt-4 text-h2 font-bold">
-        {lab.conclusion.before}<span class="text-accent">{lab.conclusion.accent}</span>
-      </h2>
-      {lab.conclusion.body.map((line) => (
-        <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">{line}</p>
-      ))}
-      <div class="mt-10 grid gap-3 text-left sm:grid-cols-2">
-        <div class="rounded-2xl border border-accent/45 p-5">
-          <p class="font-mono text-xs uppercase text-accent">{lab.ui.supported}</p>
-          <p class="mt-3 font-bold text-ink">{lab.conclusion.supported}</p>
-        </div>
-        <div class="rounded-2xl border border-line p-5">
-          <p class="font-mono text-xs uppercase text-ink-muted">{lab.ui.notEstablished}</p>
-          <p class="mt-3 text-sm text-ink-muted">{lab.conclusion.notEstablished.join(" · ")}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. Standardization Impact (Lab 001 Light Changes Grid) -->
-  <section class="bg-light-base text-light-ink" aria-labelledby="changes-title">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-      <h2 id="changes-title" class="text-h2 font-bold" data-reveal>{lab.changes.title}</h2>
-      <ol class="mt-10 grid overflow-hidden rounded-3xl border border-light-line md:grid-cols-3" data-reveal-group>
-        {lab.changes.items.map((item) => (
-          <li class="border-b border-light-line p-6 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0" data-reveal>
-            <p class="font-mono text-xs text-green">{item[0]}</p>
-            <h3 class="mt-6 text-lg font-extrabold">{item[1]}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-light-muted">{item[2]}</p>
-          </li>
-        ))}
-      </ol>
-      <p class="mt-10 text-center font-mono text-lg font-bold tracking-wider text-green">{lab.changes.equation}</p>
-    </div>
-  </section>
-
-  <!-- 11. Lab Series Progression & CTA (Lab 001 Progression & CTA Layout) -->
+  <!-- 11. Studio Research Sequence Progression & Final CTA -->
   <section class="grid-texture" aria-labelledby="series-title">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
       <div class="max-w-3xl" data-reveal>
@@ -330,6 +707,7 @@ const crumbs = [
         })}
       </div>
 
+      <!-- Final Conversion CTA -->
       <div class="mx-auto mt-20 max-w-3xl text-center" data-reveal>
         <h2 class="text-h2 font-bold">{lab.cta.title}</h2>
         <div class="mt-8">

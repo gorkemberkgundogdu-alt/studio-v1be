@@ -1,14 +1,25 @@
 ---
 interface Props { stages: readonly (readonly [string, string])[]; note: string; label: string; }
 const { stages, note, label } = Astro.props;
+const isFour = stages.length === 4;
 ---
 <div class="mt-10" data-reveal>
-  <ol class="grid overflow-hidden rounded-3xl border border-line md:grid-cols-3" aria-label={label}>
+  <ol class:list={["grid overflow-hidden rounded-3xl border border-line", isFour ? "sm:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3"]} aria-label={label}>
     {stages.map((stage, index) => (
-      <li class="relative border-b border-line bg-surface/45 p-6 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
+      <li class:list={[
+        "relative border-b border-line bg-surface/45 p-6 last:border-b-0",
+        isFour
+          ? "sm:odd:border-r lg:border-b-0 lg:border-r lg:last:border-r-0"
+          : "md:border-b-0 md:border-r md:last:border-r-0"
+      ]}>
         <span class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.16em] text-accent">0{index + 1} · {stage[0]}</span>
         <pre class="mt-6 overflow-x-auto font-mono text-sm leading-relaxed text-ink"><code>{stage[1]}</code></pre>
-        {index < stages.length - 1 && <span class="absolute -bottom-4 left-1/2 z-10 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-line bg-base font-mono text-accent md:-right-4 md:top-1/2 md:left-auto md:-translate-y-1/2 md:translate-x-0" aria-hidden="true">→</span>}
+        {index < stages.length - 1 && <span class:list={[
+          "absolute -bottom-4 left-1/2 z-10 grid size-8 -translate-x-1/2 place-items-center rounded-full border border-line bg-base font-mono text-accent",
+          isFour
+            ? "lg:-right-4 lg:top-1/2 lg:left-auto lg:-translate-y-1/2 lg:translate-x-0"
+            : "md:-right-4 md:top-1/2 md:left-auto md:-translate-y-1/2 md:translate-x-0"
+        ]} aria-hidden="true">→</span>}
       </li>
     ))}
   </ol>
